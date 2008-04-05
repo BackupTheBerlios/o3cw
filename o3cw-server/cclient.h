@@ -10,11 +10,15 @@
 
 namespace o3cw
 {
+    class CUser;
+    
     class CClient
     {
     public:
-        CClient(){};
-        ~CClient(){};
+        CClient();
+        ~CClient();
+    private:
+        CUser *user;
     };
 }
 

@@ -4,9 +4,34 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="f1" displayName="libbonbon" projectFiles="true">
+          <itemPath>extra/libbonbon/bonbon.h</itemPath>
+          <itemPath>extra/libbonbon/cbreak.h</itemPath>
+          <itemPath>extra/libbonbon/cjob.h</itemPath>
+          <itemPath>extra/libbonbon/cjobmanager.h</itemPath>
+          <itemPath>extra/libbonbon/clock.h</itemPath>
+          <itemPath>extra/libbonbon/cmodule.h</itemPath>
+          <itemPath>extra/libbonbon/cmutex.h</itemPath>
+          <itemPath>extra/libbonbon/csemaphore.h</itemPath>
+          <itemPath>extra/libbonbon/cthread.h</itemPath>
+          <itemPath>extra/libbonbon/cthreadjobs.h</itemPath>
+          <itemPath>extra/libbonbon/ctparam.h</itemPath>
+          <itemPath>extra/libbonbon/slockgraph.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cacessmode.h</itemPath>
       <itemPath>cclient.h</itemPath>
       <itemPath>cdiff.h</itemPath>
       <itemPath>cdoc.h</itemPath>
+      <itemPath>cdocpart.h</itemPath>
+      <itemPath>cidsobject.h</itemPath>
+      <itemPath>cintimeobject.h</itemPath>
+      <itemPath>cpermission.h</itemPath>
+      <itemPath>csharedobject.h</itemPath>
+      <itemPath>cuser.h</itemPath>
+      <itemPath>libbonbon.h</itemPath>
+      <itemPath>types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -15,7 +40,31 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="libbonbon" displayName="libbonbon" projectFiles="true">
+          <itemPath>extra/libbonbon/bonbon.cc</itemPath>
+          <itemPath>extra/libbonbon/cbreak.cc</itemPath>
+          <itemPath>extra/libbonbon/cjob.cc</itemPath>
+          <itemPath>extra/libbonbon/cjobmanager.cc</itemPath>
+          <itemPath>extra/libbonbon/clock.cc</itemPath>
+          <itemPath>extra/libbonbon/cmodule.cc</itemPath>
+          <itemPath>extra/libbonbon/cmutex.cc</itemPath>
+          <itemPath>extra/libbonbon/csemaphore.cc</itemPath>
+          <itemPath>extra/libbonbon/cthread.cc</itemPath>
+          <itemPath>extra/libbonbon/cthreadjobs.cc</itemPath>
+          <itemPath>extra/libbonbon/ctparam.cc</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cacessmode.cc</itemPath>
+      <itemPath>cclient.cc</itemPath>
+      <itemPath>cdiff.cc</itemPath>
       <itemPath>cdoc.cc</itemPath>
+      <itemPath>cdocpart.cc</itemPath>
+      <itemPath>cidsobject.cc</itemPath>
+      <itemPath>cintimeobject.cc</itemPath>
+      <itemPath>cpermission.cc</itemPath>
+      <itemPath>csharedobject.cc</itemPath>
+      <itemPath>cuser.cc</itemPath>
       <itemPath>main.cc</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -37,11 +86,24 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="cacessmode.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cacessmode.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cclient.cc">
+        <itemTool>1</itemTool>
+      </item>
       <item path="cclient.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="cdiff.cc">
+        <itemTool>1</itemTool>
       </item>
       <item path="cdiff.h">
         <itemTool>3</itemTool>
@@ -52,8 +114,119 @@
       <item path="cdoc.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cdocpart.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cidsobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cidsobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cintimeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpermission.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csharedobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuser.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjob.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjob.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmodule.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmodule.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/ctparam.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/ctparam.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/slockgraph.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="libbonbon.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
+      </item>
+      <item path="types.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -79,8 +252,20 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="cacessmode.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cacessmode.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cclient.cc">
+        <itemTool>1</itemTool>
+      </item>
       <item path="cclient.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="cdiff.cc">
+        <itemTool>1</itemTool>
       </item>
       <item path="cdiff.h">
         <itemTool>3</itemTool>
@@ -91,8 +276,119 @@
       <item path="cdoc.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cdocpart.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cidsobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cidsobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cintimeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpermission.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csharedobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuser.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjob.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjob.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmodule.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmodule.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/ctparam.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/ctparam.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/slockgraph.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="libbonbon.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
+      </item>
+      <item path="types.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
   </confs>
