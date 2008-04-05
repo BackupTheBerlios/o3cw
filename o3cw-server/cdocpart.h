@@ -40,7 +40,7 @@ namespace o3cw
         int CommitDiff(o3cw::ids diff_id);
         
         //Cancel diff with id diff_id create by specified client.
-        int CancelDiff(o3cw::CClient &client, o3cw::ids diff_id);
+        int RecallDiff(o3cw::CClient &client, o3cw::ids diff_id);
         
         //Returns parts (approximate?) size (in bytes). Used for lazy updates
         //(compare with sum of all diffs)
