@@ -9,10 +9,11 @@
 #define	_CIDSOBJECT_H
 
 #include "types.h"
+#include "co3cwbase.h"
 
 namespace o3cw
 {
-    class CIdsObject
+    class CIdsObject: public o3cw::CO3CWBase
     {
     public:
         CIdsObject();

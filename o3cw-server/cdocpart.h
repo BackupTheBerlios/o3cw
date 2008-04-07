@@ -19,8 +19,9 @@
 namespace o3cw
 {
     class CClient;
+    class CStorage;
     
-    class CDocPart: public o3cw::CShareObject
+    class CDocPart: public o3cw::CSharedObject
     {
     public:
         CDocPart();
@@ -39,12 +40,19 @@ namespace o3cw
         //part from diff creator
         int CommitDiff(o3cw::ids diff_id);
         
-        //Cancel diff with id diff_id create by specified client.
+        //Cancel diff with id diff_id create by specified client
         int RecallDiff(o3cw::CClient &client, o3cw::ids diff_id);
         
         //Returns parts (approximate?) size (in bytes). Used for lazy updates
         //(compare with sum of all diffs)
         size_t GetSize();
+        
+        //Copy part content to cache (e.x., hard drive)
+        //and cleanup content (part_data)
+        int MoveToCahe(o3cw::CStorage &cache);
+        
+        //Copy last_activity_time into buff
+        void GetLastActivityTime(long long &buff);
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env
@@ -56,6 +64,14 @@ namespace o3cw
         //List of all diffs, acociated with this part
         std::vector<CDiff> diffs;
         
+        //Indicates last time of *Part and *Diff functions
+        long long last_activity_time;
+        
+        //Handle storage where part was cached last time; null if part is loaded
+        o3cw::CStorage *cached_in;
+        
+        //Keep full parts adress in cache
+        std::string name_in_cache;
     };
 }
 

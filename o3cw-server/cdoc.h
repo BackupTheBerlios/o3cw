@@ -22,7 +22,7 @@ namespace o3cw
     class CClient;
     class CPermission;
     
-    class CDoc: public o3cw::CShareObject
+    class CDoc: public o3cw::CSharedObject
     {
     public:
         CDoc();

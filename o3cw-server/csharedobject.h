@@ -14,11 +14,11 @@
 
 namespace o3cw
 {
-    class CShareObject: public o3cw::CInTimeObject
+    class CSharedObject: public o3cw::CInTimeObject
     {
     public:
-        CShareObject();
-        ~CShareObject();
+        CSharedObject();
+        ~CSharedObject();
         bool UserCanWrite(o3cw::ids user_id);
         bool UserCanRead(o3cw::ids user_id);
         int SetPermissions(o3cw::CPermission &perm);

@@ -17,7 +17,7 @@
 namespace o3cw
 {
     class CClient;
-    class CDiff: public o3cw::CShareObject
+    class CDiff: public o3cw::CSharedObject
     {
     public:
         CDiff(o3cw::ids client_id, o3cw::ids part_id, o3cw::ids diff_id);
