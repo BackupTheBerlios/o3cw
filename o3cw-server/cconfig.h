@@ -10,6 +10,8 @@
 
 #include <string>
 
+#include "tinyxml.h"
+
 namespace o3cw
 {
     class CConfig
@@ -22,6 +24,9 @@ namespace o3cw
         int Parse(const char *text);
         int ParseFile(const char *filename);
         void Clean();
+    private:
+        //tinyxml::TiXmlDocument config;
+        TiXmlDocument config;
     };
 }
 
