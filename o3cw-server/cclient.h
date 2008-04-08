@@ -19,6 +19,7 @@ namespace o3cw
         ~CClient();
     private:
         CUser *user;
+        bool trusted;
     };
 }
 

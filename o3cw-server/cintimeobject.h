@@ -8,13 +8,12 @@
 #ifndef _CINTIMEOBJECT_H
 #define	_CINTIMEOBJECT_H
 
-#include "libbonbon.h"
 #include "types.h"
-#include "cidsobject.h"
+#include "cthreadsafeobject.h"
 
 namespace o3cw
 {
-    class CInTimeObject
+    class CInTimeObject: public o3cw::CThreadSafeObject
     {
     public:
         CInTimeObject();

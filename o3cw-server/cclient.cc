@@ -6,6 +6,7 @@
 o3cw::CClient::CClient()
 {
     user=NULL;
+    trusted=false;
 }
 
 o3cw::CClient::~CClient()

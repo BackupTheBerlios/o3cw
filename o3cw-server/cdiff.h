@@ -12,12 +12,12 @@
 
 #include "libbonbon.h"
 #include "types.h"
-#include "csharedobject.h"
+#include "cidsobject.h"
 
 namespace o3cw
 {
     class CClient;
-    class CDiff: public o3cw::CSharedObject, public o3cw::CIdsObject
+    class CDiff: public o3cw::CIdsObject
     {
     public:
         CDiff(o3cw::CClient &client, o3cw::ids part_id, o3cw::CUniqueAux diff_uaux);

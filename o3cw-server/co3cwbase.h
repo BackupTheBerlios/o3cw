@@ -9,10 +9,11 @@
 #define	_CO3CWBASE_H
 
 #include "cconfig.h"
+#include "cintimeobject.h"
 
 namespace o3cw
 {
-    class CO3CWBase
+    class CO3CWBase: public o3cw::CInTimeObject
     {
     public:
         CO3CWBase();

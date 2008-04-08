@@ -9,10 +9,11 @@
 #define	_CACESSMODE_H
 
 #include "types.h"
-
+#include "libbonbon.h"
+#include "cthreadsafeobject.h"
 namespace o3cw
 {
-    class CAcessMode
+    class CAcessMode: public o3cw::CThreadSafeObject
     {
     public:
         CAcessMode();
@@ -20,7 +21,7 @@ namespace o3cw
         ~CAcessMode();
         o3cw::ids GetUserId();
         bool ReadAllowed();
-        bool WriteAllowe();
+        bool WriteAllowed();
         bool operator==(const o3cw::CAcessMode &m);
         o3cw::CAcessMode &operator=(const o3cw::CAcessMode &m);
     private:

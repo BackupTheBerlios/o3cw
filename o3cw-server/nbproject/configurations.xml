@@ -34,6 +34,7 @@
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
       <itemPath>cstorage.h</itemPath>
+      <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
       <itemPath>cuser.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
@@ -78,6 +79,7 @@
       <itemPath>cpermission.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
       <itemPath>cstorage.cc</itemPath>
+      <itemPath>cthreadsafeobject.cc</itemPath>
       <itemPath>cuser.cc</itemPath>
       <itemPath>main.cc</itemPath>
     </logicalFolder>
@@ -176,6 +178,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cthreadsafeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cthreadsafeobject.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cuniqueaux.h">
@@ -368,6 +376,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cthreadsafeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cthreadsafeobject.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cuniqueaux.h">

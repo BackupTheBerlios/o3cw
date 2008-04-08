@@ -10,11 +10,12 @@
 
 #include "types.h"
 #include "cpermission.h"
-#include "cintimeobject.h"
+#include "co3cwbase.h"
+#include "libbonbon.h"
 
 namespace o3cw
 {
-    class CSharedObject: public o3cw::CInTimeObject
+    class CSharedObject: public o3cw::CO3CWBase
     {
     public:
         CSharedObject();
