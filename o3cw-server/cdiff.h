@@ -17,10 +17,10 @@
 namespace o3cw
 {
     class CClient;
-    class CDiff: public o3cw::CSharedObject
+    class CDiff: public o3cw::CSharedObject, public o3cw::CIdsObject
     {
     public:
-        CDiff(o3cw::ids client_id, o3cw::ids part_id, o3cw::ids diff_id);
+        CDiff(o3cw::CClient &client, o3cw::ids part_id, o3cw::CUniqueAux diff_uaux);
         ~CDiff();
         o3cw::CDiff &operator=(const o3cw::CDiff &d);
         bool operator==(const o3cw::CDiff &d);

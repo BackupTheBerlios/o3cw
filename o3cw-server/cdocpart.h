@@ -15,23 +15,25 @@
 #include "types.h"
 #include "cdiff.h"
 #include "csharedobject.h"
+#include "cidsobject.h"
 
 namespace o3cw
 {
     class CClient;
     class CStorage;
+    class CUniqueAux;
     
-    class CDocPart: public o3cw::CSharedObject
+    class CDocPart: public o3cw::CSharedObject, public o3cw::CIdsObject
     {
     public:
-        CDocPart();
+        CDocPart(o3cw::CUniqueAux &aux);
         ~CDocPart();
 
         //Full buff with doc_data content
         int GetPart(std::string &buff);
         
         //Add new diff, specified by buff
-        o3cw::ids AddDiff(std::string &buff);
+        o3cw::ids AddDiff(o3cw::CClient &client, std::string &buff);
         
         //Accept specified diff by specified client
         int AcceptDiff(o3cw::CClient &client, o3cw::ids diff_id);
@@ -62,7 +64,7 @@ namespace o3cw
         std::string part_data;
         
         //List of all diffs, acociated with this part
-        std::vector<CDiff> diffs;
+        std::vector<CDiff *> diffs;
         
         //Indicates last time of *Part and *Diff functions
         long long last_activity_time;
@@ -72,6 +74,8 @@ namespace o3cw
         
         //Keep full parts adress in cache
         std::string name_in_cache;
+        
+        o3cw::CUniqueAux diffs_unique_aux;
     };
 }
 

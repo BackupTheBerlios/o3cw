@@ -10,8 +10,11 @@
 
 namespace o3cw
 {
+    //Change this value if you change ids type properly!!!
+    #define O3CW_MAX_IDS_VALUE 4294967295u
+    
     //Type for numeric ids (clients, users, documents, parts, diffs...)
-    typedef unsigned long ids;
+    typedef unsigned int ids;
     
     //Type for store POSIX time as number
     typedef long long time;

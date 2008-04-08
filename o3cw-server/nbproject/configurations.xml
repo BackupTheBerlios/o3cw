@@ -34,6 +34,7 @@
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
       <itemPath>cstorage.h</itemPath>
+      <itemPath>cuniqueaux.h</itemPath>
       <itemPath>cuser.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
       <itemPath>tinyxml.h</itemPath>
@@ -175,6 +176,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuniqueaux.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cuser.cc">
@@ -364,6 +368,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuniqueaux.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cuser.cc">

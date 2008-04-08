@@ -8,19 +8,21 @@
 #ifndef _CINTIMEOBJECT_H
 #define	_CINTIMEOBJECT_H
 
+#include "libbonbon.h"
 #include "types.h"
 #include "cidsobject.h"
 
 namespace o3cw
 {
-    class CInTimeObject: public o3cw::CIdsObject
+    class CInTimeObject
     {
     public:
         CInTimeObject();
         ~CInTimeObject();
-        o3cw::time GetCreationTime();
+        long long GetCreationTime();
+        void GetTime(long long &buff);
     private:
-        o3cw::time creation_time;
+        long long creation_time;
     };
 }
 

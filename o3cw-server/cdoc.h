@@ -21,8 +21,9 @@ namespace o3cw
     class CDiff;
     class CClient;
     class CPermission;
+    class CUniqueAux;
     
-    class CDoc: public o3cw::CSharedObject
+    class CDoc: public o3cw::CSharedObject, public o3cw::CIdsObject
     {
     public:
         CDoc();
@@ -69,7 +70,14 @@ namespace o3cw
         std::vector<o3cw::CClient *> clients_connected;
         
         //List of documents parts
-        std::vector<o3cw::CDocPart> parts;
+        std::vector<o3cw::CDocPart *> parts;
+        
+        //Keep parts ID values
+        o3cw::CUniqueAux parts_unique_aux;
+        
+        //Keeps docs ID values
+        static o3cw::CUniqueAux unique_data;
+        
     };
 }
 
