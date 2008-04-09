@@ -14,7 +14,6 @@
           <itemPath>extra/libbonbon/cmutex.h</itemPath>
           <itemPath>extra/libbonbon/csemaphore.h</itemPath>
           <itemPath>extra/libbonbon/cthread.h</itemPath>
-          <itemPath>extra/libbonbon/cthreadjobs.h</itemPath>
           <itemPath>extra/libbonbon/slockgraph.h</itemPath>
         </logicalFolder>
         <logicalFolder name="tinyxml" displayName="tinyxml" projectFiles="true">
@@ -25,6 +24,7 @@
       <itemPath>cacessmode.h</itemPath>
       <itemPath>cclient.h</itemPath>
       <itemPath>cconfig.h</itemPath>
+      <itemPath>cconnectionhandler.h</itemPath>
       <itemPath>cdiff.h</itemPath>
       <itemPath>cdoc.h</itemPath>
       <itemPath>cdocpart.h</itemPath>
@@ -33,6 +33,7 @@
       <itemPath>co3cwbase.h</itemPath>
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
+      <itemPath>csocket.h</itemPath>
       <itemPath>cstorage.h</itemPath>
       <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
@@ -58,7 +59,6 @@
           <itemPath>extra/libbonbon/cmutex.cc</itemPath>
           <itemPath>extra/libbonbon/csemaphore.cc</itemPath>
           <itemPath>extra/libbonbon/cthread.cc</itemPath>
-          <itemPath>extra/libbonbon/cthreadjobs.cc</itemPath>
         </logicalFolder>
         <logicalFolder name="f1" displayName="tinyxml" projectFiles="true">
           <itemPath>extra/tinyxml/tinystr.cpp</itemPath>
@@ -70,6 +70,7 @@
       <itemPath>cacessmode.cc</itemPath>
       <itemPath>cclient.cc</itemPath>
       <itemPath>cconfig.cc</itemPath>
+      <itemPath>cconnectionhandler.cc</itemPath>
       <itemPath>cdiff.cc</itemPath>
       <itemPath>cdoc.cc</itemPath>
       <itemPath>cdocpart.cc</itemPath>
@@ -78,6 +79,7 @@
       <itemPath>co3cwbase.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
+      <itemPath>csocket.cc</itemPath>
       <itemPath>cstorage.cc</itemPath>
       <itemPath>cthreadsafeobject.cc</itemPath>
       <itemPath>cuser.cc</itemPath>
@@ -126,6 +128,12 @@
       <item path="cconfig.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cconnectionhandler.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconnectionhandler.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdiff.cc">
         <itemTool>1</itemTool>
       </item>
@@ -172,6 +180,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csocket.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csocket.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cstorage.cc">
@@ -241,12 +255,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cthread.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/libbonbon/cthreadjobs.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/libbonbon/cthreadjobs.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/slockgraph.h">
@@ -324,6 +332,12 @@
       <item path="cconfig.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cconnectionhandler.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconnectionhandler.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdiff.cc">
         <itemTool>1</itemTool>
       </item>
@@ -370,6 +384,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csocket.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csocket.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cstorage.cc">
@@ -439,12 +459,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cthread.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/libbonbon/cthreadjobs.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/libbonbon/cthreadjobs.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/slockgraph.h">

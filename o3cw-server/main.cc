@@ -8,7 +8,8 @@
 #include <stdlib.h>
 
 #include "cdoc.h"
-#include "extra/libbonbon/bonbon.h"
+#include "libbonbon.h"
+#include "cconnectionhandler.h"
 //
 // 
 //
@@ -24,5 +25,9 @@ int main(int argc, char** argv)
         o3cw::CDoc my_doc2;
         printf("my doc id=[%u]\n", my_doc1.GetId());
     }
+    
+    //Run connections handler (echo-server)
+    bonbon::CThread<o3cw::CConnectionHandler> connections_handler;
+    
     return (EXIT_SUCCESS);
 }
