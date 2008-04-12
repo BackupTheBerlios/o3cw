@@ -17,6 +17,7 @@
 #include <arpa/inet.h>
 
 #include "libbonbon.h"
+#include "cintimeobject.h"
 
 #define CRS_ERR_BIND 1
 #define CRS_ERR_LISTEN 2
@@ -28,7 +29,7 @@
 
 namespace o3cw
 {
-    class CSocket: public bonbon::CJob
+    class CSocket: public o3cw::CInTimeObject
     {
     public:
         CSocket();
@@ -40,9 +41,11 @@ namespace o3cw
         int Send(const char *message);
         int Send(const char *message, size_t size);
         int Send(std::string &message);
-        int Receive(std::string &buff, int max_size);
-        int Receive(std::string &buff, int max_size, float timeout);
+        int Receive(std::string &buff);
+        int Receive(std::string &buff, float timeout);
         void ForceDown();
+        bool ConnectionTimeout();
+        void SetTimeout(int value);
         int GetFD();
         static int readmultiselect(std::queue<o3cw::CSocket *> &int_s_list, std::queue<o3cw::CSocket *> &out_s_list, int sec, int usec);
     private:
@@ -55,9 +58,9 @@ namespace o3cw
         struct timeval rtv;
         struct timeval wtv;
         int error;
-        bonbon::CMutex lock;
         std::string int_buff;
-
+        long long last_activity_time;
+        int connection_timeout;
     };
 }
 

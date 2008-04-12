@@ -14,6 +14,7 @@
           <itemPath>extra/libbonbon/cmutex.h</itemPath>
           <itemPath>extra/libbonbon/csemaphore.h</itemPath>
           <itemPath>extra/libbonbon/cthread.h</itemPath>
+          <itemPath>extra/libbonbon/cvthread.h</itemPath>
           <itemPath>extra/libbonbon/slockgraph.h</itemPath>
         </logicalFolder>
         <logicalFolder name="tinyxml" displayName="tinyxml" projectFiles="true">
@@ -30,6 +31,7 @@
       <itemPath>cdocpart.h</itemPath>
       <itemPath>cidsobject.h</itemPath>
       <itemPath>cintimeobject.h</itemPath>
+      <itemPath>cnetwork.h</itemPath>
       <itemPath>co3cwbase.h</itemPath>
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
@@ -59,6 +61,7 @@
           <itemPath>extra/libbonbon/cmutex.cc</itemPath>
           <itemPath>extra/libbonbon/csemaphore.cc</itemPath>
           <itemPath>extra/libbonbon/cthread.cc</itemPath>
+          <itemPath>extra/libbonbon/cvthread.cc</itemPath>
         </logicalFolder>
         <logicalFolder name="f1" displayName="tinyxml" projectFiles="true">
           <itemPath>extra/tinyxml/tinystr.cpp</itemPath>
@@ -76,6 +79,7 @@
       <itemPath>cdocpart.cc</itemPath>
       <itemPath>cidsobject.cc</itemPath>
       <itemPath>cintimeobject.cc</itemPath>
+      <itemPath>cnetwork.cc</itemPath>
       <itemPath>co3cwbase.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
@@ -104,6 +108,12 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
+        <cCompilerTool>
+          <commandLine>-pthread -D_REENTRANT</commandLine>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <commandLine>-pthread -D_REENTRANT</commandLine>
+        </ccCompilerTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
@@ -162,6 +172,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cnetwork.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cnetwork.h">
         <itemTool>3</itemTool>
       </item>
       <item path="co3cwbase.cc">
@@ -255,6 +271,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/slockgraph.h">
@@ -368,6 +390,12 @@
       <item path="cintimeobject.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cnetwork.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cnetwork.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="co3cwbase.cc">
         <itemTool>1</itemTool>
       </item>
@@ -459,6 +487,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/slockgraph.h">

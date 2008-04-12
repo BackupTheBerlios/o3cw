@@ -11,24 +11,21 @@
 #include <queue>
 
 #include "libbonbon.h"
-#include "csocket.h"
+#include "cclient.h"
+#include "cnetwork.h"
 
 namespace o3cw
 {
-    class CConnectionHandler
+    class CConnectionHandler: public o3cw::CNetwork
     {
     public:
         CConnectionHandler();
         ~CConnectionHandler();
-        int Execute();
-        void Kill();
-        bool Killed();
+        int ThreadExecute();
     private:
-        bonbon::CMutex kill_lock;
-        bool killed;
         static bonbon::CMutex connections_lock;
-        static o3cw::CSocket *listener;
-        std::queue <o3cw::CSocket *> connections_store;
+        static o3cw::CClient *listener;
+        std::queue <o3cw::CClient *> connections_store;
     };
 }
 

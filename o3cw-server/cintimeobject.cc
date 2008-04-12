@@ -19,7 +19,8 @@ long long o3cw::CInTimeObject::GetCreationTime()
 
 void o3cw::CInTimeObject::GetTime(long long &buff)
 {
-    time_t t=time(NULL);
+    time_t tnow;
+    time(&tnow);
     memset(&buff, 0, sizeof(buff));
-    memcpy(&buff, &t, sizeof(t));
+    memcpy(&buff, &tnow, sizeof(tnow));
 }

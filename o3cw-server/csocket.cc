@@ -6,40 +6,48 @@
 
 static int get_hostaddr(const char *name);
 
-o3cw::CSocket::CSocket():bonbon::CJob()
+o3cw::CSocket::CSocket():o3cw::CInTimeObject::CInTimeObject()
 {
-    	bzero (&addr, sizeof (addr));
-	listener=-1;
-	error=0;
-	addr.sin_family = AF_INET;
-	
-	FD_ZERO(&rfds);
-	FD_ZERO(&wfds);
-	
-	rtv.tv_sec = 0;
-	rtv.tv_usec = 0;
+    bzero (&addr, sizeof (addr));
+    listener=-1;
+    error=0;
+    addr.sin_family = AF_INET;
 
-	wtv.tv_sec = 0;
-	wtv.tv_usec = 0;
-        socket_id=-1;
+    FD_ZERO(&rfds);
+    FD_ZERO(&wfds);
+
+    rtv.tv_sec = 0;
+    rtv.tv_usec = 0;
+
+    wtv.tv_sec = 0;
+    wtv.tv_usec = 0;
+    socket_id=-1;
+    last_activity_time=0;
+    connection_timeout=-1;
 }
 
-o3cw::CSocket::CSocket(int sock_id)
+o3cw::CSocket::CSocket(int sock_id):o3cw::CInTimeObject::CInTimeObject()
 {
-    	bzero (&addr, sizeof (addr));
-	listener=-1;
-	error=0;
-	addr.sin_family = AF_INET;
-	
-	FD_ZERO(&rfds);
-	FD_ZERO(&wfds);
-	
-	rtv.tv_sec = 0;
-	rtv.tv_usec = 0;
+    bzero (&addr, sizeof (addr));
+    listener=-1;
+    error=0;
+    addr.sin_family = AF_INET;
 
-	wtv.tv_sec = 0;
-	wtv.tv_usec = 0;
-        socket_id=sock_id;
+    FD_ZERO(&rfds);
+    FD_ZERO(&wfds);
+
+    rtv.tv_sec = 0;
+    rtv.tv_usec = 0;
+
+    wtv.tv_sec = 0;
+    wtv.tv_usec = 0;
+    
+    socket_id=sock_id;
+    mlock.Lock();
+    GetTime(last_activity_time);
+    mlock.UnLock();
+    
+    connection_timeout=-1;
 }
 
 o3cw::CSocket::~CSocket()
@@ -50,9 +58,33 @@ o3cw::CSocket::~CSocket()
 		close(socket_id);
 }
 
+bool o3cw::CSocket::ConnectionTimeout()
+{
+    bool result=false;
+    mlock.Lock();
+    if (connection_timeout>0)
+    {
+        long long now;
+        GetTime(now);
+        printf("now=%lli\n", now);
+        printf("%i<%lli\n",connection_timeout,(now-last_activity_time));
+        if (connection_timeout<(now-last_activity_time))
+            result=true;
+    }
+    mlock.UnLock();
+    return result;
+}
+
+void o3cw::CSocket::SetTimeout(int v)
+{
+    mlock.Lock();
+    connection_timeout=v;
+    mlock.UnLock();
+}
+
 void o3cw::CSocket::ForceDown()
 {
-    lock.Lock();
+    mlock.Lock();
     if (socket_id!=-1)
     {
 	shutdown(socket_id,SHUT_RDWR);
@@ -60,29 +92,29 @@ void o3cw::CSocket::ForceDown()
 	close(socket_id);
 	socket_id=-1;
     }
-    lock.UnLock();
+    mlock.UnLock();
 }
 
 int o3cw::CSocket::GetFD()
 {
-    lock.Lock();
+    mlock.Lock();
     int result=socket_id;
     if (listener!=-1)
         result=listener;
-    lock.UnLock();
+    mlock.UnLock();
     return result;
 }
 
 int o3cw::CSocket::Bind(int port, const char *interface)
 {
-    lock.Lock();
+    mlock.Lock();
     
     listener = socket (AF_INET, SOCK_STREAM, 0);
     int val=-1;
     if (setsockopt (listener, SOL_SOCKET, SO_REUSEADDR, (char *) &val, sizeof (val))!=0)
     {
         perror("setsockopt SO_REUSEADDR");
-	lock.UnLock();
+	mlock.UnLock();
 	return -1;
     }
 
@@ -102,67 +134,67 @@ int o3cw::CSocket::Bind(int port, const char *interface)
     {
         //ERROR
         error=CRS_ERR_BIND;
-        lock.UnLock();
+        mlock.UnLock();
         return -1;
     }
     error=0;
-    lock.UnLock();
+    mlock.UnLock();
     return 0;
 }
 
 
 int o3cw::CSocket::Listen()
 {
-        lock.Lock();
-	if (listen (listener, 20) != 0)
-	{
-		//ERROR
-		error=CRS_ERR_LISTEN;
-                lock.UnLock();
-		return -1;
-	}
-	error=0;
-	if (fcntl(listener, F_SETFL, O_NONBLOCK)!=0)
-	{
-		perror("fcntl O_NONBLOCK");
-	}
-        lock.UnLock();
-	return 0;
+    mlock.Lock();
+    if (listen (listener, 20) != 0)
+    {
+        //ERROR
+        error=CRS_ERR_LISTEN;
+        mlock.UnLock();
+        return -1;
+    }
+    error=0;
+    if (fcntl(listener, F_SETFL, O_NONBLOCK)!=0)
+    {
+        perror("fcntl O_NONBLOCK");
+    }
+    mlock.UnLock();
+    return 0;
 }
 
 int o3cw::CSocket::Accept()
 {
-	int size=sizeof (addr);
-        int result=-1;
-	lock.Lock();
-	error=0;
-        FD_ZERO(&rfds);
-	FD_SET(listener, &rfds);
-        rtv.tv_sec = 1;
-	rtv.tv_usec = 0;
-        socket_id = accept (listener, (struct sockaddr *) &addr, (socklen_t *) & size);
-        if (socket_id==-1)
-            error=CRS_ERR_ACCEPT;
-        else
-            result=socket_id;
-	lock.UnLock();
-	return result;
+    int size=sizeof (addr);
+    int result=-1;
+    mlock.Lock();
+    error=0;
+    FD_ZERO(&rfds);
+    FD_SET(listener, &rfds);
+    rtv.tv_sec = 1;
+    rtv.tv_usec = 0;
+    socket_id = accept (listener, (struct sockaddr *) &addr, (socklen_t *) & size);
+    if (socket_id==-1)
+        error=CRS_ERR_ACCEPT;
+    else
+        result=socket_id;
+    mlock.UnLock();
+    return result;
 }
 
-int o3cw::CSocket::Receive(std::string &buff, int max_size)
+int o3cw::CSocket::Receive(std::string &buff)
 {
-    return Receive(buff, max_size, -1);
+    return Receive(buff, -1);
 }
 
-int o3cw::CSocket::Receive(std::string &buff, int max_size, float timeout)
+int o3cw::CSocket::Receive(std::string &buff, float timeout)
 {
-    lock.Lock();
+    mlock.Lock();
     timeout=0;
     int result=0;
     if (socket_id==-1)
     {
             error=CRS_ERR_LOST;
-            lock.UnLock();
+            mlock.UnLock();
             return -1;
     }
 
@@ -191,25 +223,25 @@ int o3cw::CSocket::Receive(std::string &buff, int max_size, float timeout)
     //        if (errno==EINVAL) printf("n отрицательно.\n");
     //        if (errno==ENOMEM) printf("Функция select не смогла выделить участок памяти для внутренних таблиц.\n");
     //        error=CRS_ERR_LOST;
-            lock.UnLock();
+            mlock.UnLock();
             return -1;
         }
     }
 
     if (retval==1)
     {
-        char msg_part[1024];
-        int err=recv(sock_id, msg_part,1023,0);
+        char msg_part[512];
+        int err=recv(sock_id, msg_part,512,0);
         if (err>0)
         {
+            GetTime(last_activity_time);
             buff.append(msg_part,err);
-	    result+=err;
-
+            result+=err;
         }
-	else
-	    result=-1;
+        else
+            result=-1;
     }
-    lock.UnLock();
+    mlock.UnLock();
     
     return result;
 }
@@ -217,11 +249,11 @@ int o3cw::CSocket::Receive(std::string &buff, int max_size, float timeout)
 int o3cw::CSocket::Send(const char *data, size_t size)
 {
 	if (data==NULL) return 0;
-	lock.Lock();
+	mlock.Lock();
 	FD_ZERO(&wfds);
 	if (socket_id==-1)
 	{
-		lock.UnLock();
+		mlock.UnLock();
 		return -1;
 	}
 	FD_SET(socket_id, &wfds);
@@ -234,11 +266,11 @@ int o3cw::CSocket::Send(const char *data, size_t size)
 	{
 		//ERROR OR TIMEOUT - NO DATA SEND
 		error=CRS_ERR_SEND;
-		lock.UnLock();
+		mlock.UnLock();
 		return -1;
 	}
 	int r=send(socket_id,data,size,0);
-	lock.UnLock();
+	mlock.UnLock();
 	return r;
 }
 
@@ -319,76 +351,19 @@ int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::
                     result++;
                 }
                 else
-                    in_s_list.push(pc_clnt);
+                {
+                    if (pc_clnt->ConnectionTimeout())
+                    {
+                        delete pc_clnt;
+                    }
+                    else
+                    {
+                        in_s_list.push(pc_clnt);
+                    }
+                }
             }
         }
     }
 
     return result;
 }
-
-/*
-int writemultiselect(CUlist<CPayguideClient> *clientlist, int sec, int usec)
-{
-	unsigned int l=clientlist->GetLen();
-	if (l<1)
-		return 0;
-
-	fd_set rfds, wfds;
-	struct timeval my_tv;
-	my_tv.tv_sec = sec; my_tv.tv_usec = usec;
-
-
-	int max_fd = -1;
-	FD_ZERO(&rfds);
-	FD_ZERO(&wfds); 
-	clientlist->ResetCursor();
-	for (unsigned int a=0; a<l; a++)
-	{
-		CPayguideClient *pg_clnt=clientlist->GetNext();
-		if (pg_clnt!=NULL)
-		{
-			CSocketRW *sock=pg_clnt->GetSocket();
-			if (sock!=NULL)
-			{
-				int socket_id=sock->GetFD();
-				if (socket_id>=0)
-				{
-					if(socket_id > max_fd) max_fd = socket_id;
-			
-					FD_SET(socket_id, &rfds);
-					FD_SET(socket_id, &wfds);
-				}
-			}
-		}
-	}
-	
-
-	select(max_fd + 1, NULL, &wfds, NULL, &my_tv);
-	
-	clientlist->ResetCursor();
-	for (unsigned int a=0; a<l; a++)
-	{
-		CPayguideClient *pg_clnt=clientlist->GetNext();
-		if (pg_clnt!=NULL)
-		{
-			CSocketRW *sock=pg_clnt->GetSocket();
-
-			if (sock!=NULL)
-			{
-				int socket_id=sock->GetFD();
-
-				if (socket_id>=0)
-				{
-					if (FD_ISSET(socket_id, &wfds))
-						sock->WritePossible(1);
-					else
-						sock->WritePossible(0);
-				}
-			}
-		}
-	}
-
-	return 0;
-}
-*/

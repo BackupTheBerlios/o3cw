@@ -17,17 +17,20 @@ int main(int argc, char** argv)
 {
     //Initialize BonBon - little threads library.
     bonbon::BonbonInit();
-    o3cw::CDoc my_doc;
-    printf("creating new docs\n");
-    for (int a=0; a<20; a++)
-    {
-        o3cw::CDoc my_doc1;
-        o3cw::CDoc my_doc2;
-        printf("my doc id=[%u]\n", my_doc1.GetId());
-    }
+    
+    /* Example of config usage */
+    o3cw::CConfig conf;
+    conf.Parse("<?xml><config><main><alex><p1>value1</p1><p2>value2</p2></alex></main>/config>");
+    std::string b1, b2;
+    conf.GetValue(b1,"p1","main:alex");
+    conf.GetValue(b2,"p2","main:alex");
+    printf("b1=[%s]\n", b1.c_str());
+    printf("b2=[%s]\n", b2.c_str());
     
     //Run connections handler (echo-server)
-    bonbon::CThread<o3cw::CConnectionHandler> connections_handler;
+
+    o3cw::CConnectionHandler connections_handler;
+
     
     return (EXIT_SUCCESS);
 }

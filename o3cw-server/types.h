@@ -16,8 +16,6 @@ namespace o3cw
     //Type for numeric ids (clients, users, documents, parts, diffs...)
     typedef unsigned int ids;
     
-    //Type for store POSIX time as number
-    typedef long long time;
 }
 
 #endif	/* _TYPES_H */

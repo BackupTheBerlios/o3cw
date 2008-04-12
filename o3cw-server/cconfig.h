@@ -23,7 +23,8 @@ namespace o3cw
         int SetValue(const char *value, const char *param, const char *section);
         int Parse(const char *text);
         int ParseFile(const char *filename);
-        void Clean();
+        static int SimpleParse(std::string &text, std::string &tag_start, std::string &tag_end, std::string &value);
+        static int SimpleParse(const char *text, const char *tag_start, const char *tag_end, std::string &value);
     private:
         //tinyxml::TiXmlDocument config;
         TiXmlDocument config;
