@@ -18,17 +18,38 @@ namespace o3cw
     {
     public:
         CClient();
+        
+        /* Create new client, associated with socket */
         CClient(int sock);
         ~CClient();
+        
+        /* See readmultiselect in CSocket class (csocket.cc) */
         static int readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::queue<o3cw::CClient *> &out_s_list, int sec, int usec);
+        
+        /*
+         * Receive new message from sock
+         * 0 - no new message received
+         * 1 - new message aviable (get by GetHead and GetBody)
+         *-1 - error on socket (connection lost)
+         */
         int Receive();
+        
+        /* Copy head to buff. Returns 1 on sucess, 0 if there is no new head */
+        int GetHead(std::string &buff);
+        
+        /* Copy body to buff. Returns 1 on sucess, 0 if there is no new body */
+        int GetBody(std::string &buff);
     private:
+        int GetStringFromQueue(std::string &buff, std::queue<std::string *> &queue);
         o3cw::CUser *user;
         o3cw::CSocket *socket;
         bool trusted;
         std::string msgbuff;
-        std::string head;
+        
+        std::queue<std::string *> heads;
+        std::queue<std::string *> bodies;
         std::string body;
+        std::string head;
         int message_left;
         size_t head_starts;
         size_t head_ends;

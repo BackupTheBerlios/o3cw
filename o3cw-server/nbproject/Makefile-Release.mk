@@ -26,7 +26,9 @@ OBJECTDIR=build/Release/GNU-Linux-x86
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/cjobmanager.o \
+	${OBJECTDIR}/cnetwork.o \
 	${OBJECTDIR}/cidsobject.o \
+	${OBJECTDIR}/cconnectionhandler.o \
 	${OBJECTDIR}/extra/libbonbon/bonbon.o \
 	${OBJECTDIR}/cuser.o \
 	${OBJECTDIR}/extra/libbonbon/csemaphore.o \
@@ -37,7 +39,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/cdoc.o \
 	${OBJECTDIR}/cdocpart.o \
 	${OBJECTDIR}/cintimeobject.o \
-	${OBJECTDIR}/extra/libbonbon/cthreadjobs.o \
 	${OBJECTDIR}/cpermission.o \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o \
@@ -45,13 +46,16 @@ OBJECTFILES= \
 	${OBJECTDIR}/cstorage.o \
 	${OBJECTDIR}/extra/libbonbon/cmutex.o \
 	${OBJECTDIR}/cclient.o \
+	${OBJECTDIR}/csocket.o \
 	${OBJECTDIR}/cconfig.o \
+	${OBJECTDIR}/extra/libbonbon/cvthread.o \
 	${OBJECTDIR}/extra/libbonbon/cthread.o \
 	${OBJECTDIR}/cdiff.o \
 	${OBJECTDIR}/co3cwbase.o \
 	${OBJECTDIR}/extra/tinyxml/tinystr.o \
 	${OBJECTDIR}/cacessmode.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/cthreadsafeobject.o
 
 # C Compiler Flags
 CFLAGS=
@@ -77,9 +81,17 @@ ${OBJECTDIR}/extra/libbonbon/cjobmanager.o: extra/libbonbon/cjobmanager.cc
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cjobmanager.o extra/libbonbon/cjobmanager.cc
 
+${OBJECTDIR}/cnetwork.o: cnetwork.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cnetwork.o cnetwork.cc
+
 ${OBJECTDIR}/cidsobject.o: cidsobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cidsobject.o cidsobject.cc
+
+${OBJECTDIR}/cconnectionhandler.o: cconnectionhandler.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cconnectionhandler.o cconnectionhandler.cc
 
 ${OBJECTDIR}/extra/libbonbon/bonbon.o: extra/libbonbon/bonbon.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
@@ -121,10 +133,6 @@ ${OBJECTDIR}/cintimeobject.o: cintimeobject.cc
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cintimeobject.o cintimeobject.cc
 
-${OBJECTDIR}/extra/libbonbon/cthreadjobs.o: extra/libbonbon/cthreadjobs.cc 
-	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cthreadjobs.o extra/libbonbon/cthreadjobs.cc
-
 ${OBJECTDIR}/cpermission.o: cpermission.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cpermission.o cpermission.cc
@@ -153,9 +161,17 @@ ${OBJECTDIR}/cclient.o: cclient.cc
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cclient.o cclient.cc
 
+${OBJECTDIR}/csocket.o: csocket.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/csocket.o csocket.cc
+
 ${OBJECTDIR}/cconfig.o: cconfig.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cconfig.o cconfig.cc
+
+${OBJECTDIR}/extra/libbonbon/cvthread.o: extra/libbonbon/cvthread.cc 
+	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cvthread.o extra/libbonbon/cvthread.cc
 
 ${OBJECTDIR}/extra/libbonbon/cthread.o: extra/libbonbon/cthread.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
@@ -180,6 +196,10 @@ ${OBJECTDIR}/cacessmode.o: cacessmode.cc
 ${OBJECTDIR}/main.o: main.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/main.o main.cc
+
+${OBJECTDIR}/cthreadsafeobject.o: cthreadsafeobject.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cthreadsafeobject.o cthreadsafeobject.cc
 
 # Subprojects
 .build-subprojects:

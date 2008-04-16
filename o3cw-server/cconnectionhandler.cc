@@ -45,6 +45,21 @@ int o3cw::CConnectionHandler::ThreadExecute()
             printf("Something happened\n");
 
         //for (active_sock=active_sock_list.begin(); active_sock!=active_sock_list.end(); active_sock++)
+        for (size_t i=0; i<connections_store.size(); i++)
+        {
+            o3cw::CClient *sock=connections_store.front();
+            connections_store.pop();
+            if (sock->ConnectionTimeout()>10)
+            {
+                sock->ForceDown();
+                delete sock;
+            }
+            else
+            {
+                connections_store.push(sock);
+            }
+        }
+        
         while(active_sock_list.size()>0)
         {
             o3cw::CClient *sock=active_sock_list.front();
@@ -61,7 +76,6 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     if (t>-1)
                     {
                         o3cw::CClient *new_client=new o3cw::CClient(t);
-                        new_client->SetTimeout(10);
                         new_client->Send("O3CW server greets you!\n");
                         connections_store.push(new_client);
                     }
@@ -77,26 +91,33 @@ int o3cw::CConnectionHandler::ThreadExecute()
                 else
                 {
                     /* New data from client */
-                    std::string message;//=sock->GetSockBuff();
+                    std::string message;
                     int r=sock->Receive();
-                    if (r>-1)
+                    if (r==1)
                     {
-//                        printf("received [%s]\n", message.c_str());
-//                        /* Parse message here and determine if it's full message */
-//                        bool full_message=true;
-//                        
-//                        if (message.length()>2)
-//                            sock->Send(message);
-//                        else
-//                        {
-//                                sock->Send("bye-bye.\n");
-//                                Kill();
-//                        }
-//                        if (full_message)
-//                        {
-//                            /* Clear message */
-//                            message.assign("");
-//                        }
+                        /* New, full mesage received */
+                        int msg_left=1;
+                        std::string head;
+                        std::string body;
+                        msg_left=sock->GetHead(head)*sock->GetBody(head);
+
+                        while (msg_left>0)
+                        {
+                            printf("New message received! head=[%s] body=[%s]\n", head.c_str(), body.c_str());
+                            
+                            /* Parse head and body, push new command to queue */
+                            /* ... */
+                            
+                            msg_left=sock->GetHead(head)*sock->GetBody(head);
+                        }
+                        
+                        /* Push back to connections_store */
+                        connections_store.push(sock);
+                        
+                    }
+                    else if (r==0)
+                    {
+                        /* Get something, but not a full message - just wait a bit more */
                         connections_store.push(sock);
                         
                     }

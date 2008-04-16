@@ -23,7 +23,6 @@ o3cw::CSocket::CSocket():o3cw::CInTimeObject::CInTimeObject()
     wtv.tv_usec = 0;
     socket_id=-1;
     last_activity_time=0;
-    connection_timeout=-1;
 }
 
 o3cw::CSocket::CSocket(int sock_id):o3cw::CInTimeObject::CInTimeObject()
@@ -46,8 +45,7 @@ o3cw::CSocket::CSocket(int sock_id):o3cw::CInTimeObject::CInTimeObject()
     mlock.Lock();
     GetTime(last_activity_time);
     mlock.UnLock();
-    
-    connection_timeout=-1;
+
 }
 
 o3cw::CSocket::~CSocket()
@@ -58,28 +56,18 @@ o3cw::CSocket::~CSocket()
 		close(socket_id);
 }
 
-bool o3cw::CSocket::ConnectionTimeout()
+int o3cw::CSocket::ConnectionTimeout()
 {
-    bool result=false;
+    int result=0;
+    
     mlock.Lock();
-    if (connection_timeout>0)
-    {
-        long long now;
-        GetTime(now);
-        printf("now=%lli\n", now);
-        printf("%i<%lli\n",connection_timeout,(now-last_activity_time));
-        if (connection_timeout<(now-last_activity_time))
-            result=true;
-    }
+    long long now;
+    GetTime(now);
+    printf("%lli\n",(now-last_activity_time));
+    result=(int)(now-last_activity_time);
     mlock.UnLock();
+    
     return result;
-}
-
-void o3cw::CSocket::SetTimeout(int v)
-{
-    mlock.Lock();
-    connection_timeout=v;
-    mlock.UnLock();
 }
 
 void o3cw::CSocket::ForceDown()

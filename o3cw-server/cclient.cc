@@ -29,9 +29,12 @@ o3cw::CClient::~CClient()
 
 int o3cw::CClient::Receive()
 {
+    int result=0;
     bool any_data_left=true;
     int receive=o3cw::CSocket::Receive(msgbuff);
-    if (receive>0)
+    if (receive<0)
+        result=-1;
+    else
     {
         while (any_data_left)
         {
@@ -72,21 +75,68 @@ int o3cw::CClient::Receive()
             {
                 receive=msgbuff.length();
                 size_t to_read=message_left;
-                
-                if (receive<=message_left)
+
+                if (receive<message_left)
+                {
                     to_read=receive;
+                }
                 else
+                {
+                    /* Full message received and there some data in socket left */
                     any_data_left=true;
+                }
 
                 body.append(msgbuff, 0, to_read);
-                
+
                 message_left-=to_read;
                 receive-=to_read;
                 msgbuff.erase(0, to_read);
-             }
+                if (message_left==0)
+                {
+                    std::string *h=new std::string(head);
+                    std::string *b=new std::string(body);
+                    
+                    heads.push(h);
+                    bodies.push(b);
+                    
+                    head.erase();
+                    body.erase();
+                    
+                    result=1;
+                }
+            }
         }
         msgbuff.erase();
     }
+    return result;
+}
+
+int o3cw::CClient::GetStringFromQueue(std::string &buff, std::queue<std::string *> &q)
+{
+    int result=0;
+    
+    mlock.Lock();
+    if (q.size()>0)
+    {
+        std::string *h=q.front();
+        q.pop();
+        buff.assign(*h);
+        delete h;
+        result=1;
+    }
+    mlock.UnLock();
+    
+    return result; 
+}
+
+int o3cw::CClient::GetHead(std::string &head_buff)
+{
+    return GetStringFromQueue(head_buff, heads);
+}
+
+int o3cw::CClient::GetBody(std::string &body_buff)
+{
+    return GetStringFromQueue(body_buff, bodies);
 }
 
 int o3cw::CClient::readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::queue<o3cw::CClient *> &out_s_list, int sec, int usec)
@@ -140,12 +190,12 @@ int o3cw::CClient::readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::
                 }
                 else
                 {
-                    if (pc_clnt->ConnectionTimeout())
+/*                    if (pc_clnt->ConnectionTimeout())
                     {
                         printf("timeout!\n");
                         delete pc_clnt;
                     }
-                    else
+                    else*/
                     {
                         //printf("pushing back %i\n", pc_clnt->GetFD());
                         in_s_list.push(pc_clnt);
