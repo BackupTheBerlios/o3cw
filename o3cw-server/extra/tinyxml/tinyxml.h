@@ -77,6 +77,8 @@ distribution.
 	#endif
 #endif	
 
+namespace tinyxml
+{
 class TiXmlDocument;
 class TiXmlElement;
 class TiXmlComment;
@@ -1766,7 +1768,7 @@ private:
 	TIXML_STRING indent;
 	TIXML_STRING lineBreak;
 };
-
+}
 
 #ifdef _MSC_VER
 #pragma warning( pop )

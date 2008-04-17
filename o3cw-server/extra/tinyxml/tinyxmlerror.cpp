@@ -31,6 +31,8 @@ distribution.
 // It also cleans up the code a bit.
 //
 
+using namespace tinyxml;
+
 const char* TiXmlBase::errorString[ TIXML_ERROR_STRING_COUNT ] =
 {
 	"No error",

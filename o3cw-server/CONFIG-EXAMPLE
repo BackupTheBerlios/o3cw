@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is a default o3cw-server config -->
+<!-- Copy content of this file to /etc/o3cw-server.cfg -->
+
+<config>
+    <net>
+	<timeout>
+	    <default>20</default>
+	</timeout>
+    </net>
+</config>

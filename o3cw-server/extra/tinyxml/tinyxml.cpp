@@ -30,7 +30,7 @@ distribution.
 #endif
 
 #include "tinyxml.h"
-
+using namespace tinyxml;
 
 bool TiXmlBase::condenseWhiteSpace = true;
 
