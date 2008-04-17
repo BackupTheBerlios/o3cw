@@ -18,8 +18,9 @@ namespace o3cw
     public:
         CO3CWBase();
         ~CO3CWBase();
-        int LoadConfig(const char *filename);
-        int ReLoadConfig(const char *filename);
+        static int LoadMainConfig(const char *filename);
+        static int ReLoadMainConfig(const char *filename);
+	static const o3cw::CConfig &GetMainConfig();
     protected:
         static o3cw::CConfig o3cw_main_config;
         

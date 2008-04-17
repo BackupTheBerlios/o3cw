@@ -22,7 +22,7 @@ o3cw::CSocket::CSocket():o3cw::CInTimeObject::CInTimeObject()
     wtv.tv_sec = 0;
     wtv.tv_usec = 0;
     socket_id=-1;
-    last_activity_time=0;
+    GetTime(last_activity_time);
 }
 
 o3cw::CSocket::CSocket(int sock_id):o3cw::CInTimeObject::CInTimeObject()
@@ -63,7 +63,6 @@ int o3cw::CSocket::ConnectionTimeout()
     mlock.Lock();
     long long now;
     GetTime(now);
-    printf("%lli\n",(now-last_activity_time));
     result=(int)(now-last_activity_time);
     mlock.UnLock();
     

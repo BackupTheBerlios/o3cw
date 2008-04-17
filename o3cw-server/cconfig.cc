@@ -1,4 +1,5 @@
 #include "cconfig.h"
+#include <fstream>
 
 o3cw::CConfig::CConfig()
 {
@@ -17,12 +18,43 @@ int o3cw::CConfig::Parse(const char *text)
     
     config.Clear();
     config.Parse(text);
+    return 0;
 }
 
-int o3cw::CConfig::GetValue(std::string &buff, const char *param, const char *section)
+int o3cw::CConfig::ParseFile(const char *filename)
+{
+    int result=0;
+    if (filename==NULL)
+	result=-1;
+    else
+    {
+        std::fstream file;
+	file.open(filename, std::fstream::in);
+        if (file.good())
+	{
+	    file.seekg (0, std::ios::end);
+	    int l = file.tellg();
+	    file.seekg (0, std::ios::beg);
+	    char *buff=new char [l+1];
+	    if (buff!=NULL)
+	    {
+		memset(buff, 0, l+1);
+		file.read(buff,l);
+		result=Parse(buff);
+		delete [] buff;
+	    }
+	    else
+		result=-2;
+        }
+	file.close();
+    }
+    return result;
+}
+
+int o3cw::CConfig::GetValue(std::string &buff, const char *param, const char *section) const
 {
     std::string nodename;
-    TiXmlNode *xml_node=config.FirstChildElement("config");
+    const tinyxml::TiXmlNode *xml_node=config.FirstChildElement("config");
     if (xml_node==NULL)
         return -1;
     if (param==NULL || section==NULL)
@@ -57,7 +89,7 @@ int o3cw::CConfig::GetValue(std::string &buff, const char *param, const char *se
                 p1++;
         }
     }
-    TiXmlElement *xml_element=xml_node->FirstChildElement(param);
+    const tinyxml::TiXmlElement *xml_element=xml_node->FirstChildElement(param);
     if (xml_element!=NULL)
     {
         if (xml_element->GetText()!=NULL)
