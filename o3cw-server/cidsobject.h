@@ -11,7 +11,7 @@
 #include <list>
 
 #include "types.h"
-#include "co3cwbase.h"
+#include "csharedobject.h"
 #include "libbonbon.h"
 #include "cuniqueaux.h"
 
@@ -25,7 +25,7 @@ namespace o3cw
      * should *never* change them manually. 
      */
     class CUniqueAux;
-    class CIdsObject
+    class CIdsObject: public o3cw::CSharedObject
     {
     public:
         /*

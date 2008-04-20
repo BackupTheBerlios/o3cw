@@ -1,6 +1,6 @@
 #include "cdocpart.h"
 
-o3cw::CDocPart::CDocPart(o3cw::CUniqueAux &aux):o3cw::CSharedObject::CSharedObject(), o3cw::CIdsObject::CIdsObject(aux)
+o3cw::CDocPart::CDocPart(o3cw::CUniqueAux &aux): o3cw::CIdsObject::CIdsObject(aux)
 {
 
 }

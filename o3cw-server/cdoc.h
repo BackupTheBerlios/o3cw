@@ -23,7 +23,7 @@ namespace o3cw
     class CPermission;
     class CUniqueAux;
     
-    class CDoc: public o3cw::CSharedObject, public o3cw::CIdsObject
+    class CDoc: public o3cw::CIdsObject
     {
     public:
         CDoc();

@@ -8,11 +8,12 @@
 #ifndef _CO3CWBASE_H
 #define	_CO3CWBASE_H
 
-#include "cconfig.h"
 #include "cintimeobject.h"
 
 namespace o3cw
 {
+    class CCommand;
+    class CConfig;
     class CO3CWBase: public o3cw::CInTimeObject
     {
     public:
@@ -21,6 +22,8 @@ namespace o3cw
         static int LoadMainConfig(const char *filename);
         static int ReLoadMainConfig(const char *filename);
 	static const o3cw::CConfig &GetMainConfig();
+        static int PushCommand(o3cw::CCommand &cmd);
+        virtual int ExecCommand(o3cw::CCommand &cmd);
     protected:
         static o3cw::CConfig o3cw_main_config;
         

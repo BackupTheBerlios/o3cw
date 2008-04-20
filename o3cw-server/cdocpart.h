@@ -23,7 +23,7 @@ namespace o3cw
     class CStorage;
     class CUniqueAux;
     
-    class CDocPart: public o3cw::CSharedObject, public o3cw::CIdsObject
+    class CDocPart: public o3cw::CIdsObject
     {
     public:
         CDocPart(o3cw::CUniqueAux &aux);

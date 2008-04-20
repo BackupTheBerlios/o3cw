@@ -42,12 +42,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/cpermission.o \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o \
-	${OBJECTDIR}/extra/libbonbon/cjob.o \
 	${OBJECTDIR}/cstorage.o \
 	${OBJECTDIR}/extra/libbonbon/cmutex.o \
 	${OBJECTDIR}/cclient.o \
+	${OBJECTDIR}/ccmdexec.o \
 	${OBJECTDIR}/csocket.o \
 	${OBJECTDIR}/cconfig.o \
+	${OBJECTDIR}/ccommand.o \
 	${OBJECTDIR}/extra/libbonbon/cvthread.o \
 	${OBJECTDIR}/extra/libbonbon/cthread.o \
 	${OBJECTDIR}/cdiff.o \
@@ -55,7 +56,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/extra/tinyxml/tinystr.o \
 	${OBJECTDIR}/cacessmode.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/cthreadsafeobject.o
+	${OBJECTDIR}/cthreadsafeobject.o \
+	${OBJECTDIR}/co3cwserver.o
 
 # C Compiler Flags
 CFLAGS=
@@ -145,10 +147,6 @@ ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o: extra/tinyxml/tinyxmlparser.cpp
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
 
-${OBJECTDIR}/extra/libbonbon/cjob.o: extra/libbonbon/cjob.cc 
-	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cjob.o extra/libbonbon/cjob.cc
-
 ${OBJECTDIR}/cstorage.o: cstorage.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cstorage.o cstorage.cc
@@ -161,6 +159,10 @@ ${OBJECTDIR}/cclient.o: cclient.cc
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cclient.o cclient.cc
 
+${OBJECTDIR}/ccmdexec.o: ccmdexec.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/ccmdexec.o ccmdexec.cc
+
 ${OBJECTDIR}/csocket.o: csocket.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/csocket.o csocket.cc
@@ -168,6 +170,10 @@ ${OBJECTDIR}/csocket.o: csocket.cc
 ${OBJECTDIR}/cconfig.o: cconfig.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cconfig.o cconfig.cc
+
+${OBJECTDIR}/ccommand.o: ccommand.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/ccommand.o ccommand.cc
 
 ${OBJECTDIR}/extra/libbonbon/cvthread.o: extra/libbonbon/cvthread.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
@@ -200,6 +206,10 @@ ${OBJECTDIR}/main.o: main.cc
 ${OBJECTDIR}/cthreadsafeobject.o: cthreadsafeobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cthreadsafeobject.o cthreadsafeobject.cc
+
+${OBJECTDIR}/co3cwserver.o: co3cwserver.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/co3cwserver.o co3cwserver.cc
 
 # Subprojects
 .build-subprojects:

@@ -9,10 +9,11 @@
 #define	_CUSER_H
 
 #include "types.h"
+#include "csharedobject.h"
 
 namespace o3cw
 {
-    class CUser
+    class CUser: public o3cw::CSharedObject
     {
     public:
         CUser();

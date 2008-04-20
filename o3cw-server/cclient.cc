@@ -27,6 +27,15 @@ o3cw::CClient::~CClient()
     
 }
 
+bool o3cw::CClient::Trusted()
+{
+    bool result=false;
+    mlock.Lock();
+    result=trusted;
+    mlock.UnLock();
+    return result;
+}
+
 int o3cw::CClient::Receive()
 {
     int result=0;

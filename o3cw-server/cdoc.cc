@@ -4,7 +4,7 @@
 
 o3cw::CUniqueAux o3cw::CDoc::unique_data;
 
-o3cw::CDoc::CDoc():o3cw::CSharedObject::CSharedObject(), o3cw::CIdsObject::CIdsObject(o3cw::CDoc::unique_data)
+o3cw::CDoc::CDoc(): o3cw::CIdsObject::CIdsObject(o3cw::CDoc::unique_data)
 {
     o3cw::ids parts_current_id=0;
     

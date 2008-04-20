@@ -8,7 +8,6 @@
         <logicalFolder name="f1" displayName="libbonbon" projectFiles="true">
           <itemPath>extra/libbonbon/bonbon.h</itemPath>
           <itemPath>extra/libbonbon/cbreak.h</itemPath>
-          <itemPath>extra/libbonbon/cjob.h</itemPath>
           <itemPath>extra/libbonbon/cjobmanager.h</itemPath>
           <itemPath>extra/libbonbon/clock.h</itemPath>
           <itemPath>extra/libbonbon/cmutex.h</itemPath>
@@ -24,6 +23,8 @@
       </logicalFolder>
       <itemPath>cacessmode.h</itemPath>
       <itemPath>cclient.h</itemPath>
+      <itemPath>ccmdexec.h</itemPath>
+      <itemPath>ccommand.h</itemPath>
       <itemPath>cconfig.h</itemPath>
       <itemPath>cconnectionhandler.h</itemPath>
       <itemPath>cdiff.h</itemPath>
@@ -33,6 +34,7 @@
       <itemPath>cintimeobject.h</itemPath>
       <itemPath>cnetwork.h</itemPath>
       <itemPath>co3cwbase.h</itemPath>
+      <itemPath>co3cwserver.h</itemPath>
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
       <itemPath>csocket.h</itemPath>
@@ -55,7 +57,6 @@
         <logicalFolder name="libbonbon" displayName="libbonbon" projectFiles="true">
           <itemPath>extra/libbonbon/bonbon.cc</itemPath>
           <itemPath>extra/libbonbon/cbreak.cc</itemPath>
-          <itemPath>extra/libbonbon/cjob.cc</itemPath>
           <itemPath>extra/libbonbon/cjobmanager.cc</itemPath>
           <itemPath>extra/libbonbon/clock.cc</itemPath>
           <itemPath>extra/libbonbon/cmutex.cc</itemPath>
@@ -72,6 +73,8 @@
       </logicalFolder>
       <itemPath>cacessmode.cc</itemPath>
       <itemPath>cclient.cc</itemPath>
+      <itemPath>ccmdexec.cc</itemPath>
+      <itemPath>ccommand.cc</itemPath>
       <itemPath>cconfig.cc</itemPath>
       <itemPath>cconnectionhandler.cc</itemPath>
       <itemPath>cdiff.cc</itemPath>
@@ -81,6 +84,7 @@
       <itemPath>cintimeobject.cc</itemPath>
       <itemPath>cnetwork.cc</itemPath>
       <itemPath>co3cwbase.cc</itemPath>
+      <itemPath>co3cwserver.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
       <itemPath>csocket.cc</itemPath>
@@ -92,6 +96,7 @@
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
+      <itemPath>CONFIG-EXAMPLE</itemPath>
       <itemPath>LICENSE</itemPath>
       <itemPath>Makefile</itemPath>
       <itemPath>README</itemPath>
@@ -130,6 +135,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cclient.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccmdexec.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccmdexec.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccommand.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccommand.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cconfig.cc">
@@ -186,6 +203,12 @@
       <item path="co3cwbase.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="co3cwserver.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="co3cwserver.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cpermission.cc">
         <itemTool>1</itemTool>
       </item>
@@ -235,12 +258,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cbreak.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/libbonbon/cjob.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/libbonbon/cjob.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/cjobmanager.cc">
@@ -348,6 +365,18 @@
       <item path="cclient.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="ccmdexec.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccmdexec.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccommand.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccommand.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cconfig.cc">
         <itemTool>1</itemTool>
       </item>
@@ -402,6 +431,12 @@
       <item path="co3cwbase.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="co3cwserver.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="co3cwserver.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cpermission.cc">
         <itemTool>1</itemTool>
       </item>
@@ -451,12 +486,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="extra/libbonbon/cbreak.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/libbonbon/cjob.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/libbonbon/cjob.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/cjobmanager.cc">

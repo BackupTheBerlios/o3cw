@@ -1,7 +1,8 @@
 #include "cconfig.h"
+#include "csharedobject.h"
 #include <fstream>
 
-o3cw::CConfig::CConfig()
+o3cw::CConfig::CConfig(): o3cw::CSharedObject::CSharedObject()
 {
     
 }
@@ -101,6 +102,42 @@ int o3cw::CConfig::GetValue(std::string &buff, const char *param, const char *se
     }
     return -3;
 }
+
+int o3cw::CConfig::GetValue(long long &buff, const char *param, const char *section) const
+{
+    int result=0;
+    std::string s;
+    GetValue(s, param, section);
+    buff=atoll(s.c_str());
+    return result;
+}
+int o3cw::CConfig::GetValue(long &buff, const char *param, const char *section) const
+{
+    int result=0;
+    std::string s;
+    GetValue(s, param, section);
+    buff=atol(s.c_str());
+    return result;
+}
+
+int o3cw::CConfig::GetValue(int &buff, const char *param, const char *section) const
+{
+    int result=0;
+    std::string s;
+    GetValue(s, param, section);
+    buff=atoi(s.c_str());
+    return result;
+}
+
+int o3cw::CConfig::GetValue(float &buff, const char *param, const char *section) const
+{
+    int result=0;
+    std::string s;
+    GetValue(s, param, section);
+    buff=atof(s.c_str());
+    return result;
+}
+        
 
 int o3cw::CConfig::SimpleParse(const char *text, const char *tag_start, const char *tag_end, std::string &value)
 {

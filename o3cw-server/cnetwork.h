@@ -11,17 +11,18 @@
 #include <vector>
 
 #include "libbonbon.h"
-#include "cclient.h"
+#include "co3cwbase.h"
 
 namespace o3cw
 {
-    class CNetwork: public bonbon::CVThread
+    class CCommand;
+    class CNetwork: public bonbon::CThread, public o3cw::CO3CWBase
     {
     public:
         CNetwork();
         ~CNetwork();
     protected:
-//        static bonbon::CJobManager<o3cw::CClient *> ;
+        static bonbon::CJobManager<o3cw::CCommand *> cmd_bus;
     };
 }
 

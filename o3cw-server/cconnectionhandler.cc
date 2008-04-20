@@ -1,4 +1,5 @@
 #include "cconnectionhandler.h"
+#include "cconfig.h"
 
 bonbon::CMutex o3cw::CConnectionHandler::connections_lock;
 o3cw::CClient *o3cw::CConnectionHandler::listener=NULL;
@@ -15,18 +16,28 @@ o3cw::CConnectionHandler::~CConnectionHandler()
 
 int o3cw::CConnectionHandler::ThreadExecute()
 {
-    printf("Executing!\n");
     o3cw::CConnectionHandler::connections_lock.Lock();
-    printf("lock p =[%p]\n", &o3cw::CConnectionHandler::connections_lock);
+    
+    const o3cw::CConfig *main_conf=&(o3cw::CO3CWBase::GetMainConfig());
+    int port=25003;
+    int timeout_unauth=20;
+    int timeout_auth=120;
+    int timeout=timeout_unauth;
+    std::string net_interface("127.0.0.1");
+    main_conf->GetValue(port,"port","net:server");
+    main_conf->GetValue(net_interface,"interface","net:server");
    
     /* If listener doesnt' exist - create it. */
    
     if (o3cw::CConnectionHandler::listener==NULL)
     {
         o3cw::CClient *socklistner=new o3cw::CClient();
-        printf("Creating listner by ME (%p)", this);
-        printf("Bind returns %i\n",socklistner->Bind(25003,"127.0.0.1"));
-        printf("Listen returns %i\n",socklistner->Listen());
+        printf(" * Turning on server at port %i on %s...", port, net_interface.c_str());
+        if (socklistner->Bind(port,net_interface.c_str())+socklistner->Listen()==0)
+            printf("OK\n");
+        else
+            printf("FAILED\n");
+        
         connections_store.push(socklistner);
         o3cw::CConnectionHandler::listener=socklistner;
     }
@@ -36,28 +47,33 @@ int o3cw::CConnectionHandler::ThreadExecute()
 
     while (Killed()!=true)
     {
-        //printf("we are here!!!!!!!!!!!\n");
-
+        /* Reading some settings at each cycle */
+        main_conf->GetValue(timeout_unauth,"default","net:timeout");
+        main_conf->GetValue(timeout_auth,"authorized","net:timeout");
+        
             //printf("connection number=%i\n", connections_store.size());
         std::queue<o3cw::CClient *> active_sock_list;
         o3cw::CClient::readmultiselect(connections_store, active_sock_list, 1, 0);
-        if (active_sock_list.size()!=0)
-            printf("Something happened\n");
 
         //for (active_sock=active_sock_list.begin(); active_sock!=active_sock_list.end(); active_sock++)
         for (size_t i=0; i<connections_store.size(); i++)
         {
             o3cw::CClient *sock=connections_store.front();
             connections_store.pop();
-            if (sock->ConnectionTimeout()>10)
+            
+            if (sock->Trusted())
+                timeout=timeout_auth;
+            else
+                timeout=timeout_unauth;
+            
+            if (sock->ConnectionTimeout()>timeout)
             {
                 sock->ForceDown();
                 delete sock;
             }
             else
-            {
                 connections_store.push(sock);
-            }
+
         }
         
         while(active_sock_list.size()>0)
@@ -67,11 +83,10 @@ int o3cw::CConnectionHandler::ThreadExecute()
 
             if (sock!=NULL)
             {
-                printf("we got a sock\n");
                 if (sock==o3cw::CConnectionHandler::listener)
                 {
                     /* New connection accepted */
-                    printf("Acceptor detected\n");
+                    printf(" * New client connected\n");
                     int t=sock->Accept();
                     if (t>-1)
                     {
@@ -81,7 +96,6 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     }
                     else
                     {
-                        printf("No one to accept\n");
                         /* Something wrong with listener? */
                     }
                     //printf("pushing...\n");
@@ -124,7 +138,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     else
                     {
                         /* Connection lost */
-                        printf("Connection lost.\n");
+                        printf(" * Connection lost.\n");
                         sock->ForceDown();
                         delete sock;
                     }

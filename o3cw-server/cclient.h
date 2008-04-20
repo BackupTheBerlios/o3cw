@@ -39,6 +39,9 @@ namespace o3cw
         
         /* Copy body to buff. Returns 1 on sucess, 0 if there is no new body */
         int GetBody(std::string &buff);
+        
+        /* Return true if client is authoriuzed, trusted, "good" client */
+        bool Trusted();
     private:
         int GetStringFromQueue(std::string &buff, std::queue<std::string *> &queue);
         o3cw::CUser *user;

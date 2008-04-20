@@ -1,6 +1,6 @@
 #include "cidsobject.h"
 
-o3cw::CIdsObject::CIdsObject(o3cw::CUniqueAux &aux)
+o3cw::CIdsObject::CIdsObject(o3cw::CUniqueAux &aux): o3cw::CSharedObject::CSharedObject()
 {
     /* Generetaing new ID for this object */
     idlist=&(aux.id_list);
