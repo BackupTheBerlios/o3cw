@@ -6,7 +6,7 @@
             <name>o3cw-server</name>
             <make-project-type>0</make-project-type>
             <make-dep-projects>
-                <make-dep-project>../o3cw-lib</make-dep-project>
+                <make-dep-project>../o3cw-core</make-dep-project>
             </make-dep-projects>
         </data>
     </configuration>

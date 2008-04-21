@@ -46,15 +46,15 @@
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibProjectItem>
-              <makeArtifact PL="../o3cw-lib"
+              <makeArtifact PL="../o3cw-core"
                             CT="3"
                             CN="Debug"
                             AC="true"
                             BL="true"
-                            WD="../o3cw-lib"
+                            WD="../o3cw-core"
                             BC="${MAKE}  -f Makefile CONF=Debug"
                             CC="${MAKE}  -f Makefile CONF=Debug clean"
-                            OP="dist/Debug/GNU-Linux-x86/libo3cw.a">
+                            OP="dist/Debug/GNU-Linux-x86/o3cwcore.a">
               </makeArtifact>
             </linkerLibProjectItem>
           </linkerLibItems>
