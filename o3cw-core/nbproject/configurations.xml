@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="39">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="f1" displayName="libbonbon" projectFiles="true">
+          <itemPath>extra/libbonbon/bonbon.h</itemPath>
+          <itemPath>extra/libbonbon/cbreak.h</itemPath>
+          <itemPath>extra/libbonbon/cjobmanager.h</itemPath>
+          <itemPath>extra/libbonbon/clock.h</itemPath>
+          <itemPath>extra/libbonbon/cmutex.h</itemPath>
+          <itemPath>extra/libbonbon/csemaphore.h</itemPath>
+          <itemPath>extra/libbonbon/cthread.h</itemPath>
+          <itemPath>extra/libbonbon/cthreadjobs.h</itemPath>
+          <itemPath>extra/libbonbon/cvthread.h</itemPath>
+          <itemPath>extra/libbonbon/slockgraph.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="f2" displayName="tinyxml" projectFiles="true">
+          <itemPath>extra/tinyxml/tinystr.h</itemPath>
+          <itemPath>extra/tinyxml/tinyxml.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cacessmode.h</itemPath>
+      <itemPath>cclient.h</itemPath>
+      <itemPath>ccmdexec.h</itemPath>
+      <itemPath>ccommand.h</itemPath>
+      <itemPath>cconfig.h</itemPath>
+      <itemPath>cconnectionhandler.h</itemPath>
+      <itemPath>cdiff.h</itemPath>
+      <itemPath>cdoc.h</itemPath>
+      <itemPath>cdocpart.h</itemPath>
+      <itemPath>cidsobject.h</itemPath>
+      <itemPath>cintimeobject.h</itemPath>
+      <itemPath>cnetwork.h</itemPath>
+      <itemPath>co3cwbase.h</itemPath>
+      <itemPath>cpermission.h</itemPath>
+      <itemPath>csharedobject.h</itemPath>
+      <itemPath>csocket.h</itemPath>
+      <itemPath>cstorage.h</itemPath>
+      <itemPath>cthreadsafeobject.h</itemPath>
+      <itemPath>cuniqueaux.h</itemPath>
+      <itemPath>cuser.h</itemPath>
+      <itemPath>libbonbon.h</itemPath>
+      <itemPath>o3cw.h</itemPath>
+      <itemPath>tinyxml.h</itemPath>
+      <itemPath>types.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="f1" displayName="libbonbon" projectFiles="true">
+          <itemPath>extra/libbonbon/bonbon.cc</itemPath>
+          <itemPath>extra/libbonbon/cbreak.cc</itemPath>
+          <itemPath>extra/libbonbon/cjobmanager.cc</itemPath>
+          <itemPath>extra/libbonbon/clock.cc</itemPath>
+          <itemPath>extra/libbonbon/cmutex.cc</itemPath>
+          <itemPath>extra/libbonbon/csemaphore.cc</itemPath>
+          <itemPath>extra/libbonbon/cthread.cc</itemPath>
+          <itemPath>extra/libbonbon/cvthread.cc</itemPath>
+        </logicalFolder>
+        <logicalFolder name="f2" displayName="tinyxml" projectFiles="true">
+          <itemPath>extra/tinyxml/tinystr.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxml.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxmlerror.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxmlparser.cpp</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cacessmode.cc</itemPath>
+      <itemPath>cclient.cc</itemPath>
+      <itemPath>ccmdexec.cc</itemPath>
+      <itemPath>ccommand.cc</itemPath>
+      <itemPath>cconfig.cc</itemPath>
+      <itemPath>cconnectionhandler.cc</itemPath>
+      <itemPath>cdiff.cc</itemPath>
+      <itemPath>cdoc.cc</itemPath>
+      <itemPath>cdocpart.cc</itemPath>
+      <itemPath>cidsobject.cc</itemPath>
+      <itemPath>cintimeobject.cc</itemPath>
+      <itemPath>cnetwork.cc</itemPath>
+      <itemPath>co3cwbase.cc</itemPath>
+      <itemPath>cpermission.cc</itemPath>
+      <itemPath>csharedobject.cc</itemPath>
+      <itemPath>csocket.cc</itemPath>
+      <itemPath>cstorage.cc</itemPath>
+      <itemPath>cthreadsafeobject.cc</itemPath>
+      <itemPath>cuser.cc</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU</compilerSet>
+        <cRequired>false</cRequired>
+        <cppRequired>true</cppRequired>
+        <fortranRequired>false</fortranRequired>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <warningLevel>2</warningLevel>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <commandLine>-pthread -D_REENTRANT</commandLine>
+        </ccCompilerTool>
+        <archiverTool>
+          <output>dist/Debug/GNU-Linux-x86/o3cwcore.a</output>
+        </archiverTool>
+      </compileType>
+      <item path="cacessmode.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cacessmode.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cclient.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cclient.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccmdexec.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccmdexec.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccommand.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccommand.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cconfig.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconfig.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cconnectionhandler.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconnectionhandler.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdiff.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdiff.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdoc.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdoc.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdocpart.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cidsobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cidsobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cintimeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cnetwork.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cnetwork.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="co3cwbase.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="co3cwbase.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpermission.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csharedobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csocket.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csocket.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cstorage.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cthreadsafeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cthreadsafeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuniqueaux.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuser.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/slockgraph.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlerror.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlparser.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="libbonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="o3cw.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="types.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>GNU</compilerSet>
+        <cRequired>true</cRequired>
+        <cppRequired>true</cppRequired>
+        <fortranRequired>false</fortranRequired>
+        <platform>2</platform>
+      </toolsSet>
+      <compileType>
+        <cCompilerTool>
+          <developmentMode>5</developmentMode>
+          <warningLevel>2</warningLevel>
+        </cCompilerTool>
+        <ccCompilerTool>
+          <developmentMode>5</developmentMode>
+        </ccCompilerTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="cacessmode.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cacessmode.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cclient.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cclient.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccmdexec.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccmdexec.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ccommand.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccommand.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cconfig.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconfig.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cconnectionhandler.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cconnectionhandler.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdiff.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdiff.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdoc.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdoc.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cdocpart.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cidsobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cidsobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cintimeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cnetwork.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cnetwork.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="co3cwbase.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="co3cwbase.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpermission.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csharedobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csharedobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csocket.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csocket.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cstorage.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cstorage.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cthreadsafeobject.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cthreadsafeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuniqueaux.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cuser.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/bonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cbreak.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cjobmanager.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/clock.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cmutex.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/csemaphore.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cthreadjobs.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/libbonbon/cvthread.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/libbonbon/slockgraph.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlerror.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlparser.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="libbonbon.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="o3cw.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="types.h">
+        <itemTool>3</itemTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
