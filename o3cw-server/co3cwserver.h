@@ -8,7 +8,7 @@
 #ifndef _CO3CWSERVER_H
 #define	_CO3CWSERVER_H
 
-#include "../o3cw-lib/o3cw.h"
+#include "../o3cw-core/o3cw.h"
 
 namespace o3cw
 {
