@@ -8,17 +8,24 @@
 #ifndef _CO3CWSERVER_H
 #define	_CO3CWSERVER_H
 
+#include "../o3cw-lib/o3cw.h"
+
 namespace o3cw
 {
     class CO3CWBase;
-    class CO3CWServer
+    class CO3CWServer: o3cw::CO3CWBase
     {
     public:
         CO3CWServer();
         ~CO3CWServer();
         int Run();
         int LoadConfig(const char *config);
-    protected:
+        int ExecCommand(o3cw::CCommand &cmd);
+    private:
+        o3cw::CCmdExec cmdexec1;
+        o3cw::CCmdExec cmdexec2;
+        o3cw::CCmdExec cmdexec3;
+        o3cw::CConnectionHandler *connections_handler;
     };
 }
 

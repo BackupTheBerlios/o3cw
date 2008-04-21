@@ -7,18 +7,13 @@
 
 #include <stdlib.h>
 
-#include "cdoc.h"
-#include "libbonbon.h"
-#include "cconnectionhandler.h"
-#include "cconfig.h"
 #include "co3cwserver.h"
 //
 // 
 //
 int main(int argc, char** argv)
 {
-    //Initialize BonBon - little threads library.
-    bonbon::BonbonInit();
+
     
     /* One O3CW Server application must be created */
     o3cw::CO3CWServer server;
