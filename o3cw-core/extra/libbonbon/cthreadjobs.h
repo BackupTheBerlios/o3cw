@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "cthread.h"
-#include "cjob.h"
 
 namespace bonbon
 {

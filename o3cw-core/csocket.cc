@@ -145,7 +145,6 @@ void o3cw::CSocket::ForceDown()
     if (socket_id!=-1)
     {
 	shutdown(socket_id,SHUT_RDWR);
-        printf("socket_id=%i\n",socket_id);
 	close(socket_id);
 	socket_id=-1;
     }
@@ -271,7 +270,6 @@ int o3cw::CSocket::Receive(std::string &buff, float timeout)
 
 
         retval=select(socket_id+1, &rfds, NULL, NULL, &rtv);
-        printf("socket id=%i select=%i\n", socket_id, retval);
         if (retval<0)
         {
 
@@ -389,7 +387,7 @@ int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::
         }
     }
     
-    printf ("select returns %i, max sock=%i\n", select(max_fd + 1, &rfds, NULL, NULL, &my_tv), max_fd);
+    select(max_fd + 1, &rfds, NULL, NULL, &my_tv);
     
     //for (it=in_s_list.begin(); it<in_s_list.end(); it++)
     while (cache_list.size()>0)
