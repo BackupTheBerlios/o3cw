@@ -3,8 +3,7 @@
 o3cw::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase()
 {
     CO3CWBase::server=this;
-    //Initialize BonBon - little threads library.
-    bonbon::BonbonInit();
+
     connections_handler=NULL;
 }
 
@@ -35,44 +34,38 @@ int o3cw::CO3CWServer::LoadConfig(const char *config)
     printf("net timeout for authorized users is %i\n", val);
 }
 
-int o3cw::CO3CWServer::ExecCommand(o3cw::CCommand &cmd)
+int o3cw::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
-    if (cmd.cmds.size()>0)
+    std::string c;
+    if (cmd.Pop(c)==0)
     {
-        std::string *c=cmd.cmds.front();
-        cmd.cmds.pop();
-        if (c!=NULL)
+        if (c=="server")
         {
-            std::string &destination=*c;
-            if (destination=="server")
+            cmd_out.Push("server");
+            /* This is exactly for me... */
+            if (cmd.Pop(c)==0)
             {
-                delete c;
-                /* This is exactly for me... */
-                if (cmd.cmds.size()>0)
+                if (c=="exit")
                 {
-                    c=cmd.cmds.front();
-                    cmd.cmds.pop();
-                    if (c!=NULL)
-                    {
-                        std::string &command=*c;
-                        if (command=="exit")
-                        {
-                            printf(" * Normal shutdown\n");
-                            cmdexec1.Kill();
-                            cmdexec2.Kill();
-                            cmdexec3.Kill();
-                            o3cw::CNetwork::cmd_bus.Destroy();
-                            if (connections_handler!=NULL)
-                                connections_handler->Kill();
-                        }
-                        delete c;
-                    }
+                    cmd_out.Push("exit");
+                    cmd_out.Push("bye-bye!!");
+                    printf(" * Normal shutdown\n");
+                    cmdexec1.Kill();
+                    cmdexec2.Kill();
+                    cmdexec3.Kill();
+                    o3cw::CNetwork::cmd_bus.Destroy();
+                    if (connections_handler!=NULL)
+                        connections_handler->Kill();
                 }
-                else
-                    return -1;
             }
-            //printf("cmd=[%s] len=%u\n", command.c_str(), command.length());
         }
+        else if (c=="doc")
+        {
+            cmd_out.Push("doc");
+            return store.ExecCommand(cmd, cmd_out);
+        }
+        else
+            return -1;
     }
     else
         return -1;

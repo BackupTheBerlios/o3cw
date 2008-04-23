@@ -6,7 +6,12 @@
 <config>
     <net>
 	<timeout>
-	    <default>20</default>
+	    <default>500</default>
+	    <authorized>500</authorized>
 	</timeout>
+	<server>
+	    <interface>127.0.0.1</interface>
+	    <port>25005</port>
+	</server>
     </net>
 </config>

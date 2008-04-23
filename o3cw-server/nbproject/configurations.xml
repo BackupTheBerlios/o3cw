@@ -57,6 +57,7 @@
                             OP="dist/Debug/GNU-Linux-x86/o3cwcore.a">
               </makeArtifact>
             </linkerLibProjectItem>
+            <linkerOptionItem>-lcrypto</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

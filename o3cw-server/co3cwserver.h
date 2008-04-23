@@ -20,12 +20,13 @@ namespace o3cw
         ~CO3CWServer();
         int Run();
         int LoadConfig(const char *config);
-        int ExecCommand(o3cw::CCommand &cmd);
+        int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
     private:
         o3cw::CCmdExec cmdexec1;
         o3cw::CCmdExec cmdexec2;
         o3cw::CCmdExec cmdexec3;
         o3cw::CConnectionHandler *connections_handler;
+        o3cw::CStorage store;
     };
 }
 
