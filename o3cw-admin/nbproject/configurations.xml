@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>clistener.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +13,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>clistener.cc</itemPath>
       <itemPath>main.cc</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -49,6 +51,12 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="clistener.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="clistener.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
       </item>
@@ -76,6 +84,12 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="clistener.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="clistener.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
       </item>

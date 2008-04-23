@@ -40,8 +40,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/cdocpart.o \
 	${OBJECTDIR}/cintimeobject.o \
 	${OBJECTDIR}/cpermission.o \
-	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o \
+	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/cstorage.o \
 	${OBJECTDIR}/extra/libbonbon/cmutex.o \
 	${OBJECTDIR}/cclient.o \
@@ -55,7 +55,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/co3cwbase.o \
 	${OBJECTDIR}/extra/tinyxml/tinystr.o \
 	${OBJECTDIR}/cacessmode.o \
-	${OBJECTDIR}/cthreadsafeobject.o
+	${OBJECTDIR}/cthreadsafeobject.o \
+	${OBJECTDIR}/ccrypto.o
 
 # C Compiler Flags
 CFLAGS=
@@ -139,13 +140,13 @@ ${OBJECTDIR}/cpermission.o: cpermission.cc
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -o ${OBJECTDIR}/cpermission.o cpermission.cc
 
-${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o: extra/tinyxml/tinyxmlerror.cpp 
-	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
-
 ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o: extra/tinyxml/tinyxmlparser.cpp 
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
 	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
+
+${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o: extra/tinyxml/tinyxmlerror.cpp 
+	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
 
 ${OBJECTDIR}/cstorage.o: cstorage.cc 
 	${MKDIR} -p ${OBJECTDIR}
@@ -202,6 +203,10 @@ ${OBJECTDIR}/cacessmode.o: cacessmode.cc
 ${OBJECTDIR}/cthreadsafeobject.o: cthreadsafeobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -o ${OBJECTDIR}/cthreadsafeobject.o cthreadsafeobject.cc
+
+${OBJECTDIR}/ccrypto.o: ccrypto.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/ccrypto.o ccrypto.cc
 
 # Subprojects
 .build-subprojects:
