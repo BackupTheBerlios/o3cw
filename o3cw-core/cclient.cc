@@ -3,6 +3,7 @@
 #include "cclient.h"
 #include "cuser.h"
 #include "cconfig.h"
+#include "error.h"
 
 o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 {
@@ -33,6 +34,15 @@ int o3cw::CClient::SendGenericError(int error)
     return 0;
 }
 
+int o3cw::CClient::SendBody(std::string &data)
+{
+    char head[1024];
+    snprintf(head,1024, "HEAD\nlength=%u\n\n",data.length());
+    std::string to_send(head);
+    to_send.append(data);
+    return Send(to_send);
+}
+
 bool o3cw::CClient::Trusted()
 {
     bool result=false;
@@ -44,11 +54,15 @@ bool o3cw::CClient::Trusted()
 
 int o3cw::CClient::Receive()
 {
+    return Receive(-1);
+}
+int o3cw::CClient::Receive(float timeout)
+{
     int result=0;
     bool any_data_left=true;
-    int receive=o3cw::CSocket::Receive(msgbuff);
-    if (receive<0)
-        result=-1;
+    int receive=o3cw::CSocket::Receive(msgbuff, timeout);
+    if (receive<=0)
+        result=receive;
     else
     {
         while (any_data_left)
@@ -112,6 +126,8 @@ int o3cw::CClient::Receive()
             {
                 std::string *h=new std::string(head);
                 std::string *b=new std::string(body);
+                if (h==NULL || b==NULL)
+                    return O3CW_ERR_OUT_OF_MEM;
 
                 heads.push(h);
                 bodies.push(b);

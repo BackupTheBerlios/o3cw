@@ -1,6 +1,8 @@
+#include <fstream>
+
 #include "cconfig.h"
 #include "csharedobject.h"
-#include <fstream>
+#include "error.h"
 
 o3cw::CConfig::CConfig(): o3cw::CSharedObject::CSharedObject()
 {
@@ -45,7 +47,7 @@ int o3cw::CConfig::ParseFile(const char *filename)
 		delete [] buff;
 	    }
 	    else
-		result=-2;
+		result=O3CW_ERR_OUT_OF_MEM;
         }
 	file.close();
     }

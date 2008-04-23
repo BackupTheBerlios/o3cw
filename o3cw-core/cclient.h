@@ -33,6 +33,7 @@ namespace o3cw
          *-1 - error on socket (connection lost)
          */
         int Receive();
+        int Receive(float timeout);
         
         /* Copy head to buff. Returns 1 on sucess, 0 if there is no new head */
         int GetHead(std::string &buff);
@@ -44,6 +45,8 @@ namespace o3cw
         bool Trusted();
 	
 	int SendGenericError(int error);
+        
+        int SendBody(std::string &data);
     private:
         int GetStringFromQueue(std::string &buff, std::queue<std::string *> &queue);
         o3cw::CUser *user;

@@ -28,9 +28,11 @@
       <itemPath>ccommand.h</itemPath>
       <itemPath>cconfig.h</itemPath>
       <itemPath>cconnectionhandler.h</itemPath>
+      <itemPath>ccrypto.h</itemPath>
       <itemPath>cdiff.h</itemPath>
       <itemPath>cdoc.h</itemPath>
       <itemPath>cdocpart.h</itemPath>
+      <itemPath>chashkey.h</itemPath>
       <itemPath>cidsobject.h</itemPath>
       <itemPath>cintimeobject.h</itemPath>
       <itemPath>cnetwork.h</itemPath>
@@ -42,6 +44,7 @@
       <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
       <itemPath>cuser.h</itemPath>
+      <itemPath>error.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
       <itemPath>o3cw.h</itemPath>
       <itemPath>tinyxml.h</itemPath>
@@ -78,6 +81,7 @@
       <itemPath>ccommand.cc</itemPath>
       <itemPath>cconfig.cc</itemPath>
       <itemPath>cconnectionhandler.cc</itemPath>
+      <itemPath>ccrypto.cc</itemPath>
       <itemPath>cdiff.cc</itemPath>
       <itemPath>cdoc.cc</itemPath>
       <itemPath>cdocpart.cc</itemPath>
@@ -155,6 +159,12 @@
       <item path="cconnectionhandler.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="ccrypto.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccrypto.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdiff.cc">
         <itemTool>1</itemTool>
       </item>
@@ -171,6 +181,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="chashkey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cidsobject.cc">
@@ -234,6 +247,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="error.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/bonbon.cc">
@@ -379,6 +395,12 @@
       <item path="cconnectionhandler.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="ccrypto.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ccrypto.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdiff.cc">
         <itemTool>1</itemTool>
       </item>
@@ -395,6 +417,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cdocpart.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="chashkey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cidsobject.cc">
@@ -458,6 +483,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="error.h">
         <itemTool>3</itemTool>
       </item>
       <item path="extra/libbonbon/bonbon.cc">

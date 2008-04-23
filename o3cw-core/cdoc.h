@@ -60,7 +60,10 @@ namespace o3cw
         
         //Change part part_id permission to specified
         int PartChangePermissions(o3cw::CClient &client, o3cw::ids part, o3cw::CPermission &new_perm);
-
+        
+        int OpenFile(const char *filename);
+        
+        int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env
@@ -77,6 +80,9 @@ namespace o3cw
         
         //Keeps docs ID values
         static o3cw::CUniqueAux unique_data;
+        
+        /* REMOVE THIS */
+        std::string content;
         
     };
 }

@@ -23,7 +23,7 @@ namespace o3cw
         static int ReLoadMainConfig(const char *filename);
 	static const o3cw::CConfig &GetMainConfig();
         static int PushCommand(o3cw::CCommand &cmd);
-        virtual int ExecCommand(o3cw::CCommand &cmd);
+        virtual int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
     protected:
         static o3cw::CConfig o3cw_main_config;
         static o3cw::CO3CWBase *server;

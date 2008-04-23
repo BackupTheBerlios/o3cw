@@ -1,6 +1,7 @@
 #include "cconnectionhandler.h"
 #include "cconfig.h"
 #include "ccommand.h"
+#include "error.h"
 
 bonbon::CMutex o3cw::CConnectionHandler::connections_lock;
 o3cw::CClient *o3cw::CConnectionHandler::listener=NULL;
@@ -33,6 +34,8 @@ int o3cw::CConnectionHandler::ThreadExecute()
     if (o3cw::CConnectionHandler::listener==NULL)
     {
         o3cw::CClient *socklistner=new o3cw::CClient();
+        if (socklistner==NULL)
+            return O3CW_ERR_OUT_OF_MEM;
         printf(" * Turning on server at port %i on %s...", port, net_interface.c_str());
         if (socklistner->Bind(port,net_interface.c_str())+socklistner->Listen()==0)
             printf("OK\n");
@@ -92,6 +95,8 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     if (t>-1)
                     {
                         o3cw::CClient *new_client=new o3cw::CClient(t);
+                        if (new_client==NULL)
+                            return O3CW_ERR_OUT_OF_MEM;
                         new_client->Send("O3CW server greets you!\n");
                         connections_store.push(new_client);
                     }
@@ -119,9 +124,9 @@ int o3cw::CConnectionHandler::ThreadExecute()
                         while (msg_left>0)
                         {
                             /* Parse head and body, push new command to queue */
-                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand();
-                            ptr_to_cmd->client=sock;
-                            ptr_to_cmd->crypted_cmd.assign(body);
+                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*sock, body);
+                            if (ptr_to_cmd==NULL)
+                                return O3CW_ERR_OUT_OF_MEM;
                             cmd_bus.PushJob(ptr_to_cmd);
                             
                             msg_left=sock->GetHead(head)*sock->GetBody(head);

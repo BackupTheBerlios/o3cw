@@ -36,10 +36,10 @@ int o3cw::CCmdExec::ThreadExecute()
                 /* ...and execute it. */
                 int error=o3cw::CO3CWBase::PushCommand(cmd);
 
-                if (error!=0 && cmd.client!=NULL)
+                if (error!=0)
                 {
                         /* No normal answer send to client - send generic error to client */
-                        cmd.client->SendGenericError(error);
+                        cmd.GetClient().SendGenericError(error);
                 }
             }
     	    /* Don't forget to free it! */

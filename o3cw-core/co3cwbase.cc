@@ -1,6 +1,7 @@
 #include "co3cwbase.h"
 #include "cconfig.h"
 #include "ccommand.h"
+#include "cclient.h"
 
 o3cw::CConfig o3cw::CO3CWBase::o3cw_main_config;
 o3cw::CO3CWBase *o3cw::CO3CWBase::server=NULL;
@@ -36,22 +37,22 @@ const o3cw::CConfig &o3cw::CO3CWBase::GetMainConfig()
 
 int o3cw::CO3CWBase::PushCommand(o3cw::CCommand &cmd)
 {
+    o3cw::CCommand results(cmd.GetClient());
     /* Parse command and push it further */
 
-    int result=o3cw::CO3CWBase::server->ExecCommand(cmd);
-    while (cmd.cmds.size()>0)
-    {
-        std::string *s=cmd.cmds.front();
-        if (s!=NULL)
-            delete s;
-        cmd.cmds.pop();
-    }
-
+    int result=o3cw::CO3CWBase::server->ExecCommand(cmd, results);
     
+    /* Remove all commands left */
+    while (cmd.Pop()==0);
+    
+    /* Send results to client */
+    std::string body;
+    results.Compile(body);
+    cmd.GetClient().SendBody(body);
     return 0;
 }
 
-int o3cw::CO3CWBase::ExecCommand(o3cw::CCommand &cmd)
+int o3cw::CO3CWBase::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
 {
     /* Just do nothing */
     return 0;

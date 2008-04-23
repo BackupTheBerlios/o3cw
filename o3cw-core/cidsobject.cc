@@ -44,6 +44,13 @@ void o3cw::CIdsObject::FreeMyId(bonbon::CMutex &id_lock, std::list<o3cw::ids *> 
     return;
 }
 
+bool o3cw::CIdsObject::operator <(const CIdsObject &comp)
+{
+    if (comp.obj_id>obj_id)
+        return true;
+    return false;
+}
+
 void o3cw::CIdsObject::GenerateNewId(bonbon::CMutex &id_lock, o3cw::ids &current_id, std::list<o3cw::ids *> &id_list)
 {
     bool id_free=false;

@@ -261,15 +261,18 @@ int o3cw::CSocket::Receive(std::string &buff, float timeout)
         retval=1;
     else
     {
-        rtv.tv_sec = 1;
-        rtv.tv_usec = 0;
+        timeval timeo;
+        timeo.tv_sec = int(timeout);
+        timeo.tv_usec = (timeout-(float)((int)timeout))*100000;
 
-
-        FD_ZERO(&rfds);
-        FD_SET(socket_id, &rfds);
-
-
-        retval=select(socket_id+1, &rfds, NULL, NULL, &rtv);
+        fd_set rf;
+        FD_ZERO(&rf);
+        FD_SET(socket_id, &rf);
+        
+        int max_fd=socket_id+1;
+        mlock.UnLock();
+        retval=select(max_fd, &rf, NULL, NULL, &timeo);
+        mlock.Lock();
         if (retval<0)
         {
 

@@ -40,6 +40,8 @@ namespace o3cw
         /* Returns unique object id */
         o3cw::ids GetId();
         
+        bool operator <(const CIdsObject &comp);
+        
     private:
         
         /* Keeps unique object id */

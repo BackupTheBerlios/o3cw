@@ -17,11 +17,22 @@ namespace o3cw
     class CCommand
     {
     public:
-        CCommand();
+        CCommand(o3cw::CClient &cl, std::string &data);
+        CCommand(o3cw::CClient &cl);
         ~CCommand();
 	int Parse();
+        int Compile(std::queue<std::string *> &cmds, std::string &buff);
+        int Compile(std::string &buff);
+	int Get(std::string &buff);
+	int Pop(std::string &buff);
+	int Pop();
+        int Push(std::string &data);
+        int Push(const char *data);
+        int Push(const char*data, size_t data_size);
+        o3cw::CClient &GetClient();
+    private:
+        std::string crypted_data;
         o3cw::CClient *client;
-        std::string crypted_cmd;
         std::queue<std::string *> cmds;
     };
 }
