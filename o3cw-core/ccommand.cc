@@ -4,14 +4,17 @@
 
 #define CMD_LEN_SIZE 4
 
-o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string &data)
+o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b)
 {
-    crypted_data.assign(data);
+    head=h;
+    body=b;
     client=&cl;
 }
 
 o3cw::CCommand::CCommand(o3cw::CClient &cl)
 {
+    head=NULL;
+    body=NULL;
     client=&cl;
 }
 
@@ -31,11 +34,14 @@ int o3cw::CCommand::Parse()
 	/* We are using wrong data type - report an error and exit */
 	return -2;
     }
+    
+    if (body==NULL)
+	return O3CW_ERR_NULL;
 
     bool stop=false;
     
-    const char *msg=crypted_data.c_str();
-    size_t msg_size=crypted_data.length();
+    const char *msg=body->c_str();
+    size_t msg_size=body->length();
     while (!stop)
     {
 	if (msg_size<4)
@@ -50,132 +56,79 @@ int o3cw::CCommand::Parse()
 		stop=true;
 	    else
 	    {
-		std::string *b=new std::string();
-		if (b!=NULL)
-		{
-		    b->assign(msg, l);
-		    cmds.push(b);
-		    msg+=l;
-		    msg_size-=l;
-		}
-		else
-		{
-		    /* Out of mem */
-		    return O3CW_ERR_OUT_OF_MEM;
-		}
+		std::string b(msg,l);
+		cmds.push_back(b);
+		msg+=l;
+		msg_size-=l;
 	    }
 	}
         if (msg_size==0)
             stop=true;
     }
+    cur_val=cmds.begin();
     return 0;
 }
 
-int o3cw::CCommand::Pop(std::string &buff)
+std::string &o3cw::CCommand::Pop()
 {
-    if (cmds.size()>0)
-    {
-        std::string *c=cmds.front();
-        cmds.pop();
-        if (c!=NULL)
-        {
-            buff.assign(*c);
-	    delete c;
-	}
-	else
-	    return -1;
-	return 0;	
-    }
-    return -2;
-}
-
-int o3cw::CCommand::Get(std::string &buff)
-{
-    if (cmds.size()>0)
-    {
-        std::string *c=cmds.front();
-        if (c!=NULL)
-            buff=*c;
-	else
-	    return -1;
-	return 0;	
-    }
-    return -2;
-}
-
-int o3cw::CCommand::Pop()
-{
-    if (cmds.size()>0)
-    {
-        std::string *c=cmds.front();
-        cmds.pop();
-        if (c!=NULL)
-	    delete c;
-	else
-	    return -1;
-	return 0;	
-    }
-    return -2;
-}
-
-int o3cw::CCommand::Compile(std::queue<std::string *> &c, std::string &buff)
-{
-    buff.erase();
-    while (c.size()>0)
-    {
-        std::string *p=c.front();
-        c.pop();
-        if (p!=NULL)
-        {
-            std::string &s=*p;
-            size_t size=s.length();
-            char tmp[128];
-            memcpy(tmp, &size, sizeof(size));
-            buff.append(tmp, sizeof(size));
-            buff.append(s);
-            delete p;
-        }
-    }
-    return 0;
+    std::string &result=*cur_val;
+    if (cur_val!=cmds.end())
+	cur_val++;
+    return result;
 }
 
 int o3cw::CCommand::Compile(std::string &buff)
 {
-    while (cmds.size()>0)
+    std::vector<std::string>::iterator it;
+    for (it=cmds.begin(); it<cmds.end(); it++)
     {
-        std::string *c=cmds.front();
-        cmds.pop();
-        if (c!=NULL)
-        {
-            std::string &s=*c;
-            size_t size=s.length();
-            char tmp[128];
-            memcpy(tmp, &size, sizeof(size));
-            buff.append(tmp, sizeof(size));
-            buff.append(s);
-            delete c;
-        }
+        std::string &c=*it;
+        size_t size=c.length();
+        char tmp[128];
+        memcpy(tmp, &size, sizeof(size));
+        buff.append(tmp, sizeof(size));
+        buff.append(c);
     }
     return 0;
 }
 
 int o3cw::CCommand::Push(std::string &data)
 {
-    cmds.push(&data);
+    cmds.push_back(data);
 }
 
 int o3cw::CCommand::Push(const char*data)
 {
     if (data==NULL)
         return -1;
-    std::string *s=new std::string(data);
-    cmds.push(s);
+    std::string s(data);
+    cmds.push_back(s);
 }
 
 int o3cw::CCommand::Push(const char*data, size_t data_size)
 {
-    if (data==NULL)
-        return -1;
-    std::string *s=new std::string(data, data_size);
-    cmds.push(s);
+    std::string s(data, data_size);
+    cmds.push_back(s);
+}
+
+void o3cw::CCommand::FreeCryptedData()
+{
+    if (body!=NULL)
+    {
+	delete body;
+	body=NULL;
+    }
+
+    if (head!=NULL)
+    {
+	delete head;
+	head=NULL;
+    }
+}
+
+bool o3cw::CCommand::CmdAviable()
+{
+    if (cur_val!=cmds.end())
+	return true;
+    return false;
 }

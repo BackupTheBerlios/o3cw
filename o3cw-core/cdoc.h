@@ -28,7 +28,6 @@ namespace o3cw
     public:
         CDoc();
         ~CDoc();
-        int Open(o3cw::CClient &client);
         int Close(o3cw::CClient &client);
         
         //Write document header into buff
@@ -61,9 +60,15 @@ namespace o3cw
         //Change part part_id permission to specified
         int PartChangePermissions(o3cw::CClient &client, o3cw::ids part, o3cw::CPermission &new_perm);
         
+	int Open(o3cw::CClient &client);
+	
+	int MultiCast(o3cw::CCommand &cmd);
+	
         int OpenFile(const char *filename);
         
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
+	
+	int SetId(std::string &new_id);
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env
@@ -83,6 +88,8 @@ namespace o3cw
         
         /* REMOVE THIS */
         std::string content;
+	
+	std::string id;
         
     };
 }

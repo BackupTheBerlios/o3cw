@@ -43,7 +43,7 @@ int o3cw::CO3CWBase::PushCommand(o3cw::CCommand &cmd)
     int result=o3cw::CO3CWBase::server->ExecCommand(cmd, results);
     
     /* Remove all commands left */
-    while (cmd.Pop()==0);
+    //while (cmd.Pop()==0);
     
     /* Send results to client */
     std::string body;

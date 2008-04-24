@@ -19,17 +19,21 @@ o3cw::CStorage::~CStorage()
 
 int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
-    std::string c;
-    if (cmd.Pop(c)==0)
+    if (cmd.CmdAviable())
     {
-        /* Open new doc */
-        if (c=="open")
+	std::string &c1=cmd.Pop();
+	
+	cmd_out.Push(c1);
+	
+	/* Open new doc */
+        if (c1=="open")
         {
-            /* Get unique doc adress (or id) */
-            if (cmd.Pop(c)==0)
+	    /* Get unique doc adress (or id) */
+	    if (cmd.CmdAviable())
             {
+		std::string &c2=cmd.Pop();
                 std::string md5sum;
-                o3cw::CCrypto::MD5HashBin(c, md5sum);
+                o3cw::CCrypto::MD5HashBin(c2, md5sum);
                 o3cw::CHashKey key(md5sum);
                 std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.find(key);
                 
@@ -37,19 +41,23 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 std::string b64md5sum;
                 o3cw::CCrypto::Base64Encode((const unsigned char*)md5sum.c_str(), md5sum.length(),b64md5sum);
                 cmd_out.Push(b64md5sum.c_str(), b64md5sum.length());
-                
+		
+                o3cw::CDoc *doc=NULL;
+		
                 /* No such doc opened - open it */
                 if (it==docs.end())
-                {   
-                    o3cw::CDoc *doc=new o3cw::CDoc();
-                    printf("Opening new doc, doc adress=%p\n", doc);
+                {
+                    doc=new o3cw::CDoc();
+                    printf(" * Opening new doc, doc adress=%p\n", doc);
                     if (doc!=NULL)
                     {
+			doc->SetId(b64md5sum);
                         docs.insert(std::pair<o3cw::CHashKey, o3cw::CDoc *>(key,doc));
-                        if (cmd.Pop(c)==0)
+			if (cmd.CmdAviable())
                         {
+			    std::string &c3=cmd.Pop();
                             /* Pass command queue to opened doc */
-                            if (c=="do")
+                            if (c3=="do")
                                 doc->ExecCommand(cmd, cmd_out);
                         }
                     }
@@ -58,37 +66,52 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 }
                 
                 /* Doc opened already - just do nothing */
-                else
-                {
-                    printf("Doc opened already, doc adress=%p\n", it->second);
-                }
+                else if ((doc=it->second)!=NULL)
+                    printf(" * Doc opened already, doc adress=%p\n", doc);
+		    
+		/* Doc is NULL - WTF? */
+		else
+		    return O3CW_ERR_NULL;
+		    
+		doc->Open(cmd.GetClient());
             }
         }
+	
         /* Get doc by unique adress (or id) hash */
         else if ("id")
         {
-            if (cmd.Pop(c)==0)
+	    
+	    if (cmd.CmdAviable())
             {
-                cmd_out.Push(c.c_str());
+		std::string &c4=cmd.Pop();
+                cmd_out.Push(c4.c_str());
                 std::string binmd5sum;
-                o3cw::CCrypto::Base64Decode(c.c_str(), binmd5sum);
+                o3cw::CCrypto::Base64Decode(c4.c_str(), binmd5sum);
                 o3cw::CHashKey key(binmd5sum);
                 std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.find(key);
                 if (it!=docs.end())
                 {
-                    if (cmd.Pop(c)==0)
+		    if (cmd.CmdAviable())
                     {
+			std::string &c5=cmd.Pop();
                         /* Pass command queue to doc */
-                        if (c=="do")
+                        if (c5=="do")
                             it->second->ExecCommand(cmd, cmd_out);
                     }
                 }
                  /* No such doc */
                 else
                 {
-                    printf("doc not found\n");
+		    cmd_out.Push("error");
+		    cmd_out.Push("not found");
                 }
             }
         }
+	else
+	{
+	    cmd_out.Pop();
+	    cmd_out.Push("error");
+	    cmd_out.Push("not found");
+	}
     }
 }

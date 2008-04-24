@@ -37,15 +37,17 @@ int o3cw::CO3CWServer::LoadConfig(const char *config)
 int o3cw::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
     std::string c;
-    if (cmd.Pop(c)==0)
+    if (cmd.CmdAviable())
     {
-        if (c=="server")
+	std::string &c1=cmd.Pop();
+        if (c1=="server")
         {
             cmd_out.Push("server");
             /* This is exactly for me... */
-            if (cmd.Pop(c)==0)
+	    if (cmd.CmdAviable())
             {
-                if (c=="exit")
+		std::string &c2=cmd.Pop();
+                if (c2=="exit")
                 {
                     cmd_out.Push("exit");
                     cmd_out.Push("bye-bye!!");
@@ -59,13 +61,16 @@ int o3cw::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 }
             }
         }
-        else if (c=="doc")
+        else if (c1=="doc")
         {
             cmd_out.Push("doc");
             return store.ExecCommand(cmd, cmd_out);
         }
         else
-            return -1;
+	{
+            cmd_out.Push("error");
+	    cmd_out.Push("not found");
+	}
     }
     else
         return -1;

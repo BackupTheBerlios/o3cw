@@ -58,21 +58,84 @@ int o3cw::CDoc::GetData(CClient &client, std::string &buff)
 
 int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
-    std::string c;
-    while (cmd.Pop(c)==0)
+    while (cmd.CmdAviable())
     {
-        printf("next cmd in queue=[%s]\n", c.c_str());
-        if (c=="get")
+	std::string &c1=cmd.Pop();
+        printf("next cmd in queue=[%s]\n", c1.c_str());
+        if (c1=="get")
         {
-            cmd_out.Push("get");
+            cmd_out.Push(c1);
             cmd_out.Push(content.c_str());
         }
-        else if (c=="load")
+        else if (c1=="load")
         {
-            if (cmd.Pop(c)==0)
+	    if (cmd.CmdAviable())
             {
-                OpenFile(c.c_str());
+		std::string c2=cmd.Pop();
+                OpenFile(c2.c_str());
             }
         }
+	else if (c1=="commit")
+	{
+	    if (cmd.CmdAviable())
+	    {
+		std::string c2=cmd.Pop();
+		content=c2;
+		
+		o3cw::CCommand multi_cmd(cmd_out);
+
+		multi_cmd.Push("changed");
+	        MultiCast(multi_cmd);
+	    }
+	}
     }
+}
+
+int o3cw::CDoc::Open(o3cw::CClient &client)
+{
+    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
+    while (it<clients_connected.end())
+    {
+	if (*it==&client)
+	{
+	    printf(" * This user connected already to this doc\n");
+	    return -1;
+	}
+	it++;
+    }
+    printf(" * Compiling answer...\n");
+    o3cw::CCommand cmd(client);
+    char tmp[128];
+    snprintf(tmp,128, "%i", client.GetFD());
+    
+    cmd.Push("client");
+    cmd.Push(tmp);
+    cmd.Push("connected");
+    MultiCast(cmd);
+    
+    printf(" * Add user to online docs user\n");
+    clients_connected.push_back(&client);
+    printf(" * Done\n");
+    return 0;
+}
+
+int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd)
+{
+    printf(" * Multicast\n");
+    std::string buff;
+    cmd.Compile(buff);
+    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
+    it=clients_connected.begin();
+    while (it<clients_connected.end() && (*it)!=NULL)
+    {
+        (*it)->SendBody(buff);
+	it++;
+    }
+    return 0;    
+}
+
+int o3cw::CDoc::SetId(std::string &new_id)
+{
+    id=new_id;
+    return 0;
 }

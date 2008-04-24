@@ -18,26 +18,27 @@ int adm::CListener::ThreadExecute()
     {
         if (0<client->Receive(0.01))
         {
-            int msg_left=1;
-            std::string head;
-            std::string body;
-            msg_left=client->GetHead(head)*client->GetBody(body);
+            std::string *head=NULL;
+            std::string *body=NULL;
+	    bool msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
 
-            while (msg_left>0)
+            while (msg_left)
             {
                 /* Parse head and body, push new command to queue */
-                o3cw::CCommand cmd=o3cw::CCommand(*client, body);
+                o3cw::CCommand cmd=o3cw::CCommand(*client, head, body);
                 cmd.Parse();
                 std::string c;
                 std::cout <<"\r";
                 std::cout.flush();
-                while (cmd.Pop(c)==0)
+                while (cmd.CmdAviable())
                 {
-                    std::cout << " @ " << c << std::endl;
+		    std::string &c=cmd.Pop();
+                    std::cout << c << std::endl;
                 }
-                std::cout << ">";
+		std::cout << " * End of output" << std::endl << ">";
                 std::cout.flush();
-                msg_left=client->GetHead(head)*client->GetBody(head);
+		cmd.FreeCryptedData();
+		msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
             }
         }
 

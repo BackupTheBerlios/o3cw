@@ -43,6 +43,7 @@ int o3cw::CCmdExec::ThreadExecute()
                 }
             }
     	    /* Don't forget to free it! */
+	    cmd.FreeCryptedData();
     	    delete &cmd;
 	}
 	else

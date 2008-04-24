@@ -144,37 +144,29 @@ int o3cw::CClient::Receive(float timeout)
     return result;
 }
 
-int o3cw::CClient::GetStringFromQueue(std::string &buff, std::queue<std::string *> &q)
+std::string *o3cw::CClient::GetStringFromQueue(std::queue<std::string *> &q)
 {
-    int result=0;
+    std::string *result=NULL;
     
     mlock.Lock();
     if (q.size()>0)
     {
-        std::string *h=q.front();
-        if (h!=NULL)
-        {
-            q.pop();
-            buff.assign(*h);
-            delete h;
-            result=1;
-        }
-        else
-            result=0;
+        result=q.front();
+        q.pop();
     }
     mlock.UnLock();
     
     return result; 
 }
 
-int o3cw::CClient::GetHead(std::string &head_buff)
+std::string *o3cw::CClient::GetHead()
 {
-    return GetStringFromQueue(head_buff, heads);
+    return GetStringFromQueue(heads);
 }
 
-int o3cw::CClient::GetBody(std::string &body_buff)
+std::string *o3cw::CClient::GetBody()
 {
-    return GetStringFromQueue(body_buff, bodies);
+    return GetStringFromQueue(bodies);
 }
 
 int o3cw::CClient::readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::queue<o3cw::CClient *> &out_s_list, int sec, int usec)

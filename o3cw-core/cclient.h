@@ -36,10 +36,10 @@ namespace o3cw
         int Receive(float timeout);
         
         /* Copy head to buff. Returns 1 on sucess, 0 if there is no new head */
-        int GetHead(std::string &buff);
+        std::string *GetHead();
         
         /* Copy body to buff. Returns 1 on sucess, 0 if there is no new body */
-        int GetBody(std::string &buff);
+        std::string *GetBody();
         
         /* Return true if client is authoriuzed, trusted, "good" client */
         bool Trusted();
@@ -48,7 +48,7 @@ namespace o3cw
         
         int SendBody(std::string &data);
     private:
-        int GetStringFromQueue(std::string &buff, std::queue<std::string *> &queue);
+        std::string *GetStringFromQueue(std::queue<std::string *> &queue);
         o3cw::CUser *user;
         o3cw::CSocket *socket;
         bool trusted;

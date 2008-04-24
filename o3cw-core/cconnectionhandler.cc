@@ -97,7 +97,6 @@ int o3cw::CConnectionHandler::ThreadExecute()
                         o3cw::CClient *new_client=new o3cw::CClient(t);
                         if (new_client==NULL)
                             return O3CW_ERR_OUT_OF_MEM;
-                        new_client->Send("O3CW server greets you!\n");
                         connections_store.push(new_client);
                     }
                     else
@@ -116,20 +115,19 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     if (r==1)
                     {
                         /* New, full mesage received */
-                        int msg_left=1;
-                        std::string head;
-                        std::string body;
-                        msg_left=sock->GetHead(head)*sock->GetBody(body);
+                        std::string *head=NULL;
+                        std::string *body=NULL;
+                        bool msg_left=((head=sock->GetHead())!=NULL && ((body=sock->GetBody())!=NULL));
 
-                        while (msg_left>0)
+                        while (msg_left)
                         {
                             /* Parse head and body, push new command to queue */
-                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*sock, body);
+                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*sock, head, body);
                             if (ptr_to_cmd==NULL)
                                 return O3CW_ERR_OUT_OF_MEM;
                             cmd_bus.PushJob(ptr_to_cmd);
                             
-                            msg_left=sock->GetHead(head)*sock->GetBody(head);
+			    msg_left=((head=sock->GetHead())!=NULL && ((body=sock->GetBody())!=NULL));
                         }
                         
                         /* Push back to connections_store */

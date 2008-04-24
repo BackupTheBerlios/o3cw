@@ -11,6 +11,7 @@
 #define O3CW_ERR_OUT_OF_MEM -100
 #define O3CW_ERR_BAD_FILE -101
 #define O3CW_ERR_DUPLICATE -102
+#define O3CW_ERR_NULL -103
 
 
 #endif	/* _ERROR_H */
