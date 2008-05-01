@@ -35,7 +35,6 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 std::string md5sum;
                 o3cw::CCrypto::MD5HashBin(c2, md5sum);
                 o3cw::CHashKey key(md5sum);
-                std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.find(key);
                 
                 /* Return id to client */
                 std::string b64md5sum;
@@ -44,6 +43,10 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 		
                 o3cw::CDoc *doc=NULL;
 		
+                mlock.Lock();
+                
+                std::map<o3cw::CHashKey, o3cw::CDoc *>::const_iterator it=docs.find(key);
+                
                 /* No such doc opened - open it */
                 if (it==docs.end())
                 {
@@ -53,7 +56,10 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                     {
 			doc->SetId(b64md5sum);
                         docs.insert(std::pair<o3cw::CHashKey, o3cw::CDoc *>(key,doc));
-			if (cmd.CmdAviable())
+                        
+                        mlock.UnLock();
+			
+                        if (cmd.CmdAviable())
                         {
 			    std::string &c3=cmd.Pop();
                             /* Pass command queue to opened doc */
@@ -62,16 +68,25 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                         }
                     }
                     else
+                    {
+                        mlock.UnLock();
                         return O3CW_ERR_OUT_OF_MEM;
+                    }
                 }
                 
                 /* Doc opened already - just do nothing */
                 else if ((doc=it->second)!=NULL)
+                {
+                    mlock.UnLock();
                     printf(" * Doc opened already, doc adress=%p\n", doc);
+                }
 		    
 		/* Doc is NULL - WTF? */
 		else
+                {
+                    mlock.UnLock();
 		    return O3CW_ERR_NULL;
+                }
 		    
 		doc->Open(cmd.GetClient());
             }
@@ -88,7 +103,13 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 std::string binmd5sum;
                 o3cw::CCrypto::Base64Decode(c4.c_str(), binmd5sum);
                 o3cw::CHashKey key(binmd5sum);
-                std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.find(key);
+                
+                mlock.Lock();
+                
+                std::map<o3cw::CHashKey, o3cw::CDoc *>::const_iterator it=docs.find(key);
+
+                mlock.UnLock();
+                
                 if (it!=docs.end())
                 {
 		    if (cmd.CmdAviable())

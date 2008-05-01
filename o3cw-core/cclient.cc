@@ -61,6 +61,7 @@ int o3cw::CClient::Receive(float timeout)
     int result=0;
     bool any_data_left=true;
     int receive=o3cw::CSocket::Receive(msgbuff, timeout);
+    printf("%i byte(s) received: [%s]\n", receive, msgbuff.c_str());
     if (receive<=0)
         result=receive;
     else

@@ -29,6 +29,7 @@ o3cw::CClient &o3cw::CCommand::GetClient()
 
 int o3cw::CCommand::Parse()
 {
+    printf("Parse\n");
     if (sizeof(size_t)<CMD_LEN_SIZE)
     {
 	/* We are using wrong data type - report an error and exit */
@@ -39,17 +40,21 @@ int o3cw::CCommand::Parse()
 	return O3CW_ERR_NULL;
 
     bool stop=false;
-    
+    printf("body size=%u\n", body->length());
     const char *msg=body->c_str();
     size_t msg_size=body->length();
     while (!stop)
     {
 	if (msg_size<4)
+        {
 	    stop=true;
+            printf("msg_size<4\n");
+        }
 	else
 	{
     	    size_t l=0;
 	    memcpy(&l, msg, CMD_LEN_SIZE);
+            printf("l=%u\n",l);
 	    msg+=CMD_LEN_SIZE;
 	    msg_size-=4;
 	    if (msg_size<l)
@@ -57,13 +62,12 @@ int o3cw::CCommand::Parse()
 	    else
 	    {
 		std::string b(msg,l);
+                printf("cmd=[%s]\n",b.c_str());
 		cmds.push_back(b);
 		msg+=l;
 		msg_size-=l;
 	    }
 	}
-        if (msg_size==0)
-            stop=true;
     }
     cur_val=cmds.begin();
     return 0;
