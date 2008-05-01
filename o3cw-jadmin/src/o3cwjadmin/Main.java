@@ -54,7 +54,19 @@ public class Main {
                 }
 
                 clnt.Send(send_buff, send_len);
-                //tosend="";
+                
+                while(clnt.ReceiveCommand()==0);
+                
+                System.out.println(" * Executing");
+                
+                Command cmd=clnt.commands.poll();
+                while (cmd.CmdAviable())
+                {
+                    System.out.println(cmd.Pop());
+                }
+                
+                System.out.println(" * End of output");
+                
                 total_size=0;
             }
             else
