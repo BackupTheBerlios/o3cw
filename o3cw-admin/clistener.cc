@@ -16,7 +16,8 @@ int adm::CListener::ThreadExecute()
 {
     while (Killed()!=true)
     {
-        if (0<client->Receive(0.01))
+        int t=client->Receive(0.01);
+        if (0<t)
         {
             std::string *head=NULL;
             std::string *body=NULL;
@@ -41,6 +42,10 @@ int adm::CListener::ThreadExecute()
 		msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
             }
         }
-
+        else if (t<0)
+        {
+            /* Connection lost? */
+            Kill();
+        }
     }
 }
