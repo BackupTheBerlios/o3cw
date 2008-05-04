@@ -4,6 +4,7 @@
 #include "cuser.h"
 #include "cconfig.h"
 #include "error.h"
+#include "cdoc.h"
 
 o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 {
@@ -12,6 +13,7 @@ o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
     message_left=0;
     head_starts=0;
     head_ends=0;
+    use_count=0;
 }
 
 o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
@@ -21,11 +23,16 @@ o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
     message_left=0;
     head_starts=0;
     head_ends=0;
+    use_count=0;
 }
 
 o3cw::CClient::~CClient()
 {
-    
+    std::vector <o3cw::CDoc *>::iterator search_it;
+    for (search_it=opened_docs.begin(); search_it!=opened_docs.end(); search_it++)
+    {
+        (*search_it)->RemoveClientFromMulticast(*this);
+    }
 }
 
 int o3cw::CClient::SendGenericError(int error)
@@ -61,7 +68,7 @@ int o3cw::CClient::Receive(float timeout)
     int result=0;
     bool any_data_left=true;
     int receive=o3cw::CSocket::Receive(msgbuff, timeout);
-    printf("%i byte(s) received: [%s]\n", receive, msgbuff.c_str());
+    //printf("%i byte(s) received: [%s]\n", receive, msgbuff.c_str());
     if (receive<=0)
         result=receive;
     else
@@ -170,71 +177,152 @@ std::string *o3cw::CClient::GetBody()
     return GetStringFromQueue(bodies);
 }
 
-int o3cw::CClient::readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::queue<o3cw::CClient *> &out_s_list, int sec, int usec)
+int o3cw::CClient::OpenDoc(o3cw::CDoc &doc)
 {
-    fd_set rfds, wfds;
-    struct timeval my_tv;
-    my_tv.tv_sec = sec; my_tv.tv_usec = usec;
-    int result=0;
+    mlock.Lock();
+    printf(" * pushed doc into open\n");
+    opened_docs.push_back(&doc);
+    mlock.UnLock();
+    return 0;
+}
 
-    int max_fd = -1;
-    FD_ZERO(&rfds);
-    
-    std::queue<o3cw::CClient *> cache_list;
-    
-    while (in_s_list.size()>0)
+int o3cw::CClient::CloseDoc(o3cw::CDoc &doc)
+{
+    std::vector <o3cw::CDoc *>::iterator search_it;
+    mlock.Lock();
+    for (search_it=opened_docs.begin(); search_it!=opened_docs.begin(); search_it++)
     {
-        o3cw::CClient *pc_clnt=in_s_list.front();
-        in_s_list.pop();
-        if (pc_clnt!=NULL)
-        {	
-            int socket_id=pc_clnt->GetFD();
-            if (socket_id>=0)
-            {
-                if(socket_id > max_fd)
-                    max_fd = socket_id;
-
-                FD_SET(socket_id, &rfds);
-                //printf("new sock %i\n", socket_id);
-            }
-            cache_list.push(pc_clnt);
+        if ((*search_it)==&doc)
+        {
+            (*search_it)->RemoveClientFromMulticast(*this);
+            opened_docs.erase(search_it);
+            mlock.UnLock();
+            return 0;
         }
     }
-    
-    select(max_fd + 1, &rfds, NULL, NULL, &my_tv);
-    
-    //for (it=in_s_list.begin(); it<in_s_list.end(); it++)
-    while (cache_list.size()>0)
+    mlock.UnLock();
+    return -1;
+}
+
+void o3cw::CClient::Use()
+{
+    mlock.Lock();
+    use_count++;
+    mlock.UnLock();
+}
+
+void o3cw::CClient::UnUse()
+{
+    mlock.Lock();
+    use_count--;
+    mlock.UnLock();
+}
+
+int o3cw::CClient::GetUseCount()
+{
+    int result;
+    mlock.Lock();
+    result=use_count;
+    mlock.UnLock();
+    return result;
+}
+
+int o3cw::CClient::FdGetMax(std::vector<o3cw::CClient *> &in_list)
+{
+    int max=-1;
+    for (std::vector<o3cw::CClient *>::iterator it=in_list.begin(); it!=in_list.end(); it++)
     {
-        o3cw::CClient *pc_clnt=cache_list.front();
-        cache_list.pop();
-        
+        int sock=(*it)->GetFD();
+        if (sock>max)
+            max=sock;
+    }
+    return max;
+}
+
+int o3cw::CClient::FdSetRemove(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, o3cw::CClient &client)
+{
+    int socket=client.GetFD();
+    if (socket==-1)
+        return -1;
+    printf("sock=%i\n",socket);
+    FD_CLR(socket, &read_fds);
+    if (socket==max_fd)
+        max_fd=FdGetMax(in_list);
+    return 0;
+}
+
+int o3cw::CClient::FdSetAdd(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, o3cw::CClient &client)
+{
+    int socket=client.GetFD();
+    if (socket==-1)
+        return -1;
+    printf("sock=%i\n",socket);
+    FD_SET(socket, &read_fds);
+    if (socket>max_fd)
+        max_fd=socket;
+    return 0;
+}
+
+int o3cw::CClient::FdSetCompile(fd_set &read_fds, std::vector<o3cw::CClient *> &in_list)
+{
+    int result=-1;
+    FD_ZERO(&read_fds);
+    std::vector<o3cw::CClient *>::iterator it;
+    for (it=in_list.begin(); it!=in_list.end(); it++)
+    {
+        o3cw::CClient *pc_clnt=*it;
         if (pc_clnt!=NULL)
         {
             int socket_id=pc_clnt->GetFD();
             if (socket_id>=0)
             {
-                if (FD_ISSET(socket_id, &rfds))
-                {
-                    out_s_list.push(pc_clnt);
-                    result++;
-                }
-                else
-                {
-/*                    if (pc_clnt->ConnectionTimeout())
-                    {
-                        printf("timeout!\n");
-                        delete pc_clnt;
-                    }
-                    else*/
-                    {
-                        //printf("pushing back %i\n", pc_clnt->GetFD());
-                        in_s_list.push(pc_clnt);
-                    }
-                }
+                if (socket_id>result)
+                    result=socket_id;
+
+                FD_SET(socket_id, &read_fds);
             }
         }
     }
+    return result;
+}
 
+int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, std::queue<std::vector <o3cw::CClient *>::iterator> &out_list, int sec, int usec)
+{
+    if (max_fd<0)
+        return 0;
+    struct timeval my_tv;
+    my_tv.tv_sec = sec; my_tv.tv_usec = usec;
+    int result=0;
+    
+    int r=select(max_fd + 1, &read_fds, NULL, NULL, &my_tv);
+    
+    std::vector<o3cw::CClient *>::iterator it;
+    
+    for (it=in_list.begin(); it!=in_list.end(); it++)
+    {
+        o3cw::CClient *pc_clnt=*it;
+        if (pc_clnt!=NULL)
+        {
+            int socket_id=pc_clnt->GetFD();
+            if (socket_id>=0)
+            {
+                if (FD_ISSET(socket_id, &read_fds))
+                {
+                    out_list.push(it);
+                    result++;
+                    if (max_fd==socket_id)
+                    {
+                        
+                    }
+                    else
+                    {
+                        //FD_CLR(socket_id, read_fds);
+                    }
+                }
+                else
+                    FD_SET(socket_id, &read_fds);
+            }
+        }
+    }
     return result;
 }

@@ -13,7 +13,7 @@
 namespace o3cw
 {
     class CUser;
-    
+    class CDoc;
     class CClient: public o3cw::CSocket
     {
     public:
@@ -24,8 +24,11 @@ namespace o3cw
         ~CClient();
         
         /* See readmultiselect in CSocket class (csocket.cc) */
-        static int readmultiselect(std::queue<o3cw::CClient *> &in_s_list, std::queue<o3cw::CClient *> &out_s_list, int sec, int usec);
-        
+        static int FdSetCompile(fd_set &read_fds, std::vector<o3cw::CClient *> &in_list);
+        static int FdGetMax(std::vector<o3cw::CClient *> &in_list);
+        static int FdSetRemove(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, o3cw::CClient &client);
+        static int FdSetAdd(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, o3cw::CClient &client);
+        static int readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3cw::CClient *> &in_list, std::queue<std::vector <o3cw::CClient *>::iterator> &out_list, int sec, int usec);
         /*
          * Receive new message from sock
          * 0 - no new message received
@@ -47,6 +50,13 @@ namespace o3cw
 	int SendGenericError(int error);
         
         int SendBody(std::string &data);
+        
+        int OpenDoc(o3cw::CDoc &doc);
+        int CloseDoc(o3cw::CDoc &doc);
+        
+        void Use();
+        void UnUse();
+        int GetUseCount();
     private:
         std::string *GetStringFromQueue(std::queue<std::string *> &queue);
         o3cw::CUser *user;
@@ -61,6 +71,9 @@ namespace o3cw
         int message_left;
         size_t head_starts;
         size_t head_ends;
+        int use_count;
+        
+        std::vector <o3cw::CDoc *> opened_docs;
     };
 }
 

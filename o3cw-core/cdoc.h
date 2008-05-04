@@ -69,6 +69,8 @@ namespace o3cw
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
 	
 	int SetId(std::string &new_id);
+        
+        int RemoveClientFromMulticast(const o3cw::CClient &client);
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env

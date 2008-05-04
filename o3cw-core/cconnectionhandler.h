@@ -25,7 +25,10 @@ namespace o3cw
     private:
         static bonbon::CMutex connections_lock;
         static o3cw::CClient *listener;
-        std::queue <o3cw::CClient *> connections_store;
+        std::vector <o3cw::CClient *> connections_store;
+        std::queue <o3cw::CClient *> to_delete;
+        int max_fd;
+        fd_set socket_set;
     };
 }
 

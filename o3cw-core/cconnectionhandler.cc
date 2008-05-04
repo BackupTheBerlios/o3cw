@@ -8,6 +8,7 @@ o3cw::CClient *o3cw::CConnectionHandler::listener=NULL;
 
 o3cw::CConnectionHandler::CConnectionHandler(): o3cw::CNetwork::CNetwork()
 {
+    max_fd=-1;
     Run();
 }
 
@@ -41,9 +42,11 @@ int o3cw::CConnectionHandler::ThreadExecute()
             printf("OK\n");
         else
             printf("FAILED\n");
+        
         socklistner->Listen();
-        connections_store.push(socklistner);
+        connections_store.push_back(socklistner);
         o3cw::CConnectionHandler::listener=socklistner;
+        max_fd=o3cw::CClient::FdSetCompile(socket_set, connections_store);
     }
        
 
@@ -51,111 +54,130 @@ int o3cw::CConnectionHandler::ThreadExecute()
 
     while (Killed()!=true)
     {
+        std::queue<std::vector <o3cw::CClient *>::iterator> active_sock_list;
+        
         /* Reading some settings at each cycle */
         main_conf->GetValue(timeout_unauth,"default","net:timeout");
         main_conf->GetValue(timeout_auth,"authorized","net:timeout");
         
-            //printf("connection number=%i\n", connections_store.size());
-        std::queue<o3cw::CClient *> active_sock_list;
-        o3cw::CClient::readmultiselect(connections_store, active_sock_list, 1, 0);
-
-        //for (active_sock=active_sock_list.begin(); active_sock!=active_sock_list.end(); active_sock++)
-        for (size_t i=0; i<connections_store.size(); i++)
+        /* select sockets that changed */
+        o3cw::CClient::readmultiselect(socket_set, max_fd, connections_store, active_sock_list, 1, 0);
+        
+        std::vector <o3cw::CClient *>::iterator timeout_it;
+        for (timeout_it=connections_store.begin(); timeout_it!=connections_store.end(); timeout_it++)
         {
-            o3cw::CClient *sock=connections_store.front();
-            connections_store.pop();
+            o3cw::CClient *client=*timeout_it;
             
-            if (sock->Trusted())
+            if (client->Trusted())
                 timeout=timeout_auth;
             else
                 timeout=timeout_unauth;
             
-            if (sock->ConnectionTimeout()>timeout && sock!=o3cw::CConnectionHandler::listener)
+            if (client->ConnectionTimeout()>timeout && client!=o3cw::CConnectionHandler::listener && client!=o3cw::CConnectionHandler::listener)
             {
-                sock->ForceDown();
-                delete sock;
+                o3cw::CClient::FdSetRemove(socket_set, max_fd, connections_store, *client);
+                client->ForceDown();
+                to_delete.push(client);
+                //delete client;
+                connections_store.erase(timeout_it);
             }
-            else
-                connections_store.push(sock);
-
         }
         
-        while(active_sock_list.size()>0)
+        while (active_sock_list.size()>0)
         {
-            o3cw::CClient *sock=active_sock_list.front();
+            std::vector <o3cw::CClient *>::iterator active_sock_it=active_sock_list.front();
             active_sock_list.pop();
-
-            if (sock!=NULL)
+            o3cw::CClient *client=*active_sock_it;
+            if (client!=NULL)
             {
-                if (sock==o3cw::CConnectionHandler::listener)
+                if (client==o3cw::CConnectionHandler::listener)
                 {
                     /* New connection accepted */
                     printf(" * New client connected\n");
-                    int t=sock->Accept();
+                    int t=client->Accept();
                     if (t>-1)
                     {
                         o3cw::CClient *new_client=new o3cw::CClient(t);
                         if (new_client==NULL)
                             return O3CW_ERR_OUT_OF_MEM;
-                        connections_store.push(new_client);
+                        connections_store.push_back(new_client);
+                        o3cw::CClient::FdSetAdd(socket_set, max_fd, connections_store, *new_client);
                     }
                     else
                     {
                         /* Something wrong with listener? */
                     }
-                    //printf("pushing...\n");
-                    connections_store.push(sock);
-                    //printf("pushed!\n");
                 }
                 else
                 {
                     /* New data from client */
+                    printf(" * Got new data from client\n");
                     std::string message;
-                    int r=sock->Receive();
+                    int r=client->Receive();
                     if (r==1)
                     {
                         /* New, full mesage received */
                         std::string *head=NULL;
                         std::string *body=NULL;
-                        bool msg_left=((head=sock->GetHead())!=NULL && ((body=sock->GetBody())!=NULL));
+                        bool msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
 
                         while (msg_left)
                         {
                             /* Parse head and body, push new command to queue */
-                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*sock, head, body);
+                            o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*client, head, body);
                             if (ptr_to_cmd==NULL)
                                 return O3CW_ERR_OUT_OF_MEM;
+                            
                             cmd_bus.PushJob(ptr_to_cmd);
                             
-			    msg_left=((head=sock->GetHead())!=NULL && ((body=sock->GetBody())!=NULL));
+			    msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
                         }
                         
                         /* Push back to connections_store */
-                        connections_store.push(sock);
+                        //connections_store.push(client);
                         
                     }
                     else if (r==0)
                     {
                         /* Get something, but not a full message - just wait a bit more */
-                        connections_store.push(sock);
+                        //connections_store.push(client);
                         
                     }
                     else
                     {
                         /* Connection lost */
                         printf(" * Connection lost.\n");
-                        sock->ForceDown();
-                        delete sock;
+                        o3cw::CClient::FdSetRemove(socket_set, max_fd, connections_store, *client);
+                        client->ForceDown();
+                        //delete client;
+                        to_delete.push(client);
+                        connections_store.erase(active_sock_it);
                     }
                 }
             }
         }
+        
+        int to_delete_size=to_delete.size();
+        for (int i=0; i<to_delete_size; i++)
+        {
+            o3cw::CClient *client=to_delete.front();
+            to_delete.pop();
+            
+            if (client->GetUseCount()==0)
+            {
+                printf("* ConnectionHandler: client deleted\n");
+                delete client;
+                to_delete_size--;
+            }
+            else
+                to_delete.push(client);
+        }
+        
     }
     
-    while (connections_store.size()>0)
+    for (std::vector <o3cw::CClient *>::iterator it=connections_store.begin(); it!=connections_store.end(); it++)
     {
-        delete connections_store.front();
-        connections_store.pop();
+        delete *it;
     }
     return 0;
 }

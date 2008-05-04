@@ -9,6 +9,7 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b)
     head=h;
     body=b;
     client=&cl;
+    cl.Use();
 }
 
 o3cw::CCommand::CCommand(o3cw::CClient &cl)
@@ -16,12 +17,15 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl)
     head=NULL;
     body=NULL;
     client=&cl;
+    cl.Use();
 }
 
 o3cw::CCommand::~CCommand()
 {
-    
+    if (client!=NULL)
+        client->UnUse();
 }
+
 o3cw::CClient &o3cw::CCommand::GetClient()
 {
     return *client;

@@ -93,12 +93,14 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 
 int o3cw::CDoc::Open(o3cw::CClient &client)
 {
+    mlock.Lock();
     std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
     while (it<clients_connected.end())
     {
 	if (*it==&client)
 	{
 	    printf(" * This user connected already to this doc\n");
+            mlock.UnLock();
 	    return -1;
 	}
 	it++;
@@ -111,11 +113,15 @@ int o3cw::CDoc::Open(o3cw::CClient &client)
     cmd.Push("client");
     cmd.Push(tmp);
     cmd.Push("connected");
-    MultiCast(cmd);
     
     printf(" * Add user to online docs user\n");
     clients_connected.push_back(&client);
+    client.OpenDoc(*this);
     printf(" * Done\n");
+    mlock.UnLock();
+    
+    MultiCast(cmd);
+    
     return 0;
 }
 
@@ -124,18 +130,43 @@ int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd)
     printf(" * Multicast\n");
     std::string buff;
     cmd.Compile(buff);
+    
+    mlock.Lock();
     std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
     it=clients_connected.begin();
     while (it<clients_connected.end() && (*it)!=NULL)
     {
         (*it)->SendBody(buff);
+        printf(" * Send data to %p\n", *it);
 	it++;
     }
+    mlock.UnLock();
+    printf(" * Multicast done\n");
     return 0;    
 }
 
 int o3cw::CDoc::SetId(std::string &new_id)
 {
+    mlock.Lock();
     id=new_id;
+    mlock.UnLock();
     return 0;
+}
+
+int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)
+{
+    mlock.Lock();
+    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
+    for (it=clients_connected.begin(); it!=clients_connected.end(); it++)
+    {
+        if (*it==&client)
+        {
+            clients_connected.erase(it);
+            printf(" * Client removed from multicast\n");
+            mlock.UnLock();
+            return 0;
+        }
+    }
+    mlock.UnLock();
+    return -1;
 }

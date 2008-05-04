@@ -36,7 +36,7 @@ namespace o3cw
         /* Create new sock, associated with specified socket */
         CSocket(int sock_id);
         
-        ~CSocket();
+        virtual ~CSocket();
         
         /* Bind socket to a port */
         int Bind(int port, const char *i);
