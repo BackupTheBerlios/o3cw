@@ -21,7 +21,7 @@ namespace o3cw
     {
     public:
         CDiff(o3cw::CClient &client, o3cw::ids part_id, o3cw::CUniqueAux diff_uaux);
-        ~CDiff();
+        virtual ~CDiff();
         o3cw::CDiff &operator=(const o3cw::CDiff &d);
         bool operator==(const o3cw::CDiff &d);
 

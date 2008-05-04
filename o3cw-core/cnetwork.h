@@ -22,7 +22,7 @@ namespace o3cw
     public:
         friend class o3cw::CO3CWServer;
         CNetwork();
-        ~CNetwork();
+        virtual ~CNetwork();
     protected:
         static bonbon::CJobManager<o3cw::CCommand *> cmd_bus;
     };

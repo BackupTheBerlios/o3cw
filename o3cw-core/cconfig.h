@@ -19,7 +19,7 @@ namespace o3cw
     {
     public:
         CConfig();
-        ~CConfig();
+        virtual ~CConfig();
         int GetValue(std::string &buff, const char *param, const char *section) const;
         int GetValue(long long &buff, const char *param, const char *section) const;
         int GetValue(long &buff, const char *param, const char *section) const;

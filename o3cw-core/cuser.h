@@ -17,7 +17,7 @@ namespace o3cw
     {
     public:
         CUser();
-        ~CUser();
+        virtual ~CUser();
         o3cw::ids GetUserId();
     private:
         o3cw::ids user_id;

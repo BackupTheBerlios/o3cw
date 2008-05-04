@@ -22,7 +22,7 @@ namespace o3cw
     {
     public:
         CStorage();
-        ~CStorage();
+        virtual ~CStorage();
         
         //Load raw doc data, located at adress to buff
         int LoadDoc(const char *adress, std::string &buff);

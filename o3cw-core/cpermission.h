@@ -20,7 +20,7 @@ namespace o3cw
     {
     public:
         CPermission();
-        ~CPermission();
+        virtual ~CPermission();
         int Set (o3cw::ids user_id, bool read, bool write);
         bool UserCanWrite(o3cw::ids user_id);
         bool UserCanRead(o3cw::ids user_id);

@@ -27,7 +27,7 @@ namespace o3cw
     {
     public:
         CDoc();
-        ~CDoc();
+        virtual ~CDoc();
         int Close(o3cw::CClient &client);
         
         //Write document header into buff

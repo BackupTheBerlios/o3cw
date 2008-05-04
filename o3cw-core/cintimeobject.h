@@ -17,7 +17,7 @@ namespace o3cw
     {
     public:
         CInTimeObject();
-        ~CInTimeObject();
+        virtual ~CInTimeObject();
         long long GetCreationTime();
         void GetTime(long long &buff);
     private:

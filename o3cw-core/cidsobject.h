@@ -35,7 +35,7 @@ namespace o3cw
         CIdsObject(o3cw::CUniqueAux &aux);
         
         /* Destructor will cleanup list of used IDs automaticly! */
-        ~CIdsObject();
+        virtual ~CIdsObject();
         
         /* Returns unique object id */
         o3cw::ids GetId();

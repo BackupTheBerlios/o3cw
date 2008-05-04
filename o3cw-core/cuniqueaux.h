@@ -28,7 +28,7 @@ namespace o3cw
     {
     public:
         CUniqueAux(){current_id=0;};
-        ~CUniqueAux(){};
+        virtual ~CUniqueAux(){};
         friend class CIdsObject;
     private:
         o3cw::ids current_id;

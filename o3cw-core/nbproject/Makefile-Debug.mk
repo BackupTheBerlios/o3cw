@@ -26,6 +26,7 @@ OBJECTDIR=build/Debug/GNU-Linux-x86
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/cjobmanager.o \
+	${OBJECTDIR}/cmysql.o \
 	${OBJECTDIR}/cnetwork.o \
 	${OBJECTDIR}/cidsobject.o \
 	${OBJECTDIR}/cconnectionhandler.o \
@@ -44,6 +45,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/cstorage.o \
 	${OBJECTDIR}/extra/libbonbon/cmutex.o \
+	${OBJECTDIR}/csql.o \
 	${OBJECTDIR}/cclient.o \
 	${OBJECTDIR}/ccmdexec.o \
 	${OBJECTDIR}/csocket.o \
@@ -62,8 +64,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pthread -D_REENTRANT
-CXXFLAGS=-pthread -D_REENTRANT
+CCFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` 
+CXXFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` 
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -83,6 +85,10 @@ dist/Debug/GNU-Linux-x86/o3cwcore.a: ${OBJECTFILES}
 ${OBJECTDIR}/extra/libbonbon/cjobmanager.o: extra/libbonbon/cjobmanager.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cjobmanager.o extra/libbonbon/cjobmanager.cc
+
+${OBJECTDIR}/cmysql.o: cmysql.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/cmysql.o cmysql.cc
 
 ${OBJECTDIR}/cnetwork.o: cnetwork.cc 
 	${MKDIR} -p ${OBJECTDIR}
@@ -155,6 +161,10 @@ ${OBJECTDIR}/cstorage.o: cstorage.cc
 ${OBJECTDIR}/extra/libbonbon/cmutex.o: extra/libbonbon/cmutex.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cmutex.o extra/libbonbon/cmutex.cc
+
+${OBJECTDIR}/csql.o: csql.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/csql.o csql.cc
 
 ${OBJECTDIR}/cclient.o: cclient.cc 
 	${MKDIR} -p ${OBJECTDIR}

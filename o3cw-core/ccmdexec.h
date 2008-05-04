@@ -16,7 +16,7 @@ namespace o3cw
     {
     public:
         CCmdExec();
-        ~CCmdExec();
+        virtual ~CCmdExec();
         int ThreadExecute();
     };
 }

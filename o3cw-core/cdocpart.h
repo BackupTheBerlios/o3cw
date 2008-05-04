@@ -27,7 +27,7 @@ namespace o3cw
     {
     public:
         CDocPart(o3cw::CUniqueAux &aux);
-        ~CDocPart();
+        virtual ~CDocPart();
 
         //Full buff with doc_data content
         int GetPart(std::string &buff);

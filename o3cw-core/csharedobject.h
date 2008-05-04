@@ -19,7 +19,7 @@ namespace o3cw
     {
     public:
         CSharedObject();
-        ~CSharedObject();
+        virtual ~CSharedObject();
         bool UserCanWrite(o3cw::ids user_id);
         bool UserCanRead(o3cw::ids user_id);
         int SetPermissions(o3cw::CPermission &perm);

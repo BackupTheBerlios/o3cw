@@ -21,7 +21,7 @@ namespace o3cw
         
         /* Create new client, associated with socket */
         CClient(int sock);
-        ~CClient();
+        virtual ~CClient();
         
         /* See readmultiselect in CSocket class (csocket.cc) */
         static int FdSetCompile(fd_set &read_fds, std::vector<o3cw::CClient *> &in_list);

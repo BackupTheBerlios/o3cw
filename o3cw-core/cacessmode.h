@@ -18,7 +18,7 @@ namespace o3cw
     public:
         CAcessMode();
         CAcessMode(o3cw::ids user_id, bool allow_read, bool allow_write);
-        ~CAcessMode();
+        virtual ~CAcessMode();
         o3cw::ids GetUserId();
         bool ReadAllowed();
         bool WriteAllowed();

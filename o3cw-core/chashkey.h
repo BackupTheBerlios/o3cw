@@ -35,7 +35,7 @@ namespace o3cw
                 i++;
             }
         }
-        ~CHashKey(){};
+        virtual ~CHashKey(){};
         bool operator<(const CHashKey& cmp) const
         {
             int i=0;

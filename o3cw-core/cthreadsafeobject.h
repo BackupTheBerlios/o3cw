@@ -16,7 +16,7 @@ namespace o3cw
     {
     public:
         CThreadSafeObject();
-        ~CThreadSafeObject();
+        virtual ~CThreadSafeObject();
         bonbon::CMutex mlock;
         bonbon::CSemaphore slock;
         

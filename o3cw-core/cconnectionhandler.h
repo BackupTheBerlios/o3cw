@@ -20,7 +20,7 @@ namespace o3cw
     {
     public:
         CConnectionHandler();
-        ~CConnectionHandler();
+        virtual ~CConnectionHandler();
         int ThreadExecute();
     private:
         static bonbon::CMutex connections_lock;

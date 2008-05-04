@@ -35,11 +35,13 @@
       <itemPath>chashkey.h</itemPath>
       <itemPath>cidsobject.h</itemPath>
       <itemPath>cintimeobject.h</itemPath>
+      <itemPath>cmysql.h</itemPath>
       <itemPath>cnetwork.h</itemPath>
       <itemPath>co3cwbase.h</itemPath>
       <itemPath>cpermission.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
       <itemPath>csocket.h</itemPath>
+      <itemPath>csql.h</itemPath>
       <itemPath>cstorage.h</itemPath>
       <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
@@ -87,11 +89,13 @@
       <itemPath>cdocpart.cc</itemPath>
       <itemPath>cidsobject.cc</itemPath>
       <itemPath>cintimeobject.cc</itemPath>
+      <itemPath>cmysql.cc</itemPath>
       <itemPath>cnetwork.cc</itemPath>
       <itemPath>co3cwbase.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
       <itemPath>csocket.cc</itemPath>
+      <itemPath>csql.cc</itemPath>
       <itemPath>cstorage.cc</itemPath>
       <itemPath>cthreadsafeobject.cc</itemPath>
       <itemPath>cuser.cc</itemPath>
@@ -117,7 +121,7 @@
           <warningLevel>2</warningLevel>
         </cCompilerTool>
         <ccCompilerTool>
-          <commandLine>-pthread -D_REENTRANT</commandLine>
+          <commandLine>-pthread -D_REENTRANT `mysql_config --cflags`</commandLine>
         </ccCompilerTool>
         <archiverTool>
           <output>dist/Debug/GNU-Linux-x86/o3cwcore.a</output>
@@ -198,6 +202,12 @@
       <item path="cintimeobject.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cmysql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cmysql.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cnetwork.cc">
         <itemTool>1</itemTool>
       </item>
@@ -226,6 +236,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="csocket.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csql.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cstorage.cc">
@@ -434,6 +450,12 @@
       <item path="cintimeobject.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cmysql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cmysql.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cnetwork.cc">
         <itemTool>1</itemTool>
       </item>
@@ -462,6 +484,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="csocket.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="csql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="csql.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cstorage.cc">

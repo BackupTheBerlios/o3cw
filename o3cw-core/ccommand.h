@@ -19,7 +19,7 @@ namespace o3cw
     public:
         CCommand(o3cw::CClient &cl, std::string *head, std::string *body);
         CCommand(o3cw::CClient &cl);
-        ~CCommand();
+        virtual ~CCommand();
 	int Parse();
         int Compile(std::string &buff);
 	void FreeCryptedData();
