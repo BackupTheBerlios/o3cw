@@ -58,6 +58,7 @@
               </makeArtifact>
             </linkerLibProjectItem>
             <linkerOptionItem>-lcrypto</linkerOptionItem>
+            <linkerOptionItem>`mysql_config --libs_r`</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

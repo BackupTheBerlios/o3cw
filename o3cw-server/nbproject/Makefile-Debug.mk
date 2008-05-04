@@ -39,7 +39,7 @@ CXXFLAGS=-pthread -D_REENTRANT
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread ../o3cw-core/dist/Debug/GNU-Linux-x86/o3cwcore.a -lcrypto
+LDLIBSOPTIONS=-lpthread ../o3cw-core/dist/Debug/GNU-Linux-x86/o3cwcore.a -lcrypto `mysql_config --libs_r`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS} dist/Debug/GNU-Linux-x86/o3cw-server
