@@ -49,11 +49,18 @@ int o3cw::CO3CWBase::PushCommand(o3cw::CCommand &cmd)
     std::string body;
     results.Compile(body);
     cmd.GetClient().SendBody(body);
-    return 0;
+    return result;
 }
 
 int o3cw::CO3CWBase::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
 {
     /* Just do nothing */
+    return 0;
+}
+
+int o3cw::CO3CWBase::StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
+{
+    if (cmd.CmdAviable())
+        cmd.Pop();
     return 0;
 }

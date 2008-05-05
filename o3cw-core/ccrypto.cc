@@ -74,7 +74,7 @@ int o3cw::CCrypto::Base64Decode(const char *input, std::string &out)
         if (left>3)
             left=4;
         memset(outb, 0, 3);
-        for (unsigned int k=0; k<left; k++)
+        for (int k=0; k<left; k++)
         {
             for (unsigned int j=0; j<strlen(bstr); j++)
             {

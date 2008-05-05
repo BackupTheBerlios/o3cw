@@ -25,8 +25,7 @@ namespace o3cw
         virtual int GetValue(int &buff, const char *param, const char *section) const;
         virtual int GetValue(float &buff, const char *param, const char *section) const;
         
-        template <class T>
-        T &ReturnValue(T &buff, const char *param, const char *section) const
+        template <class T> T &ReturnValue(T &buff, const char *param, const char *section) const
         {
             GetValue(buff, param, section);
             return buff;

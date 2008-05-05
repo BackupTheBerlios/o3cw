@@ -41,6 +41,7 @@
       <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
       <itemPath>cuser.h</itemPath>
+      <itemPath>custorage.h</itemPath>
       <itemPath>error.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
       <itemPath>o3cw.h</itemPath>
@@ -108,7 +109,8 @@
           <warningLevel>2</warningLevel>
         </cCompilerTool>
         <ccCompilerTool>
-          <commandLine>-pthread -D_REENTRANT `mysql_config --cflags`</commandLine>
+          <commandLine>-pthread -D_REENTRANT `mysql_config --cflags` -Wall</commandLine>
+          <warningLevel>3</warningLevel>
         </ccCompilerTool>
         <archiverTool>
           <output>dist/Debug/GNU-Linux-x86/o3cwcore.a</output>
@@ -244,6 +246,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="custorage.h">
         <itemTool>3</itemTool>
       </item>
       <item path="error.h">
@@ -465,6 +470,9 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="custorage.h">
         <itemTool>3</itemTool>
       </item>
       <item path="error.h">

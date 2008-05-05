@@ -9,6 +9,7 @@
 #define	_CIDSOBJECT_H
 
 #include <list>
+#include <string>
 
 #include "types.h"
 #include "csharedobject.h"
@@ -42,6 +43,8 @@ namespace o3cw
         
         bool operator <(const CIdsObject &comp);
         
+        int SetId(std::string &new_id);
+        
     private:
         
         /* Keeps unique object id */
@@ -59,6 +62,8 @@ namespace o3cw
         /* Used to store parametres passed to constructor */
         std::list<o3cw::ids *> *idlist;
         bonbon::CMutex *idlock;
+        
+        std::string id;
     };
 }
 

@@ -67,8 +67,6 @@ namespace o3cw
         int OpenFile(const char *filename);
         
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
-	
-	int SetId(std::string &new_id);
         
         int RemoveClientFromMulticast(const o3cw::CClient &client);
     private:
@@ -90,8 +88,6 @@ namespace o3cw
         
         /* REMOVE THIS */
         std::string content;
-	
-	std::string id;
         
     };
 }

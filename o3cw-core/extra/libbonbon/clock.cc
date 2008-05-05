@@ -21,6 +21,7 @@ sem_t  bonbon::CLock::locks_graph_lock;
 int bonbon::CLock::CLockInit()
 {
     sem_init(&locks_graph_lock, 0, 1);
+    return 0;
 }
 
 bonbon::CLock::CLock()
@@ -35,22 +36,22 @@ bonbon::CLock::~CLock()
 
 int bonbon::CLock::HardLockRequire(pid_t locker)
 {
-    RequireLock(locker, this, CLOCK_MODE_HARD);
+    return RequireLock(locker, this, CLOCK_MODE_HARD);
 }
 
 int bonbon::CLock::LockRegister(pid_t locker)
 {
-    CatchLock(locker, this);
+    return CatchLock(locker, this);
 }
 
 int bonbon::CLock::LockUnRegister(pid_t locker)
 {
-    ReleaseLock(locker, this);
+    return ReleaseLock(locker, this);
 }
 
 int bonbon::CLock::SoftLockRequire(pid_t locker)
 {
-    RequireLock(locker, this, CLOCK_MODE_SOFT);
+    return RequireLock(locker, this, CLOCK_MODE_SOFT);
 }
 
 int bonbon::CLock::RequireLock(pid_t transaction, bonbon::CLock *lock, int lock_mode)

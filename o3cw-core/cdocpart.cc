@@ -20,4 +20,5 @@ o3cw::ids o3cw::CDocPart::AddDiff(o3cw::CClient &client, std::string &buff)
     
     o3cw::CDiff *new_diff=new o3cw::CDiff(client, GetId(), diffs_unique_aux);
     diffs.push_back(new_diff);
+    return 0;
 }

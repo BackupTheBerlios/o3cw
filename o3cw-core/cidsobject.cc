@@ -119,3 +119,11 @@ void o3cw::CIdsObject::GenerateNewId(bonbon::CMutex &id_lock, o3cw::ids &current
     
     return;
 }
+
+int  o3cw::CIdsObject::SetId(std::string &new_id)
+{
+    mlock.Lock();
+    id=new_id;
+    mlock.UnLock();
+    return 0;
+}

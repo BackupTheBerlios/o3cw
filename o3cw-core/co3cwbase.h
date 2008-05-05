@@ -27,6 +27,7 @@ namespace o3cw
     protected:
         static o3cw::CConfig *o3cw_main_config;
         static o3cw::CO3CWBase *server;
+        static int StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
         
     };
 }

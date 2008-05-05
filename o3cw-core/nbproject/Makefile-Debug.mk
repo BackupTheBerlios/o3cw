@@ -59,8 +59,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` 
-CXXFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` 
+CCFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` -Wall 
+CXXFLAGS=-pthread -D_REENTRANT `mysql_config --cflags` -Wall 
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -79,119 +79,119 @@ dist/Debug/GNU-Linux-x86/o3cwcore.a: ${OBJECTFILES}
 
 ${OBJECTDIR}/extra/libbonbon/cjobmanager.o: extra/libbonbon/cjobmanager.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cjobmanager.o extra/libbonbon/cjobmanager.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cjobmanager.o extra/libbonbon/cjobmanager.cc
 
 ${OBJECTDIR}/cnetwork.o: cnetwork.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cnetwork.o cnetwork.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cnetwork.o cnetwork.cc
 
 ${OBJECTDIR}/cidsobject.o: cidsobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cidsobject.o cidsobject.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cidsobject.o cidsobject.cc
 
 ${OBJECTDIR}/cconnectionhandler.o: cconnectionhandler.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cconnectionhandler.o cconnectionhandler.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cconnectionhandler.o cconnectionhandler.cc
 
 ${OBJECTDIR}/extra/libbonbon/bonbon.o: extra/libbonbon/bonbon.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/bonbon.o extra/libbonbon/bonbon.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/bonbon.o extra/libbonbon/bonbon.cc
 
 ${OBJECTDIR}/cuser.o: cuser.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cuser.o cuser.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cuser.o cuser.cc
 
 ${OBJECTDIR}/extra/libbonbon/csemaphore.o: extra/libbonbon/csemaphore.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/csemaphore.o extra/libbonbon/csemaphore.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/csemaphore.o extra/libbonbon/csemaphore.cc
 
 ${OBJECTDIR}/csharedobject.o: csharedobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/csharedobject.o csharedobject.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/csharedobject.o csharedobject.cc
 
 ${OBJECTDIR}/extra/libbonbon/clock.o: extra/libbonbon/clock.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/clock.o extra/libbonbon/clock.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/clock.o extra/libbonbon/clock.cc
 
 ${OBJECTDIR}/extra/libbonbon/cbreak.o: extra/libbonbon/cbreak.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cbreak.o extra/libbonbon/cbreak.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cbreak.o extra/libbonbon/cbreak.cc
 
 ${OBJECTDIR}/cdoc.o: cdoc.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cdoc.o cdoc.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdoc.o cdoc.cc
 
 ${OBJECTDIR}/cdocpart.o: cdocpart.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cdocpart.o cdocpart.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdocpart.o cdocpart.cc
 
 ${OBJECTDIR}/cintimeobject.o: cintimeobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cintimeobject.o cintimeobject.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cintimeobject.o cintimeobject.cc
 
 ${OBJECTDIR}/cpermission.o: cpermission.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cpermission.o cpermission.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cpermission.o cpermission.cc
 
 ${OBJECTDIR}/cstorage.o: cstorage.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cstorage.o cstorage.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cstorage.o cstorage.cc
 
 ${OBJECTDIR}/extra/libbonbon/cmutex.o: extra/libbonbon/cmutex.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cmutex.o extra/libbonbon/cmutex.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cmutex.o extra/libbonbon/cmutex.cc
 
 ${OBJECTDIR}/csql.o: csql.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/csql.o csql.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/csql.o csql.cc
 
 ${OBJECTDIR}/cclient.o: cclient.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cclient.o cclient.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cclient.o cclient.cc
 
 ${OBJECTDIR}/ccmdexec.o: ccmdexec.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/ccmdexec.o ccmdexec.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/ccmdexec.o ccmdexec.cc
 
 ${OBJECTDIR}/csocket.o: csocket.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/csocket.o csocket.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/csocket.o csocket.cc
 
 ${OBJECTDIR}/cconfig.o: cconfig.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cconfig.o cconfig.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cconfig.o cconfig.cc
 
 ${OBJECTDIR}/ccommand.o: ccommand.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/ccommand.o ccommand.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/ccommand.o ccommand.cc
 
 ${OBJECTDIR}/extra/libbonbon/cvthread.o: extra/libbonbon/cvthread.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cvthread.o extra/libbonbon/cvthread.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cvthread.o extra/libbonbon/cvthread.cc
 
 ${OBJECTDIR}/extra/libbonbon/cthread.o: extra/libbonbon/cthread.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/libbonbon/cthread.o extra/libbonbon/cthread.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cthread.o extra/libbonbon/cthread.cc
 
 ${OBJECTDIR}/cdiff.o: cdiff.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cdiff.o cdiff.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdiff.o cdiff.cc
 
 ${OBJECTDIR}/co3cwbase.o: co3cwbase.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/co3cwbase.o co3cwbase.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/co3cwbase.o co3cwbase.cc
 
 ${OBJECTDIR}/cacessmode.o: cacessmode.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cacessmode.o cacessmode.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cacessmode.o cacessmode.cc
 
 ${OBJECTDIR}/cthreadsafeobject.o: cthreadsafeobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cthreadsafeobject.o cthreadsafeobject.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cthreadsafeobject.o cthreadsafeobject.cc
 
 ${OBJECTDIR}/ccrypto.o: ccrypto.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/ccrypto.o ccrypto.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/ccrypto.o ccrypto.cc
 
 # Subprojects
 .build-subprojects:

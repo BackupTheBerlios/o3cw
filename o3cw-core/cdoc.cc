@@ -9,9 +9,7 @@
 o3cw::CUniqueAux o3cw::CDoc::unique_data;
 
 o3cw::CDoc::CDoc(): o3cw::CIdsObject::CIdsObject(o3cw::CDoc::unique_data)
-{
-    o3cw::ids parts_current_id=0;
-    
+{   
     /* Every document contains at least one part - create it */
     o3cw::CDocPart *new_part=new o3cw::CDocPart(parts_unique_aux);
     parts.push_back(new_part);
@@ -58,6 +56,7 @@ int o3cw::CDoc::GetData(CClient &client, std::string &buff)
 
 int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
+    int result=0;
     while (cmd.CmdAviable())
     {
 	std::string &c1=cmd.Pop();
@@ -88,7 +87,12 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 	        MultiCast(multi_cmd);
 	    }
 	}
+        else if (c1=="open")
+        {
+            Open(cmd.GetClient());
+        }
     }
+    return result;
 }
 
 int o3cw::CDoc::Open(o3cw::CClient &client)
@@ -143,14 +147,6 @@ int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd)
     mlock.UnLock();
     printf(" * Multicast done\n");
     return 0;    
-}
-
-int o3cw::CDoc::SetId(std::string &new_id)
-{
-    mlock.Lock();
-    id=new_id;
-    mlock.UnLock();
-    return 0;
 }
 
 int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)

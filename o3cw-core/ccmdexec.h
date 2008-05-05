@@ -12,12 +12,18 @@
 
 namespace o3cw
 {
+    class CSQL;
     class CCmdExec: public o3cw::CNetwork
     {
     public:
         CCmdExec();
         virtual ~CCmdExec();
         int ThreadExecute();
+        o3cw::CSQL &SQL();
+        int Run(o3cw::CSQL &sql_connection);
+    private:
+        void CleanUp();
+        o3cw::CSQL *m_sql_connection;
     };
 }
 

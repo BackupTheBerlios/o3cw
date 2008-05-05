@@ -19,6 +19,7 @@ o3cw::CStorage::~CStorage()
 
 int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 {
+    int result=0;
     if (cmd.CmdAviable())
     {
 	std::string &c1=cmd.Pop();
@@ -135,4 +136,5 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 	    cmd_out.Push("not found");
 	}
     }
+    return result;
 }

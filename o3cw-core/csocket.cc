@@ -362,7 +362,7 @@ static int get_hostaddr(const char *name)
 
 int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::queue<o3cw::CSocket *> &out_s_list, int sec, int usec)
 {
-    fd_set rfds, wfds;
+    fd_set rfds;
     struct timeval my_tv;
     my_tv.tv_sec = sec; my_tv.tv_usec = usec;
     int result=0;

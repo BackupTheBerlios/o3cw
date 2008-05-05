@@ -57,9 +57,12 @@ namespace o3cw
         void Use();
         void UnUse();
         int GetUseCount();
+        
+        int SetUser(o3cw::CUser &user);
+        o3cw::CUser *GetUser();
     private:
         std::string *GetStringFromQueue(std::queue<std::string *> &queue);
-        o3cw::CUser *user;
+        o3cw::CUser *m_user;
         o3cw::CSocket *socket;
         bool trusted;
         std::string msgbuff;

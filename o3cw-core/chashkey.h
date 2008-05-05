@@ -52,6 +52,7 @@ namespace o3cw
         CHashKey &operator=(const CHashKey& v)
         {
             memcpy(p, v.p, sizeof(p));
+            return *this;
         }
     private:
         long long p[3];

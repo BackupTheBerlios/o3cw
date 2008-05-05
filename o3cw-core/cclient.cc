@@ -8,7 +8,7 @@
 
 o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 {
-    user=NULL;
+    m_user=NULL;
     trusted=false;
     message_left=0;
     head_starts=0;
@@ -18,7 +18,7 @@ o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 
 o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 {
-    user=NULL;
+    m_user=NULL;
     trusted=false;
     message_left=0;
     head_starts=0;
@@ -294,7 +294,7 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
     my_tv.tv_sec = sec; my_tv.tv_usec = usec;
     int result=0;
     
-    int r=select(max_fd + 1, &read_fds, NULL, NULL, &my_tv);
+    select(max_fd + 1, &read_fds, NULL, NULL, &my_tv);
     
     std::vector<o3cw::CClient *>::iterator it;
     
@@ -324,5 +324,23 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
             }
         }
     }
+    return result;
+}
+
+int o3cw::CClient::SetUser(o3cw::CUser &user)
+{
+    mlock.Lock();
+    m_user=&user;
+    trusted=true;
+    mlock.UnLock();
+    return 0;
+}
+
+o3cw::CUser *o3cw::CClient::GetUser()
+{
+    o3cw::CUser *result=NULL;
+    mlock.Lock();
+    result=m_user;
+    mlock.UnLock();
     return result;
 }

@@ -1,6 +1,7 @@
 #include "ccommand.h"
 #include "cclient.h"
 #include "error.h"
+#include "ccmdexec.h"
 
 #define CMD_LEN_SIZE 4
 
@@ -10,6 +11,8 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b)
     body=b;
     client=&cl;
     cl.Use();
+    cur_val=cmds.begin();
+    cmd_executor=NULL;
 }
 
 o3cw::CCommand::CCommand(o3cw::CClient &cl)
@@ -18,6 +21,8 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl)
     body=NULL;
     client=&cl;
     cl.Use();
+    cur_val=cmds.begin();
+    cmd_executor=NULL;
 }
 
 o3cw::CCommand::~CCommand()
@@ -31,9 +36,14 @@ o3cw::CClient &o3cw::CCommand::GetClient()
     return *client;
 }
 
+void o3cw::CCommand::Clear()
+{
+    cmds.clear();
+    cur_val=cmds.begin();
+}
+
 int o3cw::CCommand::Parse()
 {
-    printf("Parse\n");
     if (sizeof(size_t)<CMD_LEN_SIZE)
     {
 	/* We are using wrong data type - report an error and exit */
@@ -44,7 +54,6 @@ int o3cw::CCommand::Parse()
 	return O3CW_ERR_NULL;
 
     bool stop=false;
-    printf("body size=%u\n", body->length());
     const char *msg=body->c_str();
     size_t msg_size=body->length();
     while (!stop)
@@ -52,13 +61,11 @@ int o3cw::CCommand::Parse()
 	if (msg_size<4)
         {
 	    stop=true;
-            printf("msg_size<4\n");
         }
 	else
 	{
     	    size_t l=0;
 	    memcpy(&l, msg, CMD_LEN_SIZE);
-            printf("l=%u\n",l);
 	    msg+=CMD_LEN_SIZE;
 	    msg_size-=4;
 	    if (msg_size<l)
@@ -66,7 +73,6 @@ int o3cw::CCommand::Parse()
 	    else
 	    {
 		std::string b(msg,l);
-                printf("cmd=[%s]\n",b.c_str());
 		cmds.push_back(b);
 		msg+=l;
 		msg_size-=l;
@@ -83,6 +89,12 @@ std::string &o3cw::CCommand::Pop()
     if (cur_val!=cmds.end())
 	cur_val++;
     return result;
+}
+
+void o3cw::CCommand::Back(int step)
+{
+    for (int i=0; i<step && cur_val!=cmds.begin(); i++)
+        cur_val--;
 }
 
 int o3cw::CCommand::Compile(std::string &buff)
@@ -103,6 +115,7 @@ int o3cw::CCommand::Compile(std::string &buff)
 int o3cw::CCommand::Push(std::string &data)
 {
     cmds.push_back(data);
+    return 0;
 }
 
 int o3cw::CCommand::Push(const char*data)
@@ -111,12 +124,14 @@ int o3cw::CCommand::Push(const char*data)
         return -1;
     std::string s(data);
     cmds.push_back(s);
+    return 0;
 }
 
 int o3cw::CCommand::Push(const char*data, size_t data_size)
 {
     std::string s(data, data_size);
     cmds.push_back(s);
+    return 0;
 }
 
 void o3cw::CCommand::FreeCryptedData()
@@ -139,4 +154,15 @@ bool o3cw::CCommand::CmdAviable()
     if (cur_val!=cmds.end())
 	return true;
     return false;
+}
+
+int o3cw::CCommand::SetExecutor(o3cw::CCmdExec &executor)
+{
+    cmd_executor=&executor;
+    return 0;
+}
+
+o3cw::CCmdExec &o3cw::CCommand::GetExecutor()
+{
+    return *cmd_executor;
 }

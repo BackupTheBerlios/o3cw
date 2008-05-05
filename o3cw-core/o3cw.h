@@ -30,6 +30,7 @@
 #include "cuser.h"
 #include "csql.h"
 #include "error.h"
+#include "custorage.h"
 
 #endif	/* _O3CW_H */
 

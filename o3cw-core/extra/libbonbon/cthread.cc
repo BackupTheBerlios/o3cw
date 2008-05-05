@@ -33,7 +33,6 @@ void bonbon::CThread::Kill()
 bool bonbon::CThread::Killed()
 {
     bool result=false;
-    int v=0;
     sem_wait(&self_lock);
     if (killed)
         result=true;
