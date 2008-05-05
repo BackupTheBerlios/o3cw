@@ -48,4 +48,5 @@ int adm::CListener::ThreadExecute()
             Kill();
         }
     }
+    return 0;
 }

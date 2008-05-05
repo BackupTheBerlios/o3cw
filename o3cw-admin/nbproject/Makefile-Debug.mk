@@ -32,8 +32,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-Wall
+CXXFLAGS=-Wall
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -52,11 +52,11 @@ dist/Debug/GNU-Linux-x86/o3cw-admin: ${OBJECTFILES}
 
 ${OBJECTDIR}/clistener.o: clistener.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/clistener.o clistener.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/clistener.o clistener.cc
 
 ${OBJECTDIR}/main.o: main.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/main.o main.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/main.o main.cc
 
 # Subprojects
 .build-subprojects:

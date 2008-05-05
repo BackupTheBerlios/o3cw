@@ -33,6 +33,10 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
+        <ccCompilerTool>
+          <commandLine>-Wall</commandLine>
+          <warningLevel>3</warningLevel>
+        </ccCompilerTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>

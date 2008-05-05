@@ -33,14 +33,13 @@ int main(int argc, char** argv)
     std::cout << "Type command and press enter" << std::endl;
     std::cout << "Press enter twice at and of input to execute command sequence." << std::endl;
 
-    
-    //o3cw::CCommand cmd;
-    std::string cmd;
-    
+    o3cw::CClient clnt;
+    o3cw::CCommand cmd(clnt);
     std::string buff;
     bool work=true;
     while (work)
     {
+        bool execute=true;
         buff.erase();
         std::cout << ">";
         std::getline(std::cin, buff);
@@ -49,42 +48,69 @@ int main(int argc, char** argv)
         {
             if (buff[0]!='\\')
             {
-                char tmp[4];
-                memcpy(tmp, &body_size, 4);
-                cmd.append(tmp,4);
-                cmd.append(buff, 0, body_size);
+                execute=false;
+                cmd.Push(buff);
             }
-            else if (buff=="\\shutdown")
+            else
             {
-
-            }
-            else if (buff=="\\help" || buff=="\\?" )
-            {
-                std::cout << "Supported commands:" << std::endl;
-                std::cout << "\\get filename - get file from server" << std::endl;
-                std::cout << "\\help - get this message" << std::endl;
-                std::cout << "\\shutdown - shutdown o3cw server" << std::endl;
-                std::cout << "\\q - exit" << std::endl;
-            }
-            else if (buff=="\\q")
-            {
-                work=false;
+                cmd.Clear();
+                if (buff=="\\shutdown")
+                {
+                    cmd.Push("server");
+                    cmd.Push("exit");
+                }
+                else if (buff.find("\\login")==0)
+                {
+                    int name_begins=strlen("\\login");
+                    size_t l=buff.length();
+                    while (l>name_begins && buff[name_begins]==' ')
+                        name_begins++;
+                    
+                    std::string login=(buff.c_str()+name_begins);
+                    if (login=="")
+                    {
+                        std::cout << "Usage: \\login username" << std::endl;
+                         execute=false;
+                    }
+                    else
+                    {
+                        cmd.Push("user");
+                        cmd.Push("open");
+                        cmd.Push(login);
+                    }
+                }
+                else if (buff=="\\docs")
+                {
+                    cmd.Push("doc");
+                    cmd.Push("list");
+                }
+                else if (buff=="\\help" || buff=="\\?" )
+                {
+                    std::cout << "Supported commands:" << std::endl;
+                    std::cout << "\\get filename - get file from server" << std::endl;
+                    std::cout << "\\help - get this message" << std::endl;
+                    std::cout << "\\shutdown - shutdown o3cw server" << std::endl;
+                    std::cout << "\\login (user) - login as user" << std::endl;
+                    std::cout << "\\docs - print list of all aviable docs" << std::endl;
+                    std::cout << "\\open (doc) - open doc with specified doc_id" << std::endl;
+                    std::cout << "\\get (doc_id) - get content of an opened doc" << std::endl;
+                    std::cout << "\\q - exit" << std::endl;
+                }
+                else if (buff=="\\q")
+                {
+                    work=false;
+                }
             }
         }
-        else
+        
+        if (execute)
         {
             std::cout << " * Executing" << std::endl;
-            char head[1024];
-            snprintf(head,1024, "HEAD\nlength=%u\n\n",cmd.length());
-            std::string to_send(head);
-            to_send.append(cmd);
-            if (client.Send(head)<=0)
+            std::string send_buff;
+            cmd.Compile(send_buff);
+            if (client.SendBody(send_buff)<=0)
                 std::cout << " * Connection lost" << std::endl;
-            if (client.Send(cmd)<=0)
-                std::cout << " * Connection lost" << std::endl;
-
-            cmd.erase();
-            
+            cmd.Clear();
         }
     }
     listner.Kill();
