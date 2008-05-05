@@ -13,6 +13,8 @@
 
 #include "cthreadsafeobject.h"
 
+#define O3CW_SQL_NO_MORE_DATA 100
+
 namespace o3cw
 {
     class CSQL: public o3cw::CThreadSafeObject
@@ -32,6 +34,8 @@ namespace o3cw
         
         /* Perfrom SQL reqest given in request variable. Returns 0 on sucess */
         virtual int SQLRequest(std::string &request);
+        virtual int SQLRequest(const char *request);
+        virtual int SQLRequest(const char *request, size_t req_size);
         
         /* Fill up buff by next data set from previous SQL request (usually "select") */
         virtual int GetNextDataSet(std::vector<std::string> &buff);

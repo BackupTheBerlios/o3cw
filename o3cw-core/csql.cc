@@ -32,6 +32,16 @@ int o3cw::CSQL::Disconnect()
     return 0;
 }
 
+int o3cw::CSQL::SQLRequest(const char *request)
+{
+    return 0;
+}
+
+int o3cw::CSQL::SQLRequest(const char *request, size_t req_size)
+{
+    return 0;
+}
+
 int o3cw::CSQL::SQLRequest(std::string &request)
 {
     return 0;

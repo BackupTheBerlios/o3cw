@@ -17,10 +17,6 @@
           <itemPath>extra/libbonbon/cvthread.h</itemPath>
           <itemPath>extra/libbonbon/slockgraph.h</itemPath>
         </logicalFolder>
-        <logicalFolder name="f2" displayName="tinyxml" projectFiles="true">
-          <itemPath>extra/tinyxml/tinystr.h</itemPath>
-          <itemPath>extra/tinyxml/tinyxml.h</itemPath>
-        </logicalFolder>
       </logicalFolder>
       <itemPath>cacessmode.h</itemPath>
       <itemPath>cclient.h</itemPath>
@@ -35,7 +31,6 @@
       <itemPath>chashkey.h</itemPath>
       <itemPath>cidsobject.h</itemPath>
       <itemPath>cintimeobject.h</itemPath>
-      <itemPath>cmysql.h</itemPath>
       <itemPath>cnetwork.h</itemPath>
       <itemPath>co3cwbase.h</itemPath>
       <itemPath>cpermission.h</itemPath>
@@ -49,7 +44,6 @@
       <itemPath>error.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
       <itemPath>o3cw.h</itemPath>
-      <itemPath>tinyxml.h</itemPath>
       <itemPath>types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -70,12 +64,6 @@
           <itemPath>extra/libbonbon/cthread.cc</itemPath>
           <itemPath>extra/libbonbon/cvthread.cc</itemPath>
         </logicalFolder>
-        <logicalFolder name="f2" displayName="tinyxml" projectFiles="true">
-          <itemPath>extra/tinyxml/tinystr.cpp</itemPath>
-          <itemPath>extra/tinyxml/tinyxml.cpp</itemPath>
-          <itemPath>extra/tinyxml/tinyxmlerror.cpp</itemPath>
-          <itemPath>extra/tinyxml/tinyxmlparser.cpp</itemPath>
-        </logicalFolder>
       </logicalFolder>
       <itemPath>cacessmode.cc</itemPath>
       <itemPath>cclient.cc</itemPath>
@@ -89,7 +77,6 @@
       <itemPath>cdocpart.cc</itemPath>
       <itemPath>cidsobject.cc</itemPath>
       <itemPath>cintimeobject.cc</itemPath>
-      <itemPath>cmysql.cc</itemPath>
       <itemPath>cnetwork.cc</itemPath>
       <itemPath>co3cwbase.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
@@ -202,12 +189,6 @@
       <item path="cintimeobject.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="cmysql.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="cmysql.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="cnetwork.cc">
         <itemTool>1</itemTool>
       </item>
@@ -322,31 +303,10 @@
       <item path="extra/libbonbon/slockgraph.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="extra/tinyxml/tinystr.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinystr.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxml.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxml.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxmlerror.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxmlparser.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="libbonbon.h">
         <itemTool>3</itemTool>
       </item>
       <item path="o3cw.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="tinyxml.h">
         <itemTool>3</itemTool>
       </item>
       <item path="types.h">
@@ -450,12 +410,6 @@
       <item path="cintimeobject.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="cmysql.cc">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="cmysql.h">
-        <itemTool>3</itemTool>
-      </item>
       <item path="cnetwork.cc">
         <itemTool>1</itemTool>
       </item>
@@ -570,31 +524,10 @@
       <item path="extra/libbonbon/slockgraph.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="extra/tinyxml/tinystr.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinystr.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxml.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxml.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxmlerror.cpp">
-        <itemTool>1</itemTool>
-      </item>
-      <item path="extra/tinyxml/tinyxmlparser.cpp">
-        <itemTool>1</itemTool>
-      </item>
       <item path="libbonbon.h">
         <itemTool>3</itemTool>
       </item>
       <item path="o3cw.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="tinyxml.h">
         <itemTool>3</itemTool>
       </item>
       <item path="types.h">

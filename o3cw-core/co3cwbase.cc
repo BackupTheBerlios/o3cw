@@ -3,7 +3,7 @@
 #include "ccommand.h"
 #include "cclient.h"
 
-o3cw::CConfig o3cw::CO3CWBase::o3cw_main_config;
+o3cw::CConfig *o3cw::CO3CWBase::o3cw_main_config=NULL;
 o3cw::CO3CWBase *o3cw::CO3CWBase::server=NULL;
         
 o3cw::CO3CWBase::CO3CWBase(): o3cw::CInTimeObject::CInTimeObject()
@@ -16,23 +16,23 @@ o3cw::CO3CWBase::~CO3CWBase()
     
 }
 
-int o3cw::CO3CWBase::LoadMainConfig(const char *filename)
+int o3cw::CO3CWBase::SetMainConfig(o3cw::CConfig &config)
 {
     int result=0;
 //    mlock.Lock();
-    o3cw_main_config.ParseFile(filename);
+    o3cw_main_config=&config;
 //    mlock.UnLock();
     return result;
 }
 
 int o3cw::CO3CWBase::ReLoadMainConfig(const char *filename)
 {
-    return LoadMainConfig(filename);
+    return o3cw_main_config->ParseFile(filename);
 }
 
 const o3cw::CConfig &o3cw::CO3CWBase::GetMainConfig()
 {
-    return o3cw_main_config;
+    return *o3cw_main_config;
 }
 
 int o3cw::CO3CWBase::PushCommand(o3cw::CCommand &cmd)

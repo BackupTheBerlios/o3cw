@@ -28,6 +28,8 @@
 #include "cthreadsafeobject.h"
 #include "cuniqueaux.h"
 #include "cuser.h"
+#include "csql.h"
+#include "error.h"
 
 #endif	/* _O3CW_H */
 

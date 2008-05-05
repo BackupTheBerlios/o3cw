@@ -26,7 +26,6 @@ OBJECTDIR=build/Release/GNU-Linux-x86
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/cjobmanager.o \
-	${OBJECTDIR}/cmysql.o \
 	${OBJECTDIR}/cnetwork.o \
 	${OBJECTDIR}/cidsobject.o \
 	${OBJECTDIR}/cconnectionhandler.o \
@@ -35,14 +34,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/csemaphore.o \
 	${OBJECTDIR}/csharedobject.o \
 	${OBJECTDIR}/extra/libbonbon/clock.o \
-	${OBJECTDIR}/extra/tinyxml/tinyxml.o \
 	${OBJECTDIR}/extra/libbonbon/cbreak.o \
 	${OBJECTDIR}/cdoc.o \
 	${OBJECTDIR}/cdocpart.o \
 	${OBJECTDIR}/cintimeobject.o \
 	${OBJECTDIR}/cpermission.o \
-	${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o \
-	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
 	${OBJECTDIR}/cstorage.o \
 	${OBJECTDIR}/extra/libbonbon/cmutex.o \
 	${OBJECTDIR}/csql.o \
@@ -55,7 +51,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/cthread.o \
 	${OBJECTDIR}/cdiff.o \
 	${OBJECTDIR}/co3cwbase.o \
-	${OBJECTDIR}/extra/tinyxml/tinystr.o \
 	${OBJECTDIR}/cacessmode.o \
 	${OBJECTDIR}/cthreadsafeobject.o \
 	${OBJECTDIR}/ccrypto.o
@@ -85,10 +80,6 @@ dist/Release/GNU-Linux-x86/libo3cw-core.a: ${OBJECTFILES}
 ${OBJECTDIR}/extra/libbonbon/cjobmanager.o: extra/libbonbon/cjobmanager.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cjobmanager.o extra/libbonbon/cjobmanager.cc
-
-${OBJECTDIR}/cmysql.o: cmysql.cc 
-	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cmysql.o cmysql.cc
 
 ${OBJECTDIR}/cnetwork.o: cnetwork.cc 
 	${MKDIR} -p ${OBJECTDIR}
@@ -122,10 +113,6 @@ ${OBJECTDIR}/extra/libbonbon/clock.o: extra/libbonbon/clock.cc
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/clock.o extra/libbonbon/clock.cc
 
-${OBJECTDIR}/extra/tinyxml/tinyxml.o: extra/tinyxml/tinyxml.cpp 
-	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/tinyxml/tinyxml.o extra/tinyxml/tinyxml.cpp
-
 ${OBJECTDIR}/extra/libbonbon/cbreak.o: extra/libbonbon/cbreak.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/libbonbon/cbreak.o extra/libbonbon/cbreak.cc
@@ -145,14 +132,6 @@ ${OBJECTDIR}/cintimeobject.o: cintimeobject.cc
 ${OBJECTDIR}/cpermission.o: cpermission.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/cpermission.o cpermission.cc
-
-${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o: extra/tinyxml/tinyxmlparser.cpp 
-	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
-
-${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o: extra/tinyxml/tinyxmlerror.cpp 
-	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
 
 ${OBJECTDIR}/cstorage.o: cstorage.cc 
 	${MKDIR} -p ${OBJECTDIR}
@@ -201,10 +180,6 @@ ${OBJECTDIR}/cdiff.o: cdiff.cc
 ${OBJECTDIR}/co3cwbase.o: co3cwbase.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/co3cwbase.o co3cwbase.cc
-
-${OBJECTDIR}/extra/tinyxml/tinystr.o: extra/tinyxml/tinystr.cpp 
-	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -O2 -o ${OBJECTDIR}/extra/tinyxml/tinystr.o extra/tinyxml/tinystr.cpp
 
 ${OBJECTDIR}/cacessmode.o: cacessmode.cc 
 	${MKDIR} -p ${OBJECTDIR}
