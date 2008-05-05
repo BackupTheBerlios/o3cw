@@ -25,6 +25,12 @@ OBJECTDIR=build/Debug/GNU-Linux-x86
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o \
+	${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o \
+	${OBJECTDIR}/cxmlconfig.o \
+	${OBJECTDIR}/extra/tinyxml/tinyxml.o \
+	${OBJECTDIR}/cmysql.o \
+	${OBJECTDIR}/extra/tinyxml/tinystr.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/co3cwserver.o
 
@@ -49,6 +55,30 @@ dist/Debug/GNU-Linux-x86/o3cw-server: ${BUILD_SUBPROJECTS}
 dist/Debug/GNU-Linux-x86/o3cw-server: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.cc} -o dist/Debug/GNU-Linux-x86/o3cw-server ${OBJECTFILES} ${LDLIBSOPTIONS} 
+
+${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o: extra/tinyxml/tinyxmlerror.cpp 
+	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
+
+${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o: extra/tinyxml/tinyxmlparser.cpp 
+	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
+
+${OBJECTDIR}/cxmlconfig.o: cxmlconfig.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/cxmlconfig.o cxmlconfig.cc
+
+${OBJECTDIR}/extra/tinyxml/tinyxml.o: extra/tinyxml/tinyxml.cpp 
+	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxml.o extra/tinyxml/tinyxml.cpp
+
+${OBJECTDIR}/cmysql.o: cmysql.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/cmysql.o cmysql.cc
+
+${OBJECTDIR}/extra/tinyxml/tinystr.o: extra/tinyxml/tinystr.cpp 
+	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
+	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinystr.o extra/tinyxml/tinystr.cpp
 
 ${OBJECTDIR}/main.o: main.cc 
 	${MKDIR} -p ${OBJECTDIR}

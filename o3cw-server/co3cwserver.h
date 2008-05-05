@@ -9,10 +9,10 @@
 #define	_CO3CWSERVER_H
 
 #include "../o3cw-core/o3cw.h"
+#include "cxmlconfig.h"
 
-namespace o3cw
+namespace o3cwapp
 {
-    class CO3CWBase;
     class CO3CWServer: o3cw::CO3CWBase
     {
     public:
@@ -27,6 +27,7 @@ namespace o3cw
         o3cw::CCmdExec cmdexec3;
         o3cw::CConnectionHandler *connections_handler;
         o3cw::CStorage store;
+        o3cwapp::CXMLConfig config;
     };
 }
 

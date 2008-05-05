@@ -4,7 +4,16 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="tinyxml" displayName="tinyxml" projectFiles="true">
+          <itemPath>extra/tinyxml/tinystr.h</itemPath>
+          <itemPath>extra/tinyxml/tinyxml.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cmysql.h</itemPath>
       <itemPath>co3cwserver.h</itemPath>
+      <itemPath>cxmlconfig.h</itemPath>
+      <itemPath>tinyxml.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +22,17 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="extra" projectFiles="true">
+        <logicalFolder name="f1" displayName="tinyxml" projectFiles="true">
+          <itemPath>extra/tinyxml/tinystr.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxml.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxmlerror.cpp</itemPath>
+          <itemPath>extra/tinyxml/tinyxmlparser.cpp</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <itemPath>cmysql.cc</itemPath>
       <itemPath>co3cwserver.cc</itemPath>
+      <itemPath>cxmlconfig.cc</itemPath>
       <itemPath>main.cc</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -62,14 +81,47 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="cmysql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cmysql.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="co3cwserver.cc">
         <itemTool>1</itemTool>
       </item>
       <item path="co3cwserver.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cxmlconfig.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cxmlconfig.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlerror.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlparser.cpp">
+        <itemTool>1</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
+      </item>
+      <item path="tinyxml.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -95,14 +147,47 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="cmysql.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cmysql.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="co3cwserver.cc">
         <itemTool>1</itemTool>
       </item>
       <item path="co3cwserver.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cxmlconfig.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cxmlconfig.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinystr.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxml.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlerror.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="extra/tinyxml/tinyxmlparser.cpp">
+        <itemTool>1</itemTool>
+      </item>
       <item path="main.cc">
         <itemTool>1</itemTool>
+      </item>
+      <item path="tinyxml.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
   </confs>
