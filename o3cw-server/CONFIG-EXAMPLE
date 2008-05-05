@@ -8,7 +8,7 @@
 <!-- Network configuration -->
     <net>
 	<timeout>
-	    <default>500</default>
+	    <default>50</default>
 	    <authorized>500</authorized>
 	</timeout>
 	<server>
