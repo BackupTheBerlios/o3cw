@@ -125,7 +125,6 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
     unsigned int num_fields=mysql_num_fields(m_quest_res);
     if (m_row!=NULL)
     {
-        unsigned int i=0;
         for (unsigned int i=0; i<num_fields; i++)
         //for (it=buff.begin(); it!=buff.end() && i<num_fields; it++)
         {

@@ -4,14 +4,32 @@
 o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase()
 {
     CO3CWBase::server=this;
-
+    cmdexec=NULL;
+    mysql=NULL;
     connections_handler=NULL;
+    threads_num=10;
+    admin_name="admin";
 }
 
 o3cwapp::CO3CWServer::~CO3CWServer()
 {
+    
+}
+
+int o3cwapp::CO3CWServer::Shutdown()
+{
     if (connections_handler!=NULL)
         delete connections_handler;
+    
+    if (cmdexec!=NULL)
+        delete [] cmdexec;
+    
+    if (mysql!=NULL)
+        delete [] mysql;
+    
+    /* Shutdown MYSQL */
+    o3cwapp::CMySQL::DeInit();
+    return 0;
 }
 
 int o3cwapp::CO3CWServer::Run()
@@ -24,8 +42,9 @@ int o3cwapp::CO3CWServer::Run()
     std::vector<std::string> request_results;
     
     /* Creating connection to MySQL */
-    o3cwapp::CMySQL mysql;
-    mysql.ThreadStart();
+    mysql=new o3cwapp::CMySQL [threads_num];
+    
+    main_conf.GetValue(threads_num,"limit","threads:workers");
     
     /* Default values */
     std::string host("localhost");
@@ -34,24 +53,17 @@ int o3cwapp::CO3CWServer::Run()
     std::string password("1234");
     
     /* Connecting */
-    mysql.Connect(main_conf.ReturnValue(host,"host","db"), main_conf.ReturnValue(db,"db_name","db"), main_conf.ReturnValue(user,"user","db"), main_conf.ReturnValue(password,"password","db"));
+    for (int i=0; i<threads_num; i++)
+        mysql[i].Connect(main_conf.ReturnValue(host,"host","db"), main_conf.ReturnValue(db,"db_name","db"), main_conf.ReturnValue(user,"user","db"), main_conf.ReturnValue(password,"password","db"));
     
     /* host, db, user and password variables could be changed now! */
+
+    connections_handler=new o3cw::CConnectionHandler;
+    cmdexec=new o3cw::CCmdExec [threads_num];
     
-    /* Request DB */
-    mysql.SQLRequest("select id, name, public_key from user");
-    
-    /* Getting all values */
-    while (0==mysql.GetNextDataSet(request_results))
-        printf("id=[%s] user=[%s] key=[%s]\n", request_results[0].c_str(), request_results[1].c_str(), request_results[2].c_str());
-    
-    /* Shutdowqn connection */
-    mysql.ThreadEnd();
-    
-    /* Shutdown MYSQL */
-    o3cwapp::CMySQL::DeInit();
-    
-    connections_handler=new o3cw::CConnectionHandler();
+    for (int i=0; i<threads_num; i++)
+        cmdexec[i].Run(mysql[i]);
+    return 0;
 }
 
 int o3cwapp::CO3CWServer::LoadConfig(const char *config_filename)
@@ -69,6 +81,8 @@ int o3cwapp::CO3CWServer::LoadConfig(const char *config_filename)
     
     main_conf->GetValue(val,"authorized","net:timeout");
     printf("net timeout for authorized users is %i\n", val);
+    o3cw::CO3CWBase::GetMainConfig().GetValue(admin_name, "name", "authorization:admin");
+    return 0;
 }
 
 int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
@@ -77,31 +91,40 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
     if (cmd.CmdAviable())
     {
 	std::string &c1=cmd.Pop();
+        cmd_out.Push(c1);
         if (c1=="server")
         {
-            cmd_out.Push("server");
             /* This is exactly for me... */
 	    if (cmd.CmdAviable())
             {
 		std::string &c2=cmd.Pop();
-                if (c2=="exit")
+                if (cmd.GetClient().GetUser()!=NULL)
                 {
-                    cmd_out.Push("exit");
-                    cmd_out.Push("bye-bye!!");
-                    printf(" * Normal shutdown\n");
-                    cmdexec1.Kill();
-                    cmdexec2.Kill();
-                    cmdexec3.Kill();
-                    o3cw::CNetwork::cmd_bus.Destroy();
-                    if (connections_handler!=NULL)
-                        connections_handler->Kill();
+                    std::string username;
+                    cmd.GetClient().GetUser()->GetName(username);
+                    if (c2=="exit" && cmd.GetClient().Trusted() && username==admin_name)
+                    {
+                        cmd_out.Push("exit");
+                        cmd_out.Push("bye-bye!!");
+                        printf(" * Normal shutdown\n");
+                        for (int i=0; i<threads_num; i++)
+                            cmdexec->Kill();
+                        o3cw::CNetwork::cmd_bus.Destroy();
+                        if (connections_handler!=NULL)
+                            connections_handler->Kill();
+                    }
                 }
+                else
+                    printf("Denied.\n");
             }
         }
         else if (c1=="doc")
         {
-            cmd_out.Push("doc");
-            return store.ExecCommand(cmd, cmd_out);
+            return docs.ExecCommand(cmd, cmd_out);
+        }
+        else if (c1=="user")
+        {
+            users.ExecCommand(cmd, cmd_out);
         }
         else
 	{

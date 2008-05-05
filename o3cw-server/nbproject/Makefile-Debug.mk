@@ -38,8 +38,8 @@ OBJECTFILES= \
 CFLAGS=-pthread -D_REENTRANT
 
 # CC Compiler Flags
-CCFLAGS=-pthread -D_REENTRANT
-CXXFLAGS=-pthread -D_REENTRANT
+CCFLAGS=-pthread -D_REENTRANT -Wall
+CXXFLAGS=-pthread -D_REENTRANT -Wall
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -58,35 +58,35 @@ dist/Debug/GNU-Linux-x86/o3cw-server: ${OBJECTFILES}
 
 ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o: extra/tinyxml/tinyxmlerror.cpp 
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/tinyxml/tinyxmlerror.o extra/tinyxml/tinyxmlerror.cpp
 
 ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o: extra/tinyxml/tinyxmlparser.cpp 
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/tinyxml/tinyxmlparser.o extra/tinyxml/tinyxmlparser.cpp
 
 ${OBJECTDIR}/cxmlconfig.o: cxmlconfig.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cxmlconfig.o cxmlconfig.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cxmlconfig.o cxmlconfig.cc
 
 ${OBJECTDIR}/extra/tinyxml/tinyxml.o: extra/tinyxml/tinyxml.cpp 
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinyxml.o extra/tinyxml/tinyxml.cpp
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/tinyxml/tinyxml.o extra/tinyxml/tinyxml.cpp
 
 ${OBJECTDIR}/cmysql.o: cmysql.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/cmysql.o cmysql.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cmysql.o cmysql.cc
 
 ${OBJECTDIR}/extra/tinyxml/tinystr.o: extra/tinyxml/tinystr.cpp 
 	${MKDIR} -p ${OBJECTDIR}/extra/tinyxml
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/extra/tinyxml/tinystr.o extra/tinyxml/tinystr.cpp
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/tinyxml/tinystr.o extra/tinyxml/tinystr.cpp
 
 ${OBJECTDIR}/main.o: main.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/main.o main.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/main.o main.cc
 
 ${OBJECTDIR}/co3cwserver.o: co3cwserver.cc 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -o ${OBJECTDIR}/co3cwserver.o co3cwserver.cc
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/co3cwserver.o co3cwserver.cc
 
 # Subprojects
 .build-subprojects:

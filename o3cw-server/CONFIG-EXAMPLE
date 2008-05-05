@@ -23,5 +23,19 @@
         <db_name>o3cw</db_name>
         <user>o3cw</user>
         <password>1234</password>
-    </db>   
+    </db>
+    
+    <threads>
+	<workers>
+	    <limit>5</limit>
+	</workers>
+    </threads>
+    
+    <authorization>
+	<admin>
+	<name>admin</name>
+	<password>666</password>
+        </admin>
+    </authorization>
+    
 </config>

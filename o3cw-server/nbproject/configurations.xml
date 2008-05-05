@@ -59,7 +59,8 @@
           <commandLine>-pthread -D_REENTRANT</commandLine>
         </cCompilerTool>
         <ccCompilerTool>
-          <commandLine>-pthread -D_REENTRANT</commandLine>
+          <commandLine>-pthread -D_REENTRANT -Wall</commandLine>
+          <warningLevel>3</warningLevel>
         </ccCompilerTool>
         <linkerTool>
           <linkerLibItems>

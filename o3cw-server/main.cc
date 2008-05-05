@@ -21,6 +21,7 @@ int main(int argc, char** argv)
     o3cwapp::CO3CWServer server;
     server.LoadConfig("/etc/o3cw-server.cfg");
     server.Run();
+    server.Shutdown();
     
     return (EXIT_SUCCESS);
 }
