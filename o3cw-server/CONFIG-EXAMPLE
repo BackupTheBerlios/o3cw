@@ -4,6 +4,8 @@
 <!-- Copy content of this file to /etc/o3cw-server.cfg -->
 
 <config>
+
+<!-- Network configuration -->
     <net>
 	<timeout>
 	    <default>500</default>
@@ -14,4 +16,12 @@
 	    <port>25005</port>
 	</server>
     </net>
+    
+<!-- (My)SQL database configuration -->
+    <db>
+        <host>localhost</host>
+        <db_name>o3cw</db_name>
+        <user>o3cw</user>
+        <password>1234</password>
+    </db>   
 </config>
