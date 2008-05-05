@@ -43,7 +43,6 @@ int main(int argc, char** argv)
         buff.erase();
         std::cout << ">";
         std::getline(std::cin, buff);
-        size_t body_size=buff.length();
         if (buff.length()>0)
         {
             if (buff[0]!='\\')
@@ -61,7 +60,7 @@ int main(int argc, char** argv)
                 }
                 else if (buff.find("\\login")==0)
                 {
-                    int name_begins=strlen("\\login");
+                    unsigned int name_begins=strlen("\\login");
                     size_t l=buff.length();
                     while (l>name_begins && buff[name_begins]==' ')
                         name_begins++;

@@ -16,7 +16,7 @@ int adm::CListener::ThreadExecute()
 {
     while (Killed()!=true)
     {
-        int t=client->Receive(0.01);
+        int t=client->Receive(0.1);
         if (0<t)
         {
             std::string *head=NULL;
