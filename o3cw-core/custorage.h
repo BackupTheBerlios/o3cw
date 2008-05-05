@@ -18,7 +18,7 @@ namespace o3cw
         CUStorage(){};
         virtual ~CUStorage()
         {
-            for (std::map<o3cw::CHashKey, o3cw::CIdsObject *>::iterator it=store.begin() ; it != store.end(); it++)
+            for (std::map<o3cw::CHashKey, o3cw::CIdsObject *>::iterator it=store.begin() ; it!=store.end(); it++)
             {
                 if (it->second!=NULL)
                     delete it->second;

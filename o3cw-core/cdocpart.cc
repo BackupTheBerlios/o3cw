@@ -8,7 +8,7 @@ o3cw::CDocPart::CDocPart(o3cw::CUniqueAux &aux): o3cw::CIdsObject::CIdsObject(au
 o3cw::CDocPart::~CDocPart()
 {
     std::vector<o3cw::CDiff *>::iterator it;
-    for (it=diffs.begin(); it!=diffs.end(); it++)
+    for (it=diffs.begin(); it<diffs.end(); it++)
         delete *it;
 }
 

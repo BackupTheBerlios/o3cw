@@ -29,7 +29,7 @@ o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 o3cw::CClient::~CClient()
 {
     std::vector <o3cw::CDoc *>::iterator search_it;
-    for (search_it=opened_docs.begin(); search_it!=opened_docs.end(); search_it++)
+    for (search_it=opened_docs.begin(); search_it<opened_docs.end(); search_it++)
     {
         (*search_it)->RemoveClientFromMulticast(*this);
     }
@@ -190,7 +190,7 @@ int o3cw::CClient::CloseDoc(o3cw::CDoc &doc)
 {
     std::vector <o3cw::CDoc *>::iterator search_it;
     mlock.Lock();
-    for (search_it=opened_docs.begin(); search_it!=opened_docs.begin(); search_it++)
+    for (search_it=opened_docs.begin(); search_it<opened_docs.begin(); search_it++)
     {
         if ((*search_it)==&doc)
         {
@@ -230,7 +230,7 @@ int o3cw::CClient::GetUseCount()
 int o3cw::CClient::FdGetMax(std::vector<o3cw::CClient *> &in_list)
 {
     int max=-1;
-    for (std::vector<o3cw::CClient *>::iterator it=in_list.begin(); it!=in_list.end(); it++)
+    for (std::vector<o3cw::CClient *>::iterator it=in_list.begin(); it<in_list.end(); it++)
     {
         int sock=(*it)->GetFD();
         if (sock>max)
@@ -268,7 +268,7 @@ int o3cw::CClient::FdSetCompile(fd_set &read_fds, std::vector<o3cw::CClient *> &
     int result=-1;
     FD_ZERO(&read_fds);
     std::vector<o3cw::CClient *>::iterator it;
-    for (it=in_list.begin(); it!=in_list.end(); it++)
+    for (it=in_list.begin(); it<in_list.end(); it++)
     {
         o3cw::CClient *pc_clnt=*it;
         if (pc_clnt!=NULL)
@@ -298,7 +298,7 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
     
     std::vector<o3cw::CClient *>::iterator it;
     
-    for (it=in_list.begin(); it!=in_list.end(); it++)
+    for (it=in_list.begin(); it<in_list.end(); it++)
     {
         o3cw::CClient *pc_clnt=*it;
         if (pc_clnt!=NULL)

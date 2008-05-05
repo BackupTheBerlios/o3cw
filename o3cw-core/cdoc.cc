@@ -19,7 +19,7 @@ o3cw::CDoc::~CDoc()
 {
     /* Clean up all diffs */
     std::vector<o3cw::CDocPart *>::iterator it;
-    for (it=parts.begin(); it!=parts.end(); it++)
+    for (it=parts.begin(); it<parts.end(); it++)
         delete *it;
 }
 
@@ -153,7 +153,7 @@ int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)
 {
     mlock.Lock();
     std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
-    for (it=clients_connected.begin(); it!=clients_connected.end(); it++)
+    for (it=clients_connected.begin(); it<clients_connected.end(); it++)
     {
         if (*it==&client)
         {

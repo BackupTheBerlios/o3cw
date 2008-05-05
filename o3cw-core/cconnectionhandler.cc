@@ -64,7 +64,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
         o3cw::CClient::readmultiselect(socket_set, max_fd, connections_store, active_sock_list, 1, 0);
         
         std::vector <o3cw::CClient *>::iterator timeout_it;
-        for (timeout_it=connections_store.begin(); timeout_it!=connections_store.end(); timeout_it++)
+        for (timeout_it=connections_store.begin(); timeout_it<connections_store.end(); timeout_it++)
         {
             o3cw::CClient *client=*timeout_it;
             
@@ -72,14 +72,18 @@ int o3cw::CConnectionHandler::ThreadExecute()
                 timeout=timeout_auth;
             else
                 timeout=timeout_unauth;
-            
-            if (client->ConnectionTimeout()>timeout && client!=o3cw::CConnectionHandler::listener && client!=o3cw::CConnectionHandler::listener)
+
+            if (client->ConnectionTimeout()>timeout && client!=o3cw::CConnectionHandler::listener)
             {
+                printf("removing from set..\n");
                 o3cw::CClient::FdSetRemove(socket_set, max_fd, connections_store, *client);
+                printf("force down..\n");
                 client->ForceDown();
+                printf("push to delete..\n");
                 to_delete.push(client);
-                //delete client;
+                printf("erase from list..\n");
                 connections_store.erase(timeout_it);
+                printf("done!\n");
             }
         }
         
@@ -175,7 +179,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
         
     }
     
-    for (std::vector <o3cw::CClient *>::iterator it=connections_store.begin(); it!=connections_store.end(); it++)
+    for (std::vector <o3cw::CClient *>::iterator it=connections_store.begin(); it<connections_store.end(); it++)
     {
         delete *it;
     }

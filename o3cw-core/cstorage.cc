@@ -10,7 +10,7 @@ o3cw::CStorage::CStorage()
 
 o3cw::CStorage::~CStorage()
 {
-    for (std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.begin() ; it != docs.end(); it++)
+    for (std::map<o3cw::CHashKey, o3cw::CDoc *>::iterator it=docs.begin() ; it!=docs.end(); it++)
     {
         if (it->second!=NULL)
             delete it->second;
