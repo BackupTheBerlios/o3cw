@@ -64,11 +64,19 @@ int main(int argc, char** argv)
                     size_t l=buff.length();
                     while (l>name_begins && buff[name_begins]==' ')
                         name_begins++;
+                    std::string login;
+                    size_t pass_begin=buff.find(" ",name_begins);
                     
-                    std::string login=(buff.c_str()+name_begins);
-                    if (login=="")
+                    login.assign(buff.c_str(), name_begins, pass_begin-name_begins);
+                    
+                    
+                    while (l>pass_begin && buff[pass_begin]==' ')
+                        pass_begin++;
+                    
+                    std::string password(buff.c_str()+pass_begin);
+                    if (login=="" || password=="")
                     {
-                        std::cout << "Usage: \\login username" << std::endl;
+                        std::cout << "Usage: \\login username password" << std::endl;
                          execute=false;
                     }
                     else
@@ -76,28 +84,35 @@ int main(int argc, char** argv)
                         cmd.Push("user");
                         cmd.Push("open");
                         cmd.Push(login);
+                        cmd.Push(password);
                     }
                 }
-                else if (buff=="\\docs")
+                else if (buff=="\\list")
                 {
                     cmd.Push("doc");
                     cmd.Push("list");
                 }
-                else if (buff=="\\help" || buff=="\\?" )
+                else if (buff=="\\q")
                 {
+                    work=false;
+                    execute=false;
+                }
+                else
+                {
+                    execute=false;
+                    if (buff!="\\help" || buff!="\\?")
+                    {
+                        std::cout << "Illegal command - " << buff << std::endl << std::endl << "Vaild commands:"<< std::endl;
+                    }
+                    std::cout << "\\login username password - login as user" << std::endl;
                     std::cout << "Supported commands:" << std::endl;
                     std::cout << "\\get filename - get file from server" << std::endl;
                     std::cout << "\\help - get this message" << std::endl;
                     std::cout << "\\shutdown - shutdown o3cw server" << std::endl;
-                    std::cout << "\\login (user) - login as user" << std::endl;
-                    std::cout << "\\docs - print list of all aviable docs" << std::endl;
+                    std::cout << "\\list - print list of all aviable docs" << std::endl;
                     std::cout << "\\open (doc) - open doc with specified doc_id" << std::endl;
                     std::cout << "\\get (doc_id) - get content of an opened doc" << std::endl;
                     std::cout << "\\q - exit" << std::endl;
-                }
-                else if (buff=="\\q")
-                {
-                    work=false;
                 }
             }
         }
