@@ -76,3 +76,25 @@ int o3cw::CSQL::DeInit()
 {
     return 0;
 }
+
+std::string &o3cw::CSQL::SQLSafeStr(std::string &str)
+{
+    return str;
+}
+
+void o3cw::CSQL::NumToStr(char *buff, size_t buff_size, int v)
+{
+    snprintf(buff, buff_size, "%i", v);
+}
+void o3cw::CSQL::NumToStr(char *buff, size_t buff_size, long v)
+{
+    snprintf(buff, buff_size, "%li", v);
+}
+void o3cw::CSQL::NumToStr(char *buff, size_t buff_size, long long v)
+{
+    snprintf(buff, buff_size, "%lli", v);
+}
+void o3cw::CSQL::NumToStr(char *buff, size_t buff_size, float v)
+{
+    snprintf(buff, buff_size, "%f", v);
+}

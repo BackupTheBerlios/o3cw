@@ -52,13 +52,26 @@ namespace o3cw
         /* Global SQL library init function */
         static int Init();
         static int DeInit();
+        
+        virtual std::string &SQLSafeStr(std::string &str);
+        template <typename N> std::string SQLSafeStr(N value)
+        {
+            std::string result;
+            char tmp[128]; memset(tmp, 0, 128);
+            NumToStr(tmp, 128, value);
+            result=tmp;
+            return result;
+        }
     protected:
         std::string m_host;
         std::string m_db_name;
         std::string m_user;
         std::string m_password;
         bool m_connected;
-        
+        void NumToStr(char *buff, size_t buff_size, int v);
+        void NumToStr(char *buff, size_t buff_size, long v);
+        void NumToStr(char *buff, size_t buff_size, long long v);
+        void NumToStr(char *buff, size_t buff_size, float v);
     };
 }
 

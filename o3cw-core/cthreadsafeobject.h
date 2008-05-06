@@ -17,11 +17,16 @@ namespace o3cw
     public:
         CThreadSafeObject();
         virtual ~CThreadSafeObject();
-        bonbon::CMutex mlock;
-        bonbon::CSemaphore slock;
-        
+        mutable bonbon::CMutex mlock;
+        mutable bonbon::CSemaphore slock;
+        int Use();
+        int UnUse();
+        int GetUseCount();
         static bonbon::CMutex class_mlock;
         static bonbon::CSemaphore class_slock;
+    private:
+        static void DeleteUnUsed();
+        int m_use_count;
     };
 }
 

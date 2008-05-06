@@ -21,6 +21,7 @@ namespace o3cw
     {
     public:
         static bonbon::CJobManager<o3cw::CCommand *> cmd_bus;
+        static void Cleanup();
         CNetwork();
         virtual ~CNetwork();    
     };

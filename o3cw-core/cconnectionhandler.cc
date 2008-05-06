@@ -176,12 +176,35 @@ int o3cw::CConnectionHandler::ThreadExecute()
             else
                 to_delete.push(client);
         }
-        
     }
     
+    /* Delete all clients from connections_store */
     for (std::vector <o3cw::CClient *>::iterator it=connections_store.begin(); it<connections_store.end(); it++)
     {
         delete *it;
+    }
+    
+    /* Delete all clients from to_delete list */
+    int to_delete_size=to_delete.size();
+    while (to_delete_size>0)
+    {
+        for (int i=0; i<to_delete_size; i++)
+        {
+            o3cw::CClient *client=to_delete.front();
+            to_delete.pop();
+
+            if (client->GetUseCount()==0)
+            {
+                printf("* ConnectionHandler: client deleted\n");
+                delete client;
+                to_delete_size--;
+            }
+            else
+                to_delete.push(client);
+        }
+        to_delete_size=to_delete.size();
+        if (to_delete_size>0)
+            sleep(1);
     }
     return 0;
 }

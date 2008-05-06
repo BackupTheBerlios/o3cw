@@ -1,4 +1,5 @@
 #include "cidsobject.h"
+std::vector<o3cw::CIdsObject *> o3cw::CIdsObject::delete_list;
 
 o3cw::CIdsObject::CIdsObject(o3cw::CUniqueAux &aux): o3cw::CSharedObject::CSharedObject()
 {
@@ -6,6 +7,7 @@ o3cw::CIdsObject::CIdsObject(o3cw::CUniqueAux &aux): o3cw::CSharedObject::CShare
     idlist=&(aux.id_list);
     idlock=&(aux.id_lock);
     GenerateNewId(aux.id_lock, aux.current_id, aux.id_list);
+    m_use_count=0;
 }
 
 o3cw::CIdsObject::~CIdsObject()
@@ -13,7 +15,7 @@ o3cw::CIdsObject::~CIdsObject()
     FreeMyId(*idlock, *idlist);
 }
 
-o3cw::ids o3cw::CIdsObject::GetId()
+o3cw::ids o3cw::CIdsObject::GetId() const
 {
     return obj_id;
 }
@@ -120,10 +122,46 @@ void o3cw::CIdsObject::GenerateNewId(bonbon::CMutex &id_lock, o3cw::ids &current
     return;
 }
 
-int  o3cw::CIdsObject::SetId(std::string &new_id)
+int o3cw::CIdsObject::SetKey(o3cw::CHashKey &new_key)
 {
     mlock.Lock();
-    id=new_id;
+    m_key=new_key;
     mlock.UnLock();
     return 0;
+}
+
+const o3cw::CHashKey &o3cw::CIdsObject::GetKey() const
+{
+    return m_key;
+}
+
+int o3cw::CIdsObject::Use()
+{
+    mlock.Lock();
+    m_use_count++;
+    mlock.UnLock();
+    return 0;
+}
+
+int o3cw::CIdsObject::UnUse()
+{
+    mlock.Lock();
+    m_use_count--;
+    if (m_use_count==0)
+    {
+        class_mlock.Lock();
+        delete_list.push_back(this);
+        printf("FUCk. DELETE me (%p)!\n", this);
+        class_mlock.UnLock();
+    }
+    mlock.UnLock();
+    return 0;
+}
+
+int o3cw::CIdsObject::GetUseCount()
+{
+    mlock.Lock();
+    int result=m_use_count;
+    mlock.UnLock();
+    return result;
 }

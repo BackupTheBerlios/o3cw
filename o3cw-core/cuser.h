@@ -20,16 +20,20 @@ namespace o3cw
     {
     public:
         CUser();
+        CUser(long user_id);
         virtual ~CUser();
-        o3cw::ids GetUserId();
-        static int StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
+        static int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **e);
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
         void GetName(std::string &buff);
+        long GetUserId() const;
+        int ClientRegister(o3cw::CClient &client);
+        int ClientUnRegister(o3cw::CClient &client);
     private:
-        o3cw::ids user_id;
-        static std::map<std::string, o3cw::CUser *> users;
+        long m_user_id;
+        //static std::map<std::string, o3cw::CUser *> m_users;
         static o3cw::CUniqueAux unique_data;
-        std::string name;
+        std::string m_name;
+        std::vector<o3cw::CClient *> m_clients;
     };
 }
 

@@ -62,7 +62,7 @@ int bonbon::CMutex::UnLock()
     if (it==lockers_threads.end())
     {
         sem_post(&self_lock);
-        printf("Possible double unlock by thread %i in CMutex located at %p", locker, this);
+        printf("Possible double unlock by thread %i in CMutex located at %p\n", locker, this);
         return CMUTEX_DUNLOCK;
     }
     else

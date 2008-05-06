@@ -75,81 +75,148 @@ namespace o3cw
                 {
                     if (cmd.CmdAviable())
                     {
+                        int create_new_element=0;
                         std::string &c2=cmd.Pop();
-                        printf("OPEN!\n");
                         cmd.Back(2);
-                        if (T::StaticExecCommand(cmd, cmd_out)==0)
+
+                        /* Get unique doc adress (or id) */
+                        std::string md5sum;
+                        o3cw::CCrypto::MD5HashBin(c2, md5sum);
+                        o3cw::CHashKey key(md5sum);
+
+                        /* Return id to client */
+                        std::string b64md5sum;
+                        o3cw::CCrypto::Base64Encode((const unsigned char*)md5sum.c_str(), md5sum.length(),b64md5sum);
+                        cmd_out.Push(b64md5sum.c_str(), b64md5sum.length());
+
+                        T *element=NULL;
+
+                        mlock.Lock();
+
+                        std::map <o3cw::CHashKey, o3cw::CIdsObject *>::const_iterator it=store.find(key);
+
+                        /* No such doc opened - open it */
+                        if (it==store.end())
                         {
-                            /* Get unique doc adress (or id) */
-                            std::string md5sum;
-                            o3cw::CCrypto::MD5HashBin(c2, md5sum);
-                            o3cw::CHashKey key(md5sum);
-
-                            /* Return id to client */
-                            std::string b64md5sum;
-                            o3cw::CCrypto::Base64Encode((const unsigned char*)md5sum.c_str(), md5sum.length(),b64md5sum);
-                            cmd_out.Push(b64md5sum.c_str(), b64md5sum.length());
-
-                            T *element=NULL;
-
-                            mlock.Lock();
-
-                            std::map <o3cw::CHashKey, o3cw::CIdsObject *>::const_iterator it=store.find(key);
-
-                            /* No such doc opened - open it */
-                            if (it==store.end())
+                            o3cw::CO3CWBase *tmp=NULL;
+                            if ((create_new_element=T::Open(cmd, cmd_out, &tmp))==0)
                             {
-                                element=new T();
+                                element=dynamic_cast<T *>(tmp);
                                 printf(" * Opening new element, element adress=%p\n", element);
                                 if (element!=NULL)
                                 {
-                                    element->SetId(b64md5sum);
+                                    element->SetKey(key);
                                     store.insert(std::pair<o3cw::CHashKey, T *>(key,element));
 
-                                    mlock.UnLock();
 
-                                    /*if (cmd.CmdAviable())
-                                    {
-                                        std::string &c3=cmd.Pop();
-                                        if (c3=="do")
-                                            element->ExecCommand(cmd, cmd_out);
-                                    }*/
                                 }
                                 else
                                 {
-                                    mlock.UnLock();
-                                    return O3CW_ERR_OUT_OF_MEM;
+                                    result=O3CW_ERR_OUT_OF_MEM;
                                 }
                             }
-
-                            /* element opened already - just do nothing */
-                            else if ((element=(dynamic_cast<T *>(it->second)))!=NULL)
-                            {
-                                mlock.UnLock();
-                                printf(" * element opened already, element adress=%p\n", element);
-                            }
-
-                            /* element is NULL - WTF? */
                             else
                             {
-                                mlock.UnLock();
-                                return O3CW_ERR_NULL;
+                                if (element!=NULL)
+                                {
+                                    printf("WARNING: Got and error while creating new element but result not NULL. Fix it!\nAutdelete it now...\n");
+                                    delete element;
+                                }
+                                printf("Error %i while creating new element\n",create_new_element);
+                                result=create_new_element;
                             }
-                            //cmd.Back(2);
+                        }
+
+                        /* Element opened already */
+                        else if ((element=(dynamic_cast<T *>(it->second)))!=NULL)
+                        {
+                            o3cw::CO3CWBase *tmp=dynamic_cast<o3cw::CO3CWBase *>(element);
+                            create_new_element=T::Open(cmd, cmd_out, &tmp);
+                            
+                            /* Check if new element created by a mistake */
+                            T* new_e=dynamic_cast<T *>(tmp);
+                            if (new_e!=element)
+                            {
+                                printf("WARNING: wrong behaviour: new element created. Fix it!\nAutdelete it now...\n");
+                                delete new_e;
+                            }
+                            
+                            if (create_new_element==0)
+                            {
+                                /* Client can open it */
+                                printf(" * element opened already, element adress=%p\n", element);
+                            }
+                            else
+                            {
+                                /* Client can NOT open it */
+                                
+                                printf("Error %i while opening existing element\n",create_new_element);
+                                result=create_new_element;
+                            }
+                        }
+
+                        /* element is NULL - WTF? */
+                        else
+                        {
+                            printf("error while dynamic_cast\n");
+                            result=O3CW_ERR_NULL;
+                        }
+                        printf("mlock=%p\n", &mlock);
+
+                        if (element!=NULL)
+                        {
                             element->ExecCommand(cmd, cmd_out);
                         }
+                        mlock.UnLock();
                     }
                 }
                 else
                 {
-                    cmd_out.Pop();
+                    cmd.Back();
+                    result=T::StaticExecCommand(cmd, cmd_out);
+                 /*   cmd_out.Pop();
                     cmd_out.Push("error");
-                    cmd_out.Push("not found");
+                    cmd_out.Push("not found");*/
                 }
             }
+            DeleteUnusedElements();
             return result;
         }
         
+        void DeleteUnusedElements()
+        {
+            /* THIS CODE CAN BE MOVED TO A SEPARATED FUNCTION "CLEANUP" */
+            printf("delete list size=%u\n", T::delete_list.size());
+            std::vector<o3cw::CIdsObject *>::iterator delete_unused_it;
+            T::class_mlock.Lock();
+            mlock.Lock();
+            for (delete_unused_it=T::delete_list.begin(); delete_unused_it<T::delete_list.end();delete_unused_it++)
+            {
+                o3cw::CHashKey key((*delete_unused_it)->GetKey());
+                std::map<o3cw::CHashKey, CIdsObject *>::iterator it=store.find(key);
+
+                if (it!=store.end())
+                {
+                    if (it->second->GetUseCount()==0)
+                    {
+                        /* Element really unused - delete it. */
+                        printf(" * Deleting element cause unused\n");
+                        delete it->second;
+                        store.erase(it);
+                    }
+                    else
+                    {
+                        /* Still used - just delete from unused list */
+                    }
+                    T::delete_list.erase(delete_unused_it);
+                }
+                else
+                    printf("Element not found in list\n");
+            }
+            mlock.UnLock();
+            T::class_mlock.UnLock();
+            /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ */            
+        }
     private:
         std::map<o3cw::CHashKey, o3cw::CIdsObject *> store;
 	

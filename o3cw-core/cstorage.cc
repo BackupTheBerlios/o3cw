@@ -55,7 +55,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                     printf(" * Opening new doc, doc adress=%p\n", doc);
                     if (doc!=NULL)
                     {
-			doc->SetId(b64md5sum);
+			//doc->SetKey(b64md5sum);
                         docs.insert(std::pair<o3cw::CHashKey, o3cw::CDoc *>(key,doc));
                         
                         mlock.UnLock();

@@ -61,6 +61,9 @@ namespace o3cw
         int PartChangePermissions(o3cw::CClient &client, o3cw::ids part, o3cw::CPermission &new_perm);
         
 	int Open(o3cw::CClient &client);
+        
+        static int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **element);
+        static int StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
 	
 	int MultiCast(o3cw::CCommand &cmd);
 	

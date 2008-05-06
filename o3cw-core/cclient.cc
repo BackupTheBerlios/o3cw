@@ -28,6 +28,12 @@ o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 
 o3cw::CClient::~CClient()
 {
+    if (m_user!=NULL)
+    {
+        m_user->ClientUnRegister(*this);
+        m_user->UnUse();
+    }
+    
     std::vector <o3cw::CDoc *>::iterator search_it;
     for (search_it=opened_docs.begin(); search_it<opened_docs.end(); search_it++)
     {
@@ -204,29 +210,6 @@ int o3cw::CClient::CloseDoc(o3cw::CDoc &doc)
     return -1;
 }
 
-void o3cw::CClient::Use()
-{
-    mlock.Lock();
-    use_count++;
-    mlock.UnLock();
-}
-
-void o3cw::CClient::UnUse()
-{
-    mlock.Lock();
-    use_count--;
-    mlock.UnLock();
-}
-
-int o3cw::CClient::GetUseCount()
-{
-    int result;
-    mlock.Lock();
-    result=use_count;
-    mlock.UnLock();
-    return result;
-}
-
 int o3cw::CClient::FdGetMax(std::vector<o3cw::CClient *> &in_list)
 {
     int max=-1;
@@ -331,6 +314,8 @@ int o3cw::CClient::SetUser(o3cw::CUser &user)
 {
     mlock.Lock();
     m_user=&user;
+    user.ClientRegister(*this);
+    user.Use();
     trusted=true;
     mlock.UnLock();
     return 0;

@@ -13,6 +13,7 @@ namespace o3cw
     class CHashKey
     {
     public:
+        CHashKey(){};
         CHashKey(std::string &md5data)
         {
             memset(p, 0, sizeof(p));

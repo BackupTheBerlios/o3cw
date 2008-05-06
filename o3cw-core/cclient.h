@@ -54,10 +54,6 @@ namespace o3cw
         int OpenDoc(o3cw::CDoc &doc);
         int CloseDoc(o3cw::CDoc &doc);
         
-        void Use();
-        void UnUse();
-        int GetUseCount();
-        
         int SetUser(o3cw::CUser &user);
         o3cw::CUser *GetUser();
     private:
