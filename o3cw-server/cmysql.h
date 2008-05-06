@@ -51,6 +51,8 @@ namespace o3cwapp
         /* Global SQL library init function */
         static int Init();
         static int DeInit();
+        
+        std::string &SQLSafeStr(std::string &str);
     private:
         MYSQL m_connection;
         bool m_recving_data;

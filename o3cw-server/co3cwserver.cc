@@ -29,6 +29,10 @@ int o3cwapp::CO3CWServer::Shutdown()
     
     /* Shutdown MYSQL */
     o3cwapp::CMySQL::DeInit();
+    
+    /* Network cleanup */
+    o3cw::CNetwork::Cleanup();
+    
     return 0;
 }
 
@@ -98,25 +102,37 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
 	    if (cmd.CmdAviable())
             {
 		std::string &c2=cmd.Pop();
-                if (cmd.GetClient().GetUser()!=NULL)
+                if (c2=="exit")
                 {
-                    std::string username;
-                    cmd.GetClient().GetUser()->GetName(username);
-                    if (c2=="exit" && cmd.GetClient().Trusted() && username==admin_name)
+                    if (cmd.GetClient().GetUser()!=NULL)
                     {
-                        cmd_out.Push("exit");
-                        cmd_out.Push("bye-bye!!");
-                        printf(" * Normal shutdown\n");
-                        for (int i=0; i<threads_num; i++)
-                            cmdexec->Kill();
-                        o3cw::CNetwork::cmd_bus.Destroy();
-                        if (connections_handler!=NULL)
-                            connections_handler->Kill();
+                        std::string username;
+                        cmd.GetClient().GetUser()->GetName(username);
+                        
+                        if (cmd.GetClient().Trusted() && username==admin_name)
+                        {
+                            cmd_out.Push("exit");
+                            cmd_out.Push("bye-bye!!");
+                            printf(" * Normal shutdown\n");
+                            for (int i=0; i<threads_num; i++)
+                                cmdexec->Kill();
+                            o3cw::CNetwork::cmd_bus.Destroy();
+                            if (connections_handler!=NULL)
+                                connections_handler->Kill();
+                        }
+                        else
+                        {
+                            return O3CW_ERR_DENIED;
+                        }
+                    }
+                    else
+                    {
+                        return O3CW_ERR_DENIED;
                     }
                 }
-                else
-                    printf("Denied.\n");
             }
+            else
+                return O3CW_ERR_BAD_SEQ;
         }
         else if (c1=="doc")
         {
@@ -133,6 +149,6 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
 	}
     }
     else
-        return -1;
+        return O3CW_ERR_BAD_SEQ;
     return 0;
 }

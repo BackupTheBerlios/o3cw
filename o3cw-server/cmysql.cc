@@ -122,6 +122,8 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
     }
     
     m_row=mysql_fetch_row(m_quest_res);
+    unsigned long *lengths = mysql_fetch_lengths(m_quest_res);
+
     unsigned int num_fields=mysql_num_fields(m_quest_res);
     if (m_row!=NULL)
     {
@@ -133,7 +135,7 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
             
             if (m_row[i]!=NULL)
             {
-                buff[i]=m_row[i];
+                buff[i].assign(m_row[i], lengths[i]);
             }
             else
             {
@@ -181,4 +183,22 @@ int o3cwapp::CMySQL::DeInit()
 {
     mysql_library_end();
     return 0;
+}
+
+std::string &o3cwapp::CMySQL::SQLSafeStr(std::string &str)
+{
+    int l=str.length()*2+1;
+    if (l>1024)
+    {
+        char *buff=new char[l];
+        unsigned long size=mysql_real_escape_string(&m_connection, buff, str.c_str(), str.length());
+        str.assign(buff, size);
+    }
+    else
+    {
+        char buff[1024];
+        unsigned long size=mysql_real_escape_string(&m_connection, buff, str.c_str(), str.length());
+        str.assign(buff, size);
+    }
+    return str;
 }

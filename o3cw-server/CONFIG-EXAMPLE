@@ -9,7 +9,7 @@
     <net>
 	<timeout>
 	    <default>50</default>
-	    <authorized>500</authorized>
+	    <authorized>100</authorized>
 	</timeout>
 	<server>
 	    <interface>127.0.0.1</interface>
