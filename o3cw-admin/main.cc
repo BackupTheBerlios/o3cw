@@ -87,6 +87,50 @@ int main(int argc, char** argv)
                         cmd.Push(password);
                     }
                 }
+                else if (buff.find("\\doc")==0)
+                {
+                    unsigned int name_begins=strlen("\\doc");
+                    size_t l=buff.length();
+                    while (l>name_begins && buff[name_begins]==' ')
+                        name_begins++;
+                    std::string docname;
+                    docname.assign(buff.c_str(), name_begins);
+                    
+                    if (docname=="")
+                    {
+                        std::cout << "Usage: \\doc doc_id" << std::endl;
+                         execute=false;
+                    }
+                    else
+                    {
+                        cmd.Push("doc");
+                        cmd.Push("open");
+                        cmd.Push(docname);
+                    }
+                }
+                else if (buff.find("\\get")==0)
+                {
+                    unsigned int name_begins=strlen("\\get");
+                    size_t l=buff.length();
+                    while (l>name_begins && buff[name_begins]==' ')
+                        name_begins++;
+                    std::string docname;
+                    docname.assign(buff.c_str(), name_begins);
+                    
+                    if (docname=="")
+                    {
+                        std::cout << "Usage: \\get doc_key" << std::endl;
+                         execute=false;
+                    }
+                    else
+                    {
+                        cmd.Push("doc");
+                        cmd.Push("id");
+                        cmd.Push(docname);
+			cmd.Push("do");
+			cmd.Push("get");
+                    }
+                }
                 else if (buff=="\\list")
                 {
                     cmd.Push("doc");
@@ -111,7 +155,7 @@ int main(int argc, char** argv)
                     std::cout << "\\shutdown - shutdown o3cw server" << std::endl;
                     std::cout << "\\list - print list of all aviable docs" << std::endl;
                     std::cout << "\\open (doc) - open doc with specified doc_id" << std::endl;
-                    std::cout << "\\get (doc_id) - get content of an opened doc" << std::endl;
+                    std::cout << "\\get (doc_key) - get content of an opened doc" << std::endl;
                     std::cout << "\\q - exit" << std::endl;
                 }
             }
