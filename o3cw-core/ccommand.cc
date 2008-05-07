@@ -25,10 +25,25 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl)
     cmd_executor=NULL;
 }
 
+o3cw::CCommand::CCommand(const o3cw::CCommand &cmd)
+{
+    head=NULL;
+    body=NULL;
+    client=cmd.client;
+    if (client!=NULL)
+        client->Use();
+    cmds=cmd.cmds;
+    cur_val=cmds.begin();
+    cmd_executor=cmd.cmd_executor;
+}
+
 o3cw::CCommand::~CCommand()
 {
     if (client!=NULL)
+    {
         client->UnUse();
+    }
+    
 }
 
 o3cw::CClient &o3cw::CCommand::GetClient()

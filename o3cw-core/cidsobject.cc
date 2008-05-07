@@ -151,7 +151,6 @@ int o3cw::CIdsObject::UnUse()
     {
         class_mlock.Lock();
         delete_list.push_back(this);
-        printf("FUCk. DELETE me (%p)!\n", this);
         class_mlock.UnLock();
     }
     mlock.UnLock();

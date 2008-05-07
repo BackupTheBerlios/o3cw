@@ -37,7 +37,7 @@ int bonbon::CMutex::Lock()
     if (it!=lockers_threads.end())
     {
         sem_post(&self_lock);
-        printf("Possible deadlock by thread %i in CMutex located at %p", locker, this);
+        printf("Possible deadlock by thread %i in CMutex located at %p\n", locker, this);
         return CMUTEX_DEADLOCK;
     }
     else

@@ -28,11 +28,9 @@ o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 
 o3cw::CClient::~CClient()
 {
+    printf("~CClient()\n");
     if (m_user!=NULL)
-    {
         m_user->ClientUnRegister(*this);
-        m_user->UnUse();
-    }
     
     std::vector <o3cw::CDoc *>::iterator search_it;
     for (search_it=opened_docs.begin(); search_it<opened_docs.end(); search_it++)
@@ -313,10 +311,18 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
 int o3cw::CClient::SetUser(o3cw::CUser &user)
 {
     mlock.Lock();
-    m_user=&user;
-    user.ClientRegister(*this);
-    user.Use();
-    trusted=true;
+    if (m_user==NULL)
+    {
+        m_user=&user;
+        user.ClientRegister(*this);
+        trusted=true;
+    }
+    else
+    {
+        m_user->ClientUnRegister(*this);
+        m_user=&user;
+        user.ClientRegister(*this);
+    }
     mlock.UnLock();
     return 0;
 }
