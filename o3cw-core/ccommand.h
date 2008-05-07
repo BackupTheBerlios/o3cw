@@ -28,6 +28,7 @@ namespace o3cw
         int Push(std::string &data);
         int Push(const char *data);
         int Push(const char *data, size_t data_size);
+	int Push(int number);
         o3cw::CClient &GetClient();
 	bool CmdAviable();
         void Clear();

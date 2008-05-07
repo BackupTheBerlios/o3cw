@@ -33,7 +33,7 @@ namespace o3cw
                 std::string &c1=cmd.Pop();
 
                 cmd_out.Push(c1);
-
+		printf("%s\n", c1.c_str());
                  /* Get doc by unique adress (or id) hash */
                 if (c1=="id")
                 {
@@ -123,7 +123,8 @@ namespace o3cw
                                     delete element;
                                 }
                                 printf("Error %i while creating new element\n",create_new_element);
-                                result=create_new_element;
+                                cmd_out.Push("error");
+				cmd_out.Push(create_new_element);
                             }
                         }
 
@@ -151,7 +152,9 @@ namespace o3cw
                                 /* Client can NOT open it */
                                 
                                 printf("Error %i while opening existing element\n",create_new_element);
-                                result=create_new_element;
+				cmd_out.Push("error");
+				cmd_out.Push(create_new_element);
+
                             }
                         }
 
@@ -179,8 +182,10 @@ namespace o3cw
                     cmd_out.Push("not found");*/
                 }
             }
+	    
             DeleteUnusedElements();
-            return result;
+            
+	    return result;
         }
         
         void DeleteUnusedElements()

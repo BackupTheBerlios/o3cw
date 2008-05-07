@@ -47,7 +47,6 @@ int o3cw::CCmdExec::ThreadExecute()
 	{
     	    o3cw::CCommand &cmd=*ptr_to_cmd;
 	    cmd.SetExecutor(*this);
-            
             /* Decrypt command here.... */
 	    	    
             /* (will be done later) */

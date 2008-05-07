@@ -262,7 +262,7 @@ int o3cw::CSocket::Receive(std::string &buff, float timeout)
     {
         timeval timeo;
         timeo.tv_sec = int(timeout);
-        timeo.tv_usec = (timeout-(float)((int)timeout))*1000000;
+        timeo.tv_usec = (int)((timeout-(float)((int)timeout))*1000000);
 
         fd_set rf;
         FD_ZERO(&rf);

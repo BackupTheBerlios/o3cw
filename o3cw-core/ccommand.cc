@@ -118,7 +118,14 @@ int o3cw::CCommand::Push(std::string &data)
     return 0;
 }
 
-int o3cw::CCommand::Push(const char*data)
+int o3cw::CCommand::Push(int number)
+{
+    char tmp[128];
+    snprintf(tmp, 128, "%i", number);
+    return Push(tmp);
+}
+
+int o3cw::CCommand::Push(const char *data)
 {
     if (data==NULL)
         return -1;

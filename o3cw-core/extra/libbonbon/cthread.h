@@ -19,7 +19,7 @@ namespace bonbon
         public:
             friend void *ThreadExec(void *data);
             CThread();
-            ~CThread();
+            virtual ~CThread();
             pid_t GetID();
             bool Running();
             bool Finished();

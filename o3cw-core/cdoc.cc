@@ -189,37 +189,43 @@ int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase *
                 request+=sql.SQLSafeStr(c2);
                 request+="'";
                 
-                sql.SQLRequest(request);
+                if (0==sql.SQLRequest(request))
+		{
                 
-                std::vector <std::string> sql_result;
-                bool doc_acess=false;
-                while (cmd.GetExecutor().SQL().GetNextDataSet(sql_result)==0)
-                {
-                    std::string username;
-                    o3cw::CUser *user=cmd.GetClient().GetUser();
-                    if (user!=NULL)
-                    {
-                        if (atol(sql_result[0].c_str())==user->GetUserId())
+                    std::vector <std::string> sql_result;
+            	    bool doc_acess=false;
+            	    while (cmd.GetExecutor().SQL().GetNextDataSet(sql_result)==0)
+            	    {
+                	std::string username;
+                        o3cw::CUser *user=cmd.GetClient().GetUser();
+	                if (user!=NULL)
                         {
-                            /* Permission OK */
-                            doc_acess=true;
-                        }
-                    }
-                }
+	                    if (atol(sql_result[0].c_str())==user->GetUserId())
+    	                    {
+        	                /* Permission OK */
+	    	                doc_acess=true;
+	    	            }
+                	}
+            	    }
                 
-                if (doc_acess==false)
-                {
-                    printf("ACESS DENIED\n");
-                    result=O3CW_ERR_DENIED;
-                }
-                else
-                {
-                    if (doc==NULL)
-                    {
-                        /* Doc doesnt exist in store */
-                        doc=new o3cw::CDoc();
+                    if (doc_acess==false)
+	            {
+    	                printf("ACESS DENIED\n");
+        	        result=O3CW_ERR_DENIED;
                     }
-                }
+	            else
+    	            {
+        	        if (doc==NULL)
+            	        {
+                	    /* Doc doesnt exist in store */
+                    	    doc=new o3cw::CDoc();
+                        }
+	            }
+		}
+		else
+		{
+		    result=O3CW_ERR_DB;
+		}
                 cmd.Back();
             }
         }

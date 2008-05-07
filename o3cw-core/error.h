@@ -14,6 +14,7 @@
 #define O3CW_ERR_NULL -103
 #define O3CW_ERR_DENIED -104
 #define O3CW_ERR_BAD_SEQ -105
+#define O3CW_ERR_DB -106
 
 #endif	/* _ERROR_H */
 
