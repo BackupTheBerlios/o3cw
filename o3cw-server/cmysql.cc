@@ -9,6 +9,7 @@ o3cwapp::CMySQL::CMySQL(): o3cw::CSQL::CSQL()
     mysql_init(&m_connection);
     m_recving_data=false;
     m_quest_res=NULL;
+    max_reconnect_attemps=5;
 }
 
 o3cwapp::CMySQL::~CMySQL()
@@ -45,6 +46,8 @@ int o3cwapp::CMySQL::SQLRequest(const char *request)
 
 int o3cwapp::CMySQL::SQLRequest(const char *request, size_t req_size)
 {
+    o3cw::CO3CWBase::GetMainConfig().GetValue(max_reconnect_attemps,"timeout","db");
+
     if (m_recving_data)
         FinishRequest();
     int sql_err=0;
@@ -53,26 +56,32 @@ int o3cwapp::CMySQL::SQLRequest(const char *request, size_t req_size)
     while (err!=0)
     {
         sql_err=mysql_errno(&m_connection);
+	printf("sql_err=%i\n", sql_err);
 
         /* Wrong MYSQL query. Shutdown. */
         if (ER_PARSE_ERROR==sql_err)
         {
+	    printf("return 1");
             return -1;
         }
         else if (ER_BAD_FIELD_ERROR==sql_err)
         {
+	    printf("return 2");
             return -2;
         }
         else if (ER_EMPTY_QUERY==sql_err)
         {
+	    printf("return 3");
             return -3;
         }
         if (ER_DUP_ENTRY==sql_err)
         {
+	    printf("return 4");
             return -4;
         }
         else if (ER_NO_SUCH_TABLE==sql_err)
         {
+	    printf("return 5");
             return -5;
         }
         else
@@ -84,7 +93,7 @@ int o3cwapp::CMySQL::SQLRequest(const char *request, size_t req_size)
                     /* Restore SQL  connection...*/
                     Connect(m_host, m_db_name, m_user, m_password);
 
-                    if (restore_count<3200)
+                    if (restore_count<max_reconnect_attemps)
                             restore_count++;
                     else
                         return -6;
@@ -93,8 +102,8 @@ int o3cwapp::CMySQL::SQLRequest(const char *request, size_t req_size)
                             sleep(1);
                     else
                     {
-                            /* Not CR_SERVER_GONE_ERROR, CR_SERVER_LOST, CR_SERVER_HANDSHAKE_ERR error, sleeping 1 min */
-                            sleep(60);
+                            /* Not CR_SERVER_GONE_ERROR, CR_SERVER_LOST, CR_SERVER_HANDSHAKE_ERR error, sleeping 1 sec */
+                            sleep(1);
                     }
                 }
                 err=mysql_real_query(&m_connection, request, req_size);

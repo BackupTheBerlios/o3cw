@@ -107,16 +107,16 @@ int o3cwapp::CXMLConfig::GetValue(long long &buff, const char *param, const char
 {
     int result=0;
     std::string s;
-    GetValue(s, param, section);
-    buff=atoll(s.c_str());
+    if (GetValue(s, param, section)==0)
+	buff=atoll(s.c_str());
     return result;
 }
 int o3cwapp::CXMLConfig::GetValue(long &buff, const char *param, const char *section) const
 {
     int result=0;
     std::string s;
-    GetValue(s, param, section);
-    buff=atol(s.c_str());
+    if (GetValue(s, param, section)==0)
+	buff=atol(s.c_str());
     return result;
 }
 
@@ -124,8 +124,8 @@ int o3cwapp::CXMLConfig::GetValue(int &buff, const char *param, const char *sect
 {
     int result=0;
     std::string s;
-    GetValue(s, param, section);
-    buff=atoi(s.c_str());
+    if (GetValue(s, param, section)==0)
+	buff=atoi(s.c_str());
     return result;
 }
 

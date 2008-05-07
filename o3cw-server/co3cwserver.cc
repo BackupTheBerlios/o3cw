@@ -7,7 +7,7 @@ o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase()
     cmdexec=NULL;
     mysql=NULL;
     connections_handler=NULL;
-    threads_num=10;
+    threads_num=1;
     admin_name="admin";
 }
 
@@ -45,10 +45,10 @@ int o3cwapp::CO3CWServer::Run()
     
     std::vector<std::string> request_results;
     
+    main_conf.GetValue(threads_num,"limit","threads:workers");
+
     /* Creating connection to MySQL */
     mysql=new o3cwapp::CMySQL [threads_num];
-    
-    main_conf.GetValue(threads_num,"limit","threads:workers");
     
     /* Default values */
     std::string host("localhost");

@@ -58,6 +58,7 @@ namespace o3cwapp
         bool m_recving_data;
         MYSQL_RES *m_quest_res;
 	MYSQL_ROW m_row;
+	int max_reconnect_attemps;
     };
 }
 
