@@ -38,10 +38,10 @@
       <itemPath>csocket.h</itemPath>
       <itemPath>csql.h</itemPath>
       <itemPath>cstorage.h</itemPath>
+      <itemPath>cstoreobjwrapper.h</itemPath>
       <itemPath>cthreadsafeobject.h</itemPath>
       <itemPath>cuniqueaux.h</itemPath>
       <itemPath>cuser.h</itemPath>
-      <itemPath>custorage.h</itemPath>
       <itemPath>error.h</itemPath>
       <itemPath>libbonbon.h</itemPath>
       <itemPath>o3cw.h</itemPath>
@@ -85,6 +85,7 @@
       <itemPath>csocket.cc</itemPath>
       <itemPath>csql.cc</itemPath>
       <itemPath>cstorage.cc</itemPath>
+      <itemPath>cstoreobjwrapper.cc</itemPath>
       <itemPath>cthreadsafeobject.cc</itemPath>
       <itemPath>cuser.cc</itemPath>
     </logicalFolder>
@@ -233,6 +234,12 @@
       <item path="cstorage.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cstoreobjwrapper.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cstoreobjwrapper.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cthreadsafeobject.cc">
         <itemTool>1</itemTool>
       </item>
@@ -246,9 +253,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="custorage.h">
         <itemTool>3</itemTool>
       </item>
       <item path="error.h">
@@ -457,6 +461,12 @@
       <item path="cstorage.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cstoreobjwrapper.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cstoreobjwrapper.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cthreadsafeobject.cc">
         <itemTool>1</itemTool>
       </item>
@@ -470,9 +480,6 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cuser.h">
-        <itemTool>3</itemTool>
-      </item>
-      <item path="custorage.h">
         <itemTool>3</itemTool>
       </item>
       <item path="error.h">

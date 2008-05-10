@@ -22,7 +22,7 @@ namespace o3cw
         CUser();
         CUser(long user_id);
         virtual ~CUser();
-        static int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **e);
+        int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **e);
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
         void GetName(std::string &buff);
         long GetUserId() const;

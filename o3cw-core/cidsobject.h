@@ -46,12 +46,26 @@ namespace o3cw
         
         int SetKey(o3cw::CHashKey &new_key);
         const o3cw::CHashKey &GetKey() const;
-        static std::vector<o3cw::CIdsObject *> delete_list;
+        
+	std::vector<o3cw::CIdsObject *> &GetDeleteList(){return delete_list;}
+	
         int Use();
         int UnUse();
         int GetUseCount();
+	
+	/* Execute "open" command. If *element is NULL, that means that requested element does not
+         * exists in store.
+         * Open() can create new element (using "new" operator), initialize it
+         * set *element pointer to created element and return 0,
+         * OR
+         * return non-zero error code and keep *element as NULL.
+         * If *element is not NULL, that means that that requested element exists in store already,
+         * and Open() needs just to return zero if client can open it or error code otherwise.
+         */
+        virtual int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **element);
+
     private:
-        
+	static std::vector<o3cw::CIdsObject *> delete_list;
         /* Keeps unique object id */
         o3cw::ids obj_id;
         

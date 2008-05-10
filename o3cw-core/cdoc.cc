@@ -1,4 +1,5 @@
 #include <fstream>
+#include <assert.h>
 
 #include "cdoc.h"
 #include "cclient.h"
@@ -14,7 +15,7 @@ o3cw::CUniqueAux o3cw::CDoc::unique_data;
 o3cw::CDoc::CDoc(): o3cw::CIdsObject::CIdsObject(o3cw::CDoc::unique_data)
 {
     /* Every document contains at least one part - create it */
-    o3cw::CDocPart *new_part=new o3cw::CDocPart(parts_unique_aux);
+    o3cw::CDocPart *new_part=new o3cw::CDocPart(*this);
     parts.push_back(new_part);
 }
 
@@ -76,6 +77,8 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 		std::string c2=cmd.Pop();
                 OpenFile(c2.c_str());
             }
+            else
+                result=O3CW_ERR_BAD_SEQ;
         }
 	else if (c1=="commit")
 	{
@@ -89,57 +92,101 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 		multi_cmd.Push("changed");
 	        MultiCast(multi_cmd);
 	    }
+            else
+                result=O3CW_ERR_BAD_SEQ;
 	}
         else if (c1=="open")
         {
-            Open(cmd.GetClient());
+            o3cw::CClient &client=cmd.GetClient();
+            mlock.Lock();
+            std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
+            while (it<clients_connected.end())
+            {
+                if (*it==&client)
+                {
+                    printf(" * This user connected already to this doc\n");
+                    result=O3CW_ERR_DUBLICATE;
+                    it=clients_connected.end();
+                }
+                it++;
+            }
+            
+            if (0==result)
+            {
+                printf(" * Compiling answer...\n");
+                o3cw::CCommand cmd(client);
+                char tmp[128];
+                snprintf(tmp,128, "%i", client.GetFD());
+
+                cmd.Push("client");
+                cmd.Push(tmp);
+                cmd.Push("connected");
+
+                printf(" * Add user to online docs user\n");
+                clients_connected.push_back(&client);
+                client.OpenDoc(*this);
+                printf(" * Done\n");
+            }
+            mlock.UnLock();
+            if (0==result)
+                MultiCast(cmd);
+        }
+        else if (c1=="part")
+        {
+            if (cmd.CmdAviable())
+            {
+                std::string &c2=cmd.Pop();
+                if (c2=="id")
+                {
+                    if (cmd.CmdAviable())
+                    {
+                        std::string &c_id=cmd.Pop();
+                        
+                        /* Search part with a specified id */
+                        
+                        if (cmd.CmdAviable())
+                        {
+                            std::vector<o3cw::CDocPart *>::iterator search_it;
+                            for (search_it=parts.begin(); search_it<parts.end(); search_it++)
+                            {
+                                o3cw::CDocPart *dpart=*search_it;
+                                std::string cur_key;
+                                if (dpart!=NULL && dpart->GetKey().GetBase64Value(cur_key)==c_id)
+                                {
+                                    std::string &c_do=cmd.Pop();
+                                    if (c_do=="do")
+                                    {
+                                        result=dpart->ExecCommand(cmd, cmd_out);
+                                    }
+                                    else
+                                        result=O3CW_ERR_BAD_SEQ;
+                                }
+                            }
+                        }
+                        else
+                            result=O3CW_ERR_BAD_SEQ;
+                    }
+                    else
+                        result=O3CW_ERR_BAD_SEQ;
+                }
+                else
+                    result=O3CW_ERR_BAD_SEQ;
+            }
+            else
+                result=O3CW_ERR_BAD_SEQ;
         }
     }
     return result;
 }
 
-int o3cw::CDoc::Open(o3cw::CClient &client)
-{
-    mlock.Lock();
-    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
-    while (it<clients_connected.end())
-    {
-	if (*it==&client)
-	{
-	    printf(" * This user connected already to this doc\n");
-            mlock.UnLock();
-	    return -1;
-	}
-	it++;
-    }
-    printf(" * Compiling answer...\n");
-    o3cw::CCommand cmd(client);
-    char tmp[128];
-    snprintf(tmp,128, "%i", client.GetFD());
-    
-    cmd.Push("client");
-    cmd.Push(tmp);
-    cmd.Push("connected");
-    
-    printf(" * Add user to online docs user\n");
-    clients_connected.push_back(&client);
-    client.OpenDoc(*this);
-    printf(" * Done\n");
-    mlock.UnLock();
-    
-    MultiCast(cmd);
-    
-    return 0;
-}
-
-int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd)
+int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd) const
 {
     printf(" * Multicast\n");
     std::string buff;
     cmd.Compile(buff);
     
     mlock.Lock();
-    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
+    std::vector<o3cw::CClient *>::const_iterator it=clients_connected.begin();
     it=clients_connected.begin();
     while (it<clients_connected.end() && (*it)!=NULL)
     {
@@ -170,9 +217,12 @@ int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)
     return -1;
 }
 
-int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **element)
+int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **element)
 {
     o3cw::CDoc *doc=dynamic_cast<o3cw::CDoc *>(*element);
+    
+    assert(*element==NULL || doc!=NULL);
+    
     int result=O3CW_ERR_DENIED;
     result=0;
     if (cmd.CmdAviable())
@@ -231,14 +281,14 @@ int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase *
         }
         cmd.Back();
     }
-    *element=dynamic_cast<o3cw::CO3CWBase *>(doc);
+    *element=dynamic_cast<o3cw::CIdsObject *>(doc);
     return result;
 }
 
 int o3cw::CDoc::StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
 {
     int result=O3CW_ERR_DENIED;
-     if (cmd.CmdAviable())
+    if (cmd.CmdAviable())
     {
         std::string &c1=cmd.Pop();
         if (c1=="list")

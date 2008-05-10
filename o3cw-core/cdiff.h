@@ -16,11 +16,13 @@
 
 namespace o3cw
 {
+    class CUser;
     class CClient;
+    class CDocPart;
     class CDiff: public o3cw::CIdsObject
     {
     public:
-        CDiff(o3cw::CClient &client, o3cw::ids part_id, o3cw::CUniqueAux diff_uaux);
+        CDiff(std::string &data, std::string &data_hash, o3cw::CDocPart &docpart);
         virtual ~CDiff();
         o3cw::CDiff &operator=(const o3cw::CDiff &d);
         bool operator==(const o3cw::CDiff &d);
@@ -34,24 +36,25 @@ namespace o3cw
         //Returns diffs (approximate?) size (in bytes). Used for lazy updates
         //(compare with master-part size);
         unsigned int GetSize();
+        
+        int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
     private:
-        //Example of an internal lock
-        //Use this for data protection in multithread env
-        bonbon::CMutex self_lock1;
-    protected:
-        //Creator id
-        o3cw::ids client_id;
-        
-        //Master-part id
-        o3cw::ids part_id;
-        
         //List of clients, accepted this diff.
-        std::vector<o3cw::CClient *> accepted_by;
+        std::vector<o3cw::CUser *> m_confirmed_by;
         
-        //If true, diff acepted by everyone already ("confirmed")
-        bool confirmed;
+        //If true, diff confirmed by everyone already ("accepted")
+        bool m_accepted;
         
-        std::string diff_data;
+        /* Diff data */
+        std::string m_diff_data;
+        
+        /* Diff data hash */
+        std::string m_diff_data_hash;
+        
+        /* Parent doc part */
+        o3cw::CDocPart &m_parent_docpart;
+        static o3cw::CUniqueAux diff_uaux;
+        
     };
 }
 

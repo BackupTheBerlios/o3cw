@@ -22,11 +22,12 @@ namespace o3cw
     class CClient;
     class CStorage;
     class CUniqueAux;
+    class CDoc;
     
     class CDocPart: public o3cw::CIdsObject
     {
     public:
-        CDocPart(o3cw::CUniqueAux &aux);
+        CDocPart(o3cw::CDoc &parentdoc);
         virtual ~CDocPart();
 
         //Full buff with doc_data content
@@ -55,6 +56,10 @@ namespace o3cw
         
         //Copy last_activity_time into buff
         void GetLastActivityTime(long long &buff);
+        
+        int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
+        
+        const o3cw::CDoc &GetParentDoc(){return m_parent_doc;}
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env
@@ -64,7 +69,7 @@ namespace o3cw
         std::string part_data;
         
         //List of all diffs, acociated with this part
-        std::vector<CDiff *> diffs;
+        std::vector<o3cw::CDiff *> diffs;
         
         //Indicates last time of *Part and *Diff functions
         long long last_activity_time;
@@ -75,7 +80,8 @@ namespace o3cw
         //Keep full parts adress in cache
         std::string name_in_cache;
         
-        o3cw::CUniqueAux diffs_unique_aux;
+        static o3cw::CUniqueAux diffs_unique_aux;
+        o3cw::CDoc &m_parent_doc;
     };
 }
 

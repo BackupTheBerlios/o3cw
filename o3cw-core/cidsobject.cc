@@ -164,3 +164,8 @@ int o3cw::CIdsObject::GetUseCount()
     mlock.UnLock();
     return result;
 }
+
+int o3cw::CIdsObject::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **e)
+{
+    return 0;
+}

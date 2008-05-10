@@ -64,8 +64,3 @@ int o3cw::CO3CWBase::StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
         cmd.Pop();
     return 0;
 }
-
-int o3cw::CO3CWBase::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **element)
-{
-    return 0;
-}

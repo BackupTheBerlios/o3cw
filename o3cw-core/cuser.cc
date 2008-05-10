@@ -1,4 +1,5 @@
 #include <algorithm>
+ #include <assert.h>
 
 #include "cuser.h"
 #include "cclient.h"
@@ -32,9 +33,12 @@ void o3cw::CUser::GetName(std::string &buff)
     mlock.UnLock();
 }
 
-int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **e)
+int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **element)
 {
-    o3cw::CUser *user=dynamic_cast<o3cw::CUser *>(*e);
+    o3cw::CUser *user=dynamic_cast<o3cw::CUser *>(*element);
+    
+    assert(*element==NULL || user!=NULL);
+    
     int result=O3CW_ERR_DENIED;
     if (cmd.CmdAviable())
     {
@@ -115,7 +119,7 @@ int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase 
         }
         cmd.Back();
     }
-    *e=dynamic_cast<o3cw::CO3CWBase *>(user);
+    *element=dynamic_cast<o3cw::CIdsObject *>(user);
     return result;
 }
 
@@ -124,7 +128,6 @@ int o3cw::CUser::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
     if (cmd.CmdAviable())
     {
         std::string &c1=cmd.Pop();
-        printf("c1=%s\n", c1.c_str());
         if (c1=="open")
         {
             cmd.GetClient().SetUser(*this);

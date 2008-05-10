@@ -20,6 +20,7 @@ namespace o3cw
     public:
         CCommand(o3cw::CClient &cl, std::string *head, std::string *body);
         CCommand(o3cw::CClient &cl);
+        CCommand();
         CCommand(const o3cw::CCommand &cmd);
         virtual ~CCommand();
 	int Parse();
@@ -40,10 +41,11 @@ namespace o3cw
         int SetExecutor(o3cw::CCmdExec &executor);
         std::string *body;
 	std::string *head;
-        o3cw::CClient *client;
+        o3cw::CClient &client;
 	std::vector<std::string> cmds;
 	std::vector<std::string>::iterator cur_val;
         o3cw::CCmdExec *cmd_executor;
+        static o3cw::CClient null_client;
     };
 }
 

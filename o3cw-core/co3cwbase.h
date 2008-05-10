@@ -35,17 +35,6 @@ namespace o3cw
         /* Execute command sequence */
         virtual int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
         
-        /* Execute "open" command. If *element is NULL, that means that requested element does not
-         * exists in store.
-         * Open() can create new element (using "new" operator), initialize it
-         * set *element pointer to created element and return 0,
-         * OR
-         * return non-zero error code and keep *element as NULL.
-         * If *element is not NULL, that means that that requested element exists in store already,
-         * and Open() needs just to return zero if client can open it or error code otherwise.
-         */
-        static int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CO3CWBase **element);
-        
         static int StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out);
     protected:
         static o3cw::CConfig *o3cw_main_config;

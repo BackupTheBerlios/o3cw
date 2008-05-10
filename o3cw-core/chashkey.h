@@ -8,9 +8,11 @@
 #ifndef _CHASHKEY_H
 #define	_CHASHKEY_H
 
+#include "ccrypto.h"
+
 namespace o3cw
 {
-    class CHashKey
+    class CHashKey: public o3cw::CThreadSafeObject
     {
     public:
         CHashKey(){};
@@ -35,27 +37,51 @@ namespace o3cw
                 }
                 i++;
             }
+            o3cw::CCrypto::Base64Encode((const unsigned char*)p, sizeof(p),base64_value);
         }
         virtual ~CHashKey(){};
         bool operator<(const CHashKey& cmp) const
         {
+            mlock.Lock();
+            cmp.mlock.Lock();
             int i=0;
             while (i<3)
             {
                 if (cmp.p[i]>p[i])
+                {
+                    cmp.mlock.UnLock();
+                    mlock.UnLock();
                     return true;
+                }
                 else if(cmp.p[i]<p[i])
+                {
+                    cmp.mlock.UnLock();
+                    mlock.UnLock();
                     return false;
+                }
                 i++;
             }
+            cmp.mlock.UnLock();
+            mlock.UnLock();
             return false;
         }
         CHashKey &operator=(const CHashKey& v)
         {
+            mlock.Lock();
             memcpy(p, v.p, sizeof(p));
+            o3cw::CCrypto::Base64Encode((const unsigned char*)p, sizeof(p),base64_value);
+            mlock.UnLock();
             return *this;
         }
+        std::string &GetBase64Value(std::string &buff) const
+        {
+            mlock.Lock();
+            buff=base64_value;
+            mlock.UnLock();
+            return buff;
+        }
     private:
+        std::string base64_value;
         long long p[3];
     };
 }

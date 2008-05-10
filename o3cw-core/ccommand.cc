@@ -5,33 +5,41 @@
 
 #define CMD_LEN_SIZE 4
 
-o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b)
+o3cw::CClient o3cw::CCommand::null_client;
+        
+o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b): client(cl)
 {
     head=h;
     body=b;
-    client=&cl;
     cl.Use();
     cur_val=cmds.begin();
     cmd_executor=NULL;
 }
 
-o3cw::CCommand::CCommand(o3cw::CClient &cl)
+o3cw::CCommand::CCommand(o3cw::CClient &cl): client(cl)
 {
     head=NULL;
     body=NULL;
-    client=&cl;
+    
     cl.Use();
     cur_val=cmds.begin();
     cmd_executor=NULL;
 }
 
-o3cw::CCommand::CCommand(const o3cw::CCommand &cmd)
+o3cw::CCommand::CCommand(): client(null_client)
 {
     head=NULL;
     body=NULL;
-    client=cmd.client;
-    if (client!=NULL)
-        client->Use();
+    client.Use();
+    cur_val=cmds.begin();
+    cmd_executor=NULL;
+}
+
+o3cw::CCommand::CCommand(const o3cw::CCommand &cmd): client(cmd.client)
+{
+    head=NULL;
+    body=NULL;
+    client.Use();
     cmds=cmd.cmds;
     cur_val=cmds.begin();
     cmd_executor=cmd.cmd_executor;
@@ -39,16 +47,12 @@ o3cw::CCommand::CCommand(const o3cw::CCommand &cmd)
 
 o3cw::CCommand::~CCommand()
 {
-    if (client!=NULL)
-    {
-        client->UnUse();
-    }
-    
+        client.UnUse();
 }
 
 o3cw::CClient &o3cw::CCommand::GetClient()
 {
-    return *client;
+    return client;
 }
 
 void o3cw::CCommand::Clear()

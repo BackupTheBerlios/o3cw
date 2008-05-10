@@ -37,6 +37,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/extra/libbonbon/cbreak.o \
 	${OBJECTDIR}/cdoc.o \
 	${OBJECTDIR}/cdocpart.o \
+	${OBJECTDIR}/cstoreobjwrapper.o \
 	${OBJECTDIR}/cintimeobject.o \
 	${OBJECTDIR}/cpermission.o \
 	${OBJECTDIR}/cstorage.o \
@@ -124,6 +125,10 @@ ${OBJECTDIR}/cdoc.o: cdoc.cc
 ${OBJECTDIR}/cdocpart.o: cdocpart.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdocpart.o cdocpart.cc
+
+${OBJECTDIR}/cstoreobjwrapper.o: cstoreobjwrapper.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cstoreobjwrapper.o cstoreobjwrapper.cc
 
 ${OBJECTDIR}/cintimeobject.o: cintimeobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
