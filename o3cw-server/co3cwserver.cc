@@ -1,7 +1,7 @@
 #include "co3cwserver.h"
 #include "cmysql.h"
 
-o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase()
+o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase(), users("user"), docs("doc")
 {
     CO3CWBase::server=this;
     cmdexec=NULL;
@@ -9,11 +9,11 @@ o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase()
     connections_handler=NULL;
     threads_num=1;
     admin_name="admin";
+    
 }
 
 o3cwapp::CO3CWServer::~CO3CWServer()
 {
-    
 }
 
 int o3cwapp::CO3CWServer::Shutdown()
@@ -152,3 +152,5 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
         return O3CW_ERR_BAD_SEQ;
     return 0;
 }
+
+

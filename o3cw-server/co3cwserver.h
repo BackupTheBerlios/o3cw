@@ -10,6 +10,7 @@
 
 #include "../o3cw-core/o3cw.h"
 #include "cxmlconfig.h"
+#include "cmysql.h"
 
 namespace o3cwapp
 {
@@ -24,14 +25,28 @@ namespace o3cwapp
         int LoadConfig(const char *config);
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
     private:
-        o3cw::CConnectionHandler *connections_handler;
-        o3cw::CStorage store;
+    
+	/* Main o3cw config */
         o3cwapp::CXMLConfig config;
-        o3cw::CUStorage<o3cw::CUser> users;
-        o3cw::CUStorage<o3cw::CDoc> docs;
+
+
+	/* Storage */
+        o3cw::CStorage users;
+        o3cw::CStorage docs;
+	
+	/* Command executors (threads) */
         o3cw::CCmdExec *cmdexec;
+	
+	/* Connection handlers */
+	o3cw::CConnectionHandler *connections_handler;
+	
+	/* Mysql connections */
         o3cwapp::CMySQL *mysql;
+	
+	/* Threads amount */
         int threads_num;
+	
+	/* Admin name (login) */
         std::string admin_name;
     };
 }
