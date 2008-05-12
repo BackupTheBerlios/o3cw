@@ -1,7 +1,5 @@
 #include "cstorage.h"
 #include "ccommand.h"
-//#include "cdoc.h"
-//#include "ccrypto.h"
 #include "error.h"
 
 o3cw::CStorage::CStorage(const char *type): objwrapp(type)
@@ -11,7 +9,7 @@ o3cw::CStorage::CStorage(const char *type): objwrapp(type)
 
 o3cw::CStorage::~CStorage()
 {
-    for (std::map<o3cw::CHashKey, o3cw::CIdsObject *>::iterator it=store.begin() ; it!=store.end(); it++)
+    for (std::map<o3cw::CHash, o3cw::CIdsObject *>::iterator it=store.begin() ; it!=store.end(); it++)
     {
         if (it->second!=NULL)
             delete it->second;
@@ -37,11 +35,11 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 cmd_out.Push(c4.c_str());
                 std::string binmd5sum;
                 o3cw::CCrypto::Base64Decode(c4.c_str(), binmd5sum);
-                o3cw::CHashKey key(binmd5sum);
+                o3cw::CHash key(binmd5sum);
 
                 mlock.Lock();
 
-                std::map<o3cw::CHashKey, CIdsObject *>::const_iterator it=store.find(key);
+                std::map<o3cw::CHash, CIdsObject *>::const_iterator it=store.find(key);
 
                 mlock.UnLock();
 
@@ -75,7 +73,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 /* Get unique doc adress (or id) */
                 std::string md5sum;
                 o3cw::CCrypto::MD5HashBin(c2, md5sum);
-                o3cw::CHashKey key(md5sum);
+                o3cw::CHash key(md5sum);
 
                 /* Return id to client */
                 std::string b64md5sum;
@@ -86,7 +84,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
 
                 mlock.Lock();
 
-                std::map <o3cw::CHashKey, o3cw::CIdsObject *>::const_iterator it=store.find(key);
+                std::map <o3cw::CHash, o3cw::CIdsObject *>::const_iterator it=store.find(key);
 
                 /* No such doc opened - open it */
                 if (it==store.end())
@@ -97,7 +95,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                         if (element!=NULL)
                         {
                             element->SetKey(key);
-                            store.insert(std::pair<o3cw::CHashKey, o3cw::CIdsObject *>(key,element));
+                            store.insert(std::pair<o3cw::CHash, o3cw::CIdsObject *>(key,element));
                         }
                         else
                         {
@@ -186,8 +184,8 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
     std::vector<o3cw::CIdsObject *> &del_list=objwrapp.GetDeleteList();
     for (delete_unused_it=del_list.begin(); delete_unused_it<del_list.end();delete_unused_it++)
     {
-        o3cw::CHashKey key((*delete_unused_it)->GetKey());
-        std::map<o3cw::CHashKey, CIdsObject *>::iterator it=store.find(key);
+        o3cw::CHash key((*delete_unused_it)->GetKey());
+        std::map<o3cw::CHash, CIdsObject *>::iterator it=store.find(key);
 
         if (it!=store.end())
         {

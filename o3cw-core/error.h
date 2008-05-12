@@ -17,6 +17,7 @@
 #define O3CW_ERR_DB -106
 #define O3CW_ERR_CMD_UNKNOWN -107
 #define O3CW_ERR_DATA_EMPTY -108
+#define O3CW_ERR_NOT_FOUND -109
 
 #endif	/* _ERROR_H */
 

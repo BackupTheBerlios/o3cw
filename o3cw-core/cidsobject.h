@@ -15,7 +15,7 @@
 #include "csharedobject.h"
 #include "libbonbon.h"
 #include "cuniqueaux.h"
-#include "chashkey.h"
+#include "chash.h"
 
 namespace o3cw
 {
@@ -44,8 +44,8 @@ namespace o3cw
         
         bool operator <(const CIdsObject &comp);
         
-        int SetKey(o3cw::CHashKey &new_key);
-        const o3cw::CHashKey &GetKey() const;
+        int SetKey(o3cw::CHash &new_key);
+        const o3cw::CHash &GetKey() const;
         
 	std::vector<o3cw::CIdsObject *> &GetDeleteList(){return delete_list;}
 	
@@ -82,7 +82,7 @@ namespace o3cw
         std::list<o3cw::ids *> *idlist;
         bonbon::CMutex *idlock;
         
-        o3cw::CHashKey m_key;
+        o3cw::CHash m_key;
         int m_use_count;
     };
 }

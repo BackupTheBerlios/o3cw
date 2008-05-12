@@ -25,10 +25,6 @@ namespace bonbon
             ~CMutex();
             int Lock();
             int UnLock();
-        private:
-            sem_t lock;
-            sem_t self_lock;
-            std::vector<pid_t> lockers_threads;
     };
 }
 

@@ -12,7 +12,7 @@
 #include <map>
 
 #include "csharedobject.h"
-#include "chashkey.h"
+#include "chash.h"
 
 #include "ccrypto.h"
 #include "cstoreobjwrapper.h"
@@ -29,7 +29,7 @@ namespace o3cw
         
         virtual void DeleteUnusedElements();
     private:
-        std::map<o3cw::CHashKey, o3cw::CIdsObject *> store;
+        std::map<o3cw::CHash, o3cw::CIdsObject *> store;
 	o3cw::CStoreObjWrapper objwrapp;
 
     };

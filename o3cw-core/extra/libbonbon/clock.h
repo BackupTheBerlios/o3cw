@@ -18,7 +18,8 @@ namespace bonbon
     class CLock
     {
     public:
-        CLock();
+	CLock();
+        CLock(unsigned int lock_init_val);
         ~CLock();
         static int CLockInit();
     protected:
@@ -26,6 +27,9 @@ namespace bonbon
         int SoftLockRequire(pid_t locker);
         int LockRegister(pid_t locker);
         int LockUnRegister(pid_t locker);
+	sem_t self_lock;
+	std::vector<pid_t> lockers_threads;
+	sem_t lock;
     private:
         static std::vector<bonbon::SLockGraph> locks_graph;
         static sem_t  locks_graph_lock;
@@ -33,6 +37,7 @@ namespace bonbon
         static int RequireLock(pid_t transaction, bonbon::CLock *lock, int lock_mode);
         static int CatchLock(pid_t transaction, bonbon::CLock *lock);
         static int ReleaseLock(pid_t transaction, bonbon::CLock *lock);
+	
     };
 }
 

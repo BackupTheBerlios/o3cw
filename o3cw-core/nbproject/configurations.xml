@@ -26,14 +26,18 @@
       <itemPath>cconnectionhandler.h</itemPath>
       <itemPath>ccrypto.h</itemPath>
       <itemPath>cdiff.h</itemPath>
+      <itemPath>cdifferenced.h</itemPath>
       <itemPath>cdoc.h</itemPath>
       <itemPath>cdocpart.h</itemPath>
-      <itemPath>chashkey.h</itemPath>
+      <itemPath>chash.h</itemPath>
       <itemPath>cidsobject.h</itemPath>
       <itemPath>cintimeobject.h</itemPath>
+      <itemPath>ckey.h</itemPath>
       <itemPath>cnetwork.h</itemPath>
       <itemPath>co3cwbase.h</itemPath>
       <itemPath>cpermission.h</itemPath>
+      <itemPath>cprivatekey.h</itemPath>
+      <itemPath>cpublickey.h</itemPath>
       <itemPath>csharedobject.h</itemPath>
       <itemPath>csocket.h</itemPath>
       <itemPath>csql.h</itemPath>
@@ -74,13 +78,17 @@
       <itemPath>cconnectionhandler.cc</itemPath>
       <itemPath>ccrypto.cc</itemPath>
       <itemPath>cdiff.cc</itemPath>
+      <itemPath>cdifferenced.cc</itemPath>
       <itemPath>cdoc.cc</itemPath>
       <itemPath>cdocpart.cc</itemPath>
       <itemPath>cidsobject.cc</itemPath>
       <itemPath>cintimeobject.cc</itemPath>
+      <itemPath>ckey.cc</itemPath>
       <itemPath>cnetwork.cc</itemPath>
       <itemPath>co3cwbase.cc</itemPath>
       <itemPath>cpermission.cc</itemPath>
+      <itemPath>cprivatekey.cc</itemPath>
+      <itemPath>cpublickey.cc</itemPath>
       <itemPath>csharedobject.cc</itemPath>
       <itemPath>csocket.cc</itemPath>
       <itemPath>csql.cc</itemPath>
@@ -165,6 +173,12 @@
       <item path="cdiff.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cdifferenced.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdifferenced.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdoc.cc">
         <itemTool>1</itemTool>
       </item>
@@ -177,7 +191,7 @@
       <item path="cdocpart.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="chashkey.h">
+      <item path="chash.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cidsobject.cc">
@@ -190,6 +204,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ckey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ckey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cnetwork.cc">
@@ -208,6 +228,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cprivatekey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cprivatekey.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpublickey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpublickey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="csharedobject.cc">
@@ -392,6 +424,12 @@
       <item path="cdiff.h">
         <itemTool>3</itemTool>
       </item>
+      <item path="cdifferenced.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cdifferenced.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="cdoc.cc">
         <itemTool>1</itemTool>
       </item>
@@ -404,7 +442,7 @@
       <item path="cdocpart.h">
         <itemTool>3</itemTool>
       </item>
-      <item path="chashkey.h">
+      <item path="chash.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cidsobject.cc">
@@ -417,6 +455,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cintimeobject.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="ckey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="ckey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="cnetwork.cc">
@@ -435,6 +479,18 @@
         <itemTool>1</itemTool>
       </item>
       <item path="cpermission.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cprivatekey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cprivatekey.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="cpublickey.cc">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="cpublickey.h">
         <itemTool>3</itemTool>
       </item>
       <item path="csharedobject.cc">

@@ -30,8 +30,10 @@ OBJECTFILES= \
 	${OBJECTDIR}/cidsobject.o \
 	${OBJECTDIR}/cconnectionhandler.o \
 	${OBJECTDIR}/extra/libbonbon/bonbon.o \
+	${OBJECTDIR}/ckey.o \
 	${OBJECTDIR}/cuser.o \
 	${OBJECTDIR}/extra/libbonbon/csemaphore.o \
+	${OBJECTDIR}/cprivatekey.o \
 	${OBJECTDIR}/csharedobject.o \
 	${OBJECTDIR}/extra/libbonbon/clock.o \
 	${OBJECTDIR}/extra/libbonbon/cbreak.o \
@@ -48,9 +50,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/csocket.o \
 	${OBJECTDIR}/cconfig.o \
 	${OBJECTDIR}/ccommand.o \
+	${OBJECTDIR}/cdifferenced.o \
 	${OBJECTDIR}/extra/libbonbon/cvthread.o \
 	${OBJECTDIR}/extra/libbonbon/cthread.o \
 	${OBJECTDIR}/cdiff.o \
+	${OBJECTDIR}/cpublickey.o \
 	${OBJECTDIR}/co3cwbase.o \
 	${OBJECTDIR}/cacessmode.o \
 	${OBJECTDIR}/cthreadsafeobject.o \
@@ -98,6 +102,10 @@ ${OBJECTDIR}/extra/libbonbon/bonbon.o: extra/libbonbon/bonbon.cc
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/bonbon.o extra/libbonbon/bonbon.cc
 
+${OBJECTDIR}/ckey.o: ckey.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/ckey.o ckey.cc
+
 ${OBJECTDIR}/cuser.o: cuser.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cuser.o cuser.cc
@@ -105,6 +113,10 @@ ${OBJECTDIR}/cuser.o: cuser.cc
 ${OBJECTDIR}/extra/libbonbon/csemaphore.o: extra/libbonbon/csemaphore.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/csemaphore.o extra/libbonbon/csemaphore.cc
+
+${OBJECTDIR}/cprivatekey.o: cprivatekey.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cprivatekey.o cprivatekey.cc
 
 ${OBJECTDIR}/csharedobject.o: csharedobject.cc 
 	${MKDIR} -p ${OBJECTDIR}
@@ -170,6 +182,10 @@ ${OBJECTDIR}/ccommand.o: ccommand.cc
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/ccommand.o ccommand.cc
 
+${OBJECTDIR}/cdifferenced.o: cdifferenced.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdifferenced.o cdifferenced.cc
+
 ${OBJECTDIR}/extra/libbonbon/cvthread.o: extra/libbonbon/cvthread.cc 
 	${MKDIR} -p ${OBJECTDIR}/extra/libbonbon
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/extra/libbonbon/cvthread.o extra/libbonbon/cvthread.cc
@@ -181,6 +197,10 @@ ${OBJECTDIR}/extra/libbonbon/cthread.o: extra/libbonbon/cthread.cc
 ${OBJECTDIR}/cdiff.o: cdiff.cc 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cdiff.o cdiff.cc
+
+${OBJECTDIR}/cpublickey.o: cpublickey.cc 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -Werror -o ${OBJECTDIR}/cpublickey.o cpublickey.cc
 
 ${OBJECTDIR}/co3cwbase.o: co3cwbase.cc 
 	${MKDIR} -p ${OBJECTDIR}

@@ -1,4 +1,5 @@
 #include "cidsobject.h"
+
 std::vector<o3cw::CIdsObject *> o3cw::CIdsObject::delete_list;
 
 o3cw::CIdsObject::CIdsObject(o3cw::CUniqueAux &aux): o3cw::CSharedObject::CSharedObject()
@@ -122,7 +123,7 @@ void o3cw::CIdsObject::GenerateNewId(bonbon::CMutex &id_lock, o3cw::ids &current
     return;
 }
 
-int o3cw::CIdsObject::SetKey(o3cw::CHashKey &new_key)
+int o3cw::CIdsObject::SetKey(o3cw::CHash &new_key)
 {
     mlock.Lock();
     m_key=new_key;
@@ -130,7 +131,7 @@ int o3cw::CIdsObject::SetKey(o3cw::CHashKey &new_key)
     return 0;
 }
 
-const o3cw::CHashKey &o3cw::CIdsObject::GetKey() const
+const o3cw::CHash &o3cw::CIdsObject::GetKey() const
 {
     return m_key;
 }

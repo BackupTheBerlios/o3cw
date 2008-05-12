@@ -31,7 +31,7 @@ namespace bonbon
             }
             ~CJobManager()
             {
-                
+                sem_destroy(&self_lock);
             }
             int PushJob(J &job)
             {

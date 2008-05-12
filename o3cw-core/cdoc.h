@@ -13,8 +13,8 @@
 
 #include "libbonbon.h"
 #include "types.h"
-#include "cdocpart.h"
 #include "csharedobject.h"
+#include "cidsobject.h"
 
 namespace o3cw
 {
@@ -22,6 +22,7 @@ namespace o3cw
     class CClient;
     class CPermission;
     class CUniqueAux;
+    class CDocPart;
     
     class CDoc: public o3cw::CIdsObject
     {
@@ -71,15 +72,17 @@ namespace o3cw
         
         int RemoveClientFromMulticast(const o3cw::CClient &client);
     private:
+	friend class CDocPart;
+
         //Example of an internal lock
         //Use this for data protection in multithread env
         bonbon::CMutex self_lock1;
         
-        //List of clients, connected to this document for broadcast
+        /* List of clients, connected to this document for broadcast */
         std::vector<o3cw::CClient *> clients_connected;
-        
+	
         //List of documents parts
-        std::vector<o3cw::CDocPart *> parts;
+        std::vector<o3cw::CDocPart *> m_parts;
         
         //Keep parts ID values
         o3cw::CUniqueAux parts_unique_aux;

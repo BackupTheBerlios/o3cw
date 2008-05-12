@@ -36,8 +36,7 @@ namespace bonbon
             unsigned int val;
             sem_t self_lock;
             sem_t write_lock;
-            std::vector<pid_t> r_lockers;
-            std::vector<pid_t> w_lockers;
+	    std::vector<pid_t> lockers_threads_soft;
     };
 }
 #endif	/* _csemaphore_H */

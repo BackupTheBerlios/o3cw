@@ -15,7 +15,6 @@
 #include "types.h"
 #include "cdiff.h"
 #include "csharedobject.h"
-#include "cidsobject.h"
 
 namespace o3cw
 {
@@ -24,7 +23,7 @@ namespace o3cw
     class CUniqueAux;
     class CDoc;
     
-    class CDocPart: public o3cw::CIdsObject
+    class CDocPart: public o3cw::CDifferenced
     {
     public:
         CDocPart(o3cw::CDoc &parentdoc);
@@ -32,19 +31,6 @@ namespace o3cw
 
         //Full buff with doc_data content
         int GetPart(std::string &buff);
-        
-        //Add new diff, specified by buff
-        o3cw::ids AddDiff(o3cw::CClient &client, std::string &buff);
-        
-        //Accept specified diff by specified client
-        int AcceptDiff(o3cw::CClient &client, o3cw::ids diff_id);
-        
-        //Commit diff means aplly diff - delete it from list and request full
-        //part from diff creator
-        int CommitDiff(o3cw::ids diff_id);
-        
-        //Cancel diff with id diff_id create by specified client
-        int RecallDiff(o3cw::CClient &client, o3cw::ids diff_id);
         
         //Returns parts (approximate?) size (in bytes). Used for lazy updates
         //(compare with sum of all diffs)
@@ -59,7 +45,10 @@ namespace o3cw
         
         int ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out);
         
-        const o3cw::CDoc &GetParentDoc(){return m_parent_doc;}
+	o3cw::CDoc &m_parent_doc;
+	int RemoveClientFromMulticast(const o3cw::CClient &client);
+        std::vector<o3cw::CClient *> &GetClientsConnected(){return m_parent_doc.clients_connected;}
+        o3cw::CDoc &GetParentDoc(){return m_parent_doc;}
     private:
         //Example of an internal lock
         //Use this for data protection in multithread env
@@ -81,7 +70,7 @@ namespace o3cw
         std::string name_in_cache;
         
         static o3cw::CUniqueAux diffs_unique_aux;
-        o3cw::CDoc &m_parent_doc;
+
     };
 }
 

@@ -2,10 +2,8 @@
 #include <algorithm>
 #include "cbreak.h"
 
-bonbon::CBreak::CBreak()
+bonbon::CBreak::CBreak(): bonbon::CLock::CLock(0)
 {
-    sem_init(&lock, 0,0);
-    sem_init(&self_lock, 0,1);
     destroyed=false;
 }
 
@@ -25,16 +23,16 @@ int bonbon::CBreak::Wait()
     }
     
     pid_t locker=syscall(SYS_gettid);
-    waiters.push_back(locker);
+    lockers_threads.push_back(locker);
     sem_post(&self_lock);
     
     sem_wait(&lock);
     
     sem_wait(&self_lock);
     std::vector<pid_t>::iterator it;    
-    it=std::find(waiters.begin(), waiters.end(), locker);
-    if (it!=waiters.end())
-        waiters.erase(it);
+    it=std::find(lockers_threads.begin(), lockers_threads.end(), locker);
+    if (it!=lockers_threads.end())
+        lockers_threads.erase(it);
     
     if (destroyed)
     {
@@ -63,8 +61,8 @@ int bonbon::CBreak::Destroy()
     else
     {
         destroyed=true;  
-        std::vector<pid_t>::iterator it=waiters.begin();
-        while (it!=waiters.end())
+        std::vector<pid_t>::iterator it=lockers_threads.begin();
+        while (it!=lockers_threads.end())
         {
             sem_post(&lock);
             it++;

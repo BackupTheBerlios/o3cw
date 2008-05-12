@@ -2,15 +2,12 @@
 #include <algorithm>
 #include "cmutex.h"
 
-bonbon::CMutex::CMutex()
+bonbon::CMutex::CMutex(): bonbon::CLock::CLock(1)
 {
-    sem_init(&lock, 0,1);
-    sem_init(&self_lock, 0,1);
 }
 
 bonbon::CMutex::~CMutex()
 {
-    sem_wait(&self_lock);
     
     std::vector<pid_t>::iterator it;
     if (lockers_threads.begin()!=lockers_threads.end())
@@ -22,9 +19,6 @@ bonbon::CMutex::~CMutex()
         }
         printf("Looks like you forgotten to call UnLock() function somewhere.\n");
     }
-    
-    sem_post(&self_lock);
-  
 }
 
 int bonbon::CMutex::Lock()

@@ -12,11 +12,12 @@
 
 #include "cacessmode.h"
 #include "types.h"
+#include "cthreadsafeobject.h"
 
 namespace o3cw
 {
     class CConfig;
-    class CPermission
+    class CPermission: public o3cw::CThreadSafeObject
     {
     public:
         CPermission();

@@ -26,12 +26,20 @@ int bonbon::CLock::CLockInit()
 
 bonbon::CLock::CLock()
 {
-    
+    sem_init(&self_lock, 0,1);
+    sem_init(&lock, 0,1);
+}
+
+bonbon::CLock::CLock(unsigned int lock_init_val)
+{
+    sem_init(&self_lock, 0,1);
+    sem_init(&lock, 0,lock_init_val);
 }
 
 bonbon::CLock::~CLock()
 {
-    
+    sem_destroy(&self_lock);
+    sem_destroy(&lock);
 }
 
 int bonbon::CLock::HardLockRequire(pid_t locker)

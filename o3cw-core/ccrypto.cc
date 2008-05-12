@@ -2,12 +2,12 @@
 
 #include "ccrypto.h"
 
-int o3cw::CCrypto::MD5HashHex(std::string &data, std::string &buff)
+int o3cw::CCrypto::MD5HashHex(const std::string &data, std::string &buff)
 {
     buff.erase();
 
     unsigned char md5digest[MD5_DIGEST_LENGTH];
-    MD5((unsigned char *)data.c_str(),data.length(), md5digest);
+    MD5((const unsigned char *)data.c_str(), data.length(), md5digest);
 
     for (int i=0;i<MD5_DIGEST_LENGTH;i++)
     {

@@ -1,22 +1,22 @@
 // 
-// File:   chashkey.h
+// File:   chash.h
 // Author: alex
 //
-// Created on 23 Апрель 2008 г., 22:48
+// Created on 13 Май 2008 г., 0:40
 //
 
-#ifndef _CHASHKEY_H
-#define	_CHASHKEY_H
+#ifndef _CHASH_H
+#define	_CHASH_H
 
 #include "ccrypto.h"
 
 namespace o3cw
 {
-    class CHashKey: public o3cw::CThreadSafeObject
+    class CHash: public o3cw::CThreadSafeObject
     {
     public:
-        CHashKey(){};
-        CHashKey(std::string &md5data)
+        CHash(){};
+        CHash(const std::string &md5data)
         {
             memset(p, 0, sizeof(p));
             const char *ptr=md5data.c_str();
@@ -39,38 +39,36 @@ namespace o3cw
             }
             o3cw::CCrypto::Base64Encode((const unsigned char*)p, sizeof(p),base64_value);
         }
-        virtual ~CHashKey(){};
-        bool operator<(const CHashKey& cmp) const
+        virtual ~CHash(){};
+        bool operator<(const CHash& cmp) const
         {
-            mlock.Lock();
-            cmp.mlock.Lock();
+            class_mlock.Lock();
             int i=0;
             while (i<3)
             {
                 if (cmp.p[i]>p[i])
                 {
-                    cmp.mlock.UnLock();
-                    mlock.UnLock();
+                    class_mlock.UnLock();
                     return true;
                 }
                 else if(cmp.p[i]<p[i])
                 {
-                    cmp.mlock.UnLock();
-                    mlock.UnLock();
+                    class_mlock.UnLock();
                     return false;
                 }
                 i++;
             }
-            cmp.mlock.UnLock();
-            mlock.UnLock();
+            class_mlock.UnLock();
             return false;
         }
-        CHashKey &operator=(const CHashKey& v)
+        CHash &operator=(const CHash& v)
         {
-            mlock.Lock();
+            class_mlock.UnLock();
             memcpy(p, v.p, sizeof(p));
+            mlock.Lock();
             o3cw::CCrypto::Base64Encode((const unsigned char*)p, sizeof(p),base64_value);
             mlock.UnLock();
+            class_mlock.UnLock();
             return *this;
         }
         std::string &GetBase64Value(std::string &buff) const
@@ -80,11 +78,21 @@ namespace o3cw
             mlock.UnLock();
             return buff;
         }
+        bool operator==(const CHash& v) const
+        {
+            bool result=false;
+            class_mlock.Lock();
+            if (p[0]==v.p[0] && p[1]==v.p[1] && p[2]==v.p[2])
+                result=true;
+            class_mlock.UnLock();
+            return result;
+        }
     private:
         std::string base64_value;
         long long p[3];
     };
 }
 
-#endif	/* _CHASHKEY_H */
+
+#endif	/* _CHASH_H */
 

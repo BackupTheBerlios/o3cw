@@ -17,7 +17,7 @@ namespace o3cw
     public:
         CCrypto();
         virtual ~CCrypto();
-        static int MD5HashHex(std::string &data, std::string &buff);
+        static int MD5HashHex(const std::string &data, std::string &buff);
         static int MD5HashBin(std::string &data, std::string &buff);
         static void Base64Encode(const unsigned char* input,size_t l,std::string& output);
         static int Base64Decode(const char *input, std::string &out);

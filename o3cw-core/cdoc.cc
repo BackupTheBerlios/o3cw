@@ -9,6 +9,7 @@
 #include "csql.h"
 #include "ccmdexec.h"
 #include "cuser.h"
+#include "cdocpart.h"
 
 o3cw::CUniqueAux o3cw::CDoc::unique_data;
 
@@ -16,15 +17,18 @@ o3cw::CDoc::CDoc(): o3cw::CIdsObject::CIdsObject(o3cw::CDoc::unique_data)
 {
     /* Every document contains at least one part - create it */
     o3cw::CDocPart *new_part=new o3cw::CDocPart(*this);
-    parts.push_back(new_part);
+    m_parts.push_back(new_part);
 }
 
 o3cw::CDoc::~CDoc()
 {
     /* Clean up all diffs */
     std::vector<o3cw::CDocPart *>::iterator it;
-    for (it=parts.begin(); it<parts.end(); it++)
-        delete *it;
+    for (it=m_parts.begin(); it<m_parts.end(); it++)
+    {
+	if (*it!=NULL)
+	    delete *it;
+    }
 }
 
 int o3cw::CDoc::OpenFile(const char *filename)
@@ -147,7 +151,7 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                         if (cmd.CmdAviable())
                         {
                             std::vector<o3cw::CDocPart *>::iterator search_it;
-                            for (search_it=parts.begin(); search_it<parts.end(); search_it++)
+                            for (search_it=m_parts.begin(); search_it<m_parts.end(); search_it++)
                             {
                                 o3cw::CDocPart *dpart=*search_it;
                                 std::string cur_key;
@@ -202,14 +206,27 @@ int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd) const
 int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)
 {
     mlock.Lock();
-    std::vector<o3cw::CClient *>::iterator it=clients_connected.begin();
-    for (it=clients_connected.begin(); it<clients_connected.end(); it++)
+    for (std::vector<o3cw::CClient *>::iterator it=clients_connected.begin(); it<clients_connected.end(); it++)
     {
         if (*it==&client)
         {
             clients_connected.erase(it);
             printf(" * Client removed from multicast\n");
-            mlock.UnLock();
+	    
+	    /* Call Remove Client From Multicast from all parts */
+	    for (std::vector<o3cw::CDocPart *>::iterator docpart_it=m_parts.begin(); docpart_it<m_parts.end(); docpart_it++)
+	    {
+		o3cw::CDocPart *docpart=(*docpart_it);
+		docpart->Use();
+		mlock.UnLock();
+		
+		(*docpart_it)->RemoveClientFromMulticast(client);
+		
+		mlock.Lock();
+		docpart->UnUse();
+	    }
+	    mlock.UnLock();
+            
             return 0;
         }
     }

@@ -20,7 +20,7 @@ bonbon::CThread::CThread()
 
 bonbon::CThread::~CThread()
 {
-         
+    sem_destroy(&self_lock);
 }
 
 void bonbon::CThread::Kill()

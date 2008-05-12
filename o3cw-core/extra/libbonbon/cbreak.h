@@ -13,11 +13,13 @@
 #include <semaphore.h>
 #include <sys/types.h>
 
+#include "clock.h"
+
 #define CBREAK_DESTROYED 1
 
 namespace bonbon
 {
-    class CBreak
+    class CBreak: public bonbon::CLock
     {
         public:
             CBreak();
@@ -27,9 +29,6 @@ namespace bonbon
             int Destroy();
         private:
             bool destroyed;
-            sem_t self_lock;
-            sem_t lock;
-            std::vector<pid_t> waiters;
     };
 }
 
