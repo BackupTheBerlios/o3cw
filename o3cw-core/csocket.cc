@@ -99,7 +99,7 @@ int o3cw::CSocket::Connect(const char *ip, int port)
         FD_ZERO(&wfds);
         FD_SET(socket_id, &wfds);
         int max_fd = socket_id;
-        select(max_fd + 1, NULL, &wfds, NULL, &wtv);
+        select(max_fd + 1, 0, &wfds, 0, &wtv);
 
         if(FD_ISSET(socket_id, &wfds) || FD_ISSET(socket_id, &rfds))
         {
@@ -177,7 +177,7 @@ int o3cw::CSocket::Bind(int port, const char *interface)
 
     addr.sin_port = htons (port);
 
-    if (interface!=NULL)
+    if (interface!=0)
     {
         addr.sin_addr.s_addr = (get_hostaddr(interface));
     }
@@ -270,7 +270,7 @@ int o3cw::CSocket::Receive(std::string &buff, float timeout)
         
         int max_fd=socket_id+1;
         mlock.UnLock();
-        retval=select(max_fd, &rf, NULL, NULL, &timeo);
+        retval=select(max_fd, &rf, 0, 0, &timeo);
         mlock.Lock();
         if (retval<0)
         {
@@ -305,7 +305,7 @@ int o3cw::CSocket::Receive(std::string &buff, float timeout)
 
 int o3cw::CSocket::Send(const char *data, size_t size)
 {
-	if (data==NULL) return 0;
+	if (data==0) return 0;
 	mlock.Lock();
 	if (socket_id==-1)
 	{
@@ -318,7 +318,7 @@ int o3cw::CSocket::Send(const char *data, size_t size)
 	wtv.tv_sec = 0;
 	wtv.tv_usec = 10000;
 	
-	int retval=select(socket_id+1, NULL, &wfds, NULL, &wtv);
+	int retval=select(socket_id+1, 0, &wfds, 0, &wtv);
 	if (retval <=0)
 	{
 		//ERROR OR TIMEOUT - NO DATA SEND
@@ -375,7 +375,7 @@ int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::
     {
         o3cw::CSocket *pc_clnt=in_s_list.front();
         in_s_list.pop();
-        if (pc_clnt!=NULL)
+        if (pc_clnt!=0)
         {	
             int socket_id=pc_clnt->GetFD();
             if (socket_id>=0)
@@ -389,7 +389,7 @@ int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::
         }
     }
     
-    select(max_fd + 1, &rfds, NULL, NULL, &my_tv);
+    select(max_fd + 1, &rfds, 0, 0, &my_tv);
     
     //for (it=in_s_list.begin(); it<in_s_list.end(); it++)
     while (cache_list.size()>0)
@@ -397,7 +397,7 @@ int o3cw::CSocket::readmultiselect(std::queue<o3cw::CSocket *> &in_s_list, std::
         o3cw::CSocket *pc_clnt=cache_list.front();
         cache_list.pop();
         
-        if (pc_clnt!=NULL)
+        if (pc_clnt!=0)
         {
             int socket_id=pc_clnt->GetFD();
             if (socket_id>=0)

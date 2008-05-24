@@ -61,7 +61,7 @@ int bonbon::CMutex::UnLock()
     }
     else
     {
-        lockers_threads.erase(it);
+        it=--lockers_threads.erase(it);
         sem_post(&self_lock);
 
         LockUnRegister(locker);

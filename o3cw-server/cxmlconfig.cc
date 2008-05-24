@@ -14,7 +14,7 @@ o3cwapp::CXMLConfig::~CXMLConfig()
 
 int o3cwapp::CXMLConfig::Parse(const char *text)
 {
-    if (text==NULL)
+    if (text==0)
         return -1;
     
     config.Clear();
@@ -25,7 +25,7 @@ int o3cwapp::CXMLConfig::Parse(const char *text)
 int o3cwapp::CXMLConfig::ParseFile(const char *filename)
 {
     int result=0;
-    if (filename==NULL)
+    if (filename==0)
 	result=-1;
     else
     {
@@ -37,7 +37,7 @@ int o3cwapp::CXMLConfig::ParseFile(const char *filename)
 	    int l = file.tellg();
 	    file.seekg (0, std::ios::beg);
 	    char *buff=new char [l+1];
-	    if (buff!=NULL)
+	    if (buff!=0)
 	    {
 		memset(buff, 0, l+1);
 		file.read(buff,l);
@@ -56,17 +56,17 @@ int o3cwapp::CXMLConfig::GetValue(std::string &buff, const char *param, const ch
 {
     std::string nodename;
     const tinyxml::TiXmlNode *xml_node=config.FirstChildElement("config");
-    if (xml_node==NULL)
+    if (xml_node==0)
         return -1;
-    if (param==NULL || section==NULL)
+    if (param==0 || section==0)
         return -4;
     const char *p1=strstr(section, ":");
-    if (p1==NULL)
+    if (p1==0)
     {
         
         nodename=section;
         xml_node=xml_node->FirstChildElement(section);
-        if (xml_node==NULL)
+        if (xml_node==0)
             return -5;
     }
     else
@@ -78,22 +78,22 @@ int o3cwapp::CXMLConfig::GetValue(std::string &buff, const char *param, const ch
             nodename.assign(section, 0, p1-section);
             section=p1;
             xml_node=xml_node->FirstChildElement(nodename.c_str());
-            if (xml_node==NULL)
+            if (xml_node==0)
                 return -5;
             if (section[0]==0)
                 working=false;
             section++;
             p1=strstr(section, ":");
-            if (p1==NULL)
+            if (p1==0)
                 p1=section+strlen(section);
             else
                 p1++;
         }
     }
     const tinyxml::TiXmlElement *xml_element=xml_node->FirstChildElement(param);
-    if (xml_element!=NULL)
+    if (xml_element!=0)
     {
-        if (xml_element->GetText()!=NULL)
+        if (xml_element->GetText()!=0)
         {
             buff.assign(xml_element->GetText());
             return 0;

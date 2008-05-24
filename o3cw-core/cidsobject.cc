@@ -32,7 +32,7 @@ void o3cw::CIdsObject::FreeMyId(bonbon::CMutex &id_lock, std::list<o3cw::ids *> 
     {
         if (**it==obj_id)
         {
-            id_list.erase(it);
+            it=--id_list.erase(it);
             deleted=true;
         }
         else

@@ -44,7 +44,7 @@ int o3cw::CThreadSafeObject::GetUseCount()
     for (it=delete_list.begin(); it<delete_list.end(); it++)
     {
         o3cw::CThreadSafeObject *obj=*it;
-        if (obj!=NULL)
+        if (obj!=0)
         {
             int use_count=obj->GetUseCount();
             if (use_count==0)

@@ -8,7 +8,7 @@
 
 o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 {
-    m_user=NULL;
+    m_user=0;
     trusted=false;
     message_left=0;
     head_starts=0;
@@ -18,7 +18,7 @@ o3cw::CClient::CClient(): o3cw::CSocket::CSocket()
 
 o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 {
-    m_user=NULL;
+    m_user=0;
     trusted=false;
     message_left=0;
     head_starts=0;
@@ -29,7 +29,7 @@ o3cw::CClient::CClient(int sock): o3cw::CSocket::CSocket(sock)
 o3cw::CClient::~CClient()
 {
     printf("~CClient()\n");
-    if (m_user!=NULL)
+    if (m_user!=0)
         m_user->ClientUnRegister(*this);
     
     std::vector <o3cw::CDoc *>::iterator search_it;
@@ -138,7 +138,7 @@ int o3cw::CClient::Receive(float timeout)
             {
                 std::string *h=new std::string(head);
                 std::string *b=new std::string(body);
-                if (h==NULL || b==NULL)
+                if (h==0 || b==0)
                     return O3CW_ERR_OUT_OF_MEM;
 
                 heads.push(h);
@@ -158,7 +158,7 @@ int o3cw::CClient::Receive(float timeout)
 
 std::string *o3cw::CClient::GetStringFromQueue(std::queue<std::string *> &q)
 {
-    std::string *result=NULL;
+    std::string *result=0;
     
     mlock.Lock();
     if (q.size()>0)
@@ -199,7 +199,7 @@ int o3cw::CClient::CloseDoc(o3cw::CDoc &doc)
         if ((*search_it)==&doc)
         {
             (*search_it)->RemoveClientFromMulticast(*this);
-            opened_docs.erase(search_it);
+            search_it=--opened_docs.erase(search_it);
             mlock.UnLock();
             return 0;
         }
@@ -252,7 +252,7 @@ int o3cw::CClient::FdSetCompile(fd_set &read_fds, std::vector<o3cw::CClient *> &
     for (it=in_list.begin(); it<in_list.end(); it++)
     {
         o3cw::CClient *pc_clnt=*it;
-        if (pc_clnt!=NULL)
+        if (pc_clnt!=0)
         {
             int socket_id=pc_clnt->GetFD();
             if (socket_id>=0)
@@ -275,14 +275,14 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
     my_tv.tv_sec = sec; my_tv.tv_usec = usec;
     int result=0;
     
-    select(max_fd + 1, &read_fds, NULL, NULL, &my_tv);
+    select(max_fd + 1, &read_fds, 0, 0, &my_tv);
     
     std::vector<o3cw::CClient *>::iterator it;
     
     for (it=in_list.begin(); it<in_list.end(); it++)
     {
         o3cw::CClient *pc_clnt=*it;
-        if (pc_clnt!=NULL)
+        if (pc_clnt!=0)
         {
             int socket_id=pc_clnt->GetFD();
             if (socket_id>=0)
@@ -311,7 +311,7 @@ int o3cw::CClient::readmultiselect(fd_set &read_fds, int &max_fd, std::vector<o3
 int o3cw::CClient::SetUser(o3cw::CUser &user)
 {
     mlock.Lock();
-    if (m_user==NULL)
+    if (m_user==0)
     {
         m_user=&user;
         user.ClientRegister(*this);
@@ -329,7 +329,7 @@ int o3cw::CClient::SetUser(o3cw::CUser &user)
 
 o3cw::CUser *o3cw::CClient::GetUser()
 {
-    o3cw::CUser *result=NULL;
+    o3cw::CUser *result=0;
     mlock.Lock();
     result=m_user;
     mlock.UnLock();

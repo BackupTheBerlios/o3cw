@@ -13,32 +13,32 @@ o3cw::CCommand::CCommand(o3cw::CClient &cl, std::string *h, std::string *b): cli
     body=b;
     cl.Use();
     cur_val=cmds.begin();
-    cmd_executor=NULL;
+    cmd_executor=0;
 }
 
 o3cw::CCommand::CCommand(o3cw::CClient &cl): client(cl)
 {
-    head=NULL;
-    body=NULL;
+    head=0;
+    body=0;
     
     cl.Use();
     cur_val=cmds.begin();
-    cmd_executor=NULL;
+    cmd_executor=0;
 }
 
 o3cw::CCommand::CCommand(): client(null_client)
 {
-    head=NULL;
-    body=NULL;
+    head=0;
+    body=0;
     client.Use();
     cur_val=cmds.begin();
-    cmd_executor=NULL;
+    cmd_executor=0;
 }
 
 o3cw::CCommand::CCommand(const o3cw::CCommand &cmd): client(cmd.client)
 {
-    head=NULL;
-    body=NULL;
+    head=0;
+    body=0;
     client.Use();
     cmds=cmd.cmds;
     cur_val=cmds.begin();
@@ -69,7 +69,7 @@ int o3cw::CCommand::Parse()
 	return -2;
     }
     
-    if (body==NULL)
+    if (body==0)
 	return O3CW_ERR_NULL;
 
     bool stop=false;
@@ -146,7 +146,7 @@ int o3cw::CCommand::Push(int number)
 
 int o3cw::CCommand::Push(const char *data)
 {
-    if (data==NULL)
+    if (data==0)
         return -1;
     std::string s(data);
     cmds.push_back(s);
@@ -162,16 +162,16 @@ int o3cw::CCommand::Push(const char*data, size_t data_size)
 
 void o3cw::CCommand::FreeCryptedData()
 {
-    if (body!=NULL)
+    if (body!=0)
     {
 	delete body;
-	body=NULL;
+	body=0;
     }
 
-    if (head!=NULL)
+    if (head!=0)
     {
 	delete head;
-	head=NULL;
+	head=0;
     }
 }
 

@@ -6,19 +6,19 @@
 
 o3cw::CStoreObjWrapper::CStoreObjWrapper(const char *type)
 {
-    assert(type!=NULL);
+    assert(type!=0);
     
     if (strcmp(type, "user")==0)
         pattern=new o3cw::CUser();
     else if (strcmp(type, "doc")==0)
         pattern=new o3cw::CDoc();
 
-    assert(pattern!=NULL);
+    assert(pattern!=0);
 }
 
 o3cw::CStoreObjWrapper::~CStoreObjWrapper()
 {
-    if (pattern!=NULL)
+    if (pattern!=0)
         delete pattern;
 }
 

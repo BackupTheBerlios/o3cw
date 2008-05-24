@@ -32,7 +32,7 @@ int bonbon::CBreak::Wait()
     std::vector<pid_t>::iterator it;    
     it=std::find(lockers_threads.begin(), lockers_threads.end(), locker);
     if (it!=lockers_threads.end())
-        lockers_threads.erase(it);
+        it=--lockers_threads.erase(it);
     
     if (destroyed)
     {

@@ -103,7 +103,7 @@ int bonbon::CSemaphore::UnLockRead()
     }
     else
     {
-        lockers_threads_soft.erase(it);
+        it=--lockers_threads_soft.erase(it);
         sem_post(&self_lock);
         
         if (not_w_locked)
@@ -173,7 +173,7 @@ int bonbon::CSemaphore::UnLockWrite()
     }
     else
     {
-        lockers_threads.erase(it);
+        it=--lockers_threads.erase(it);
         sem_post(&self_lock);
         
         LockUnRegister(locker);

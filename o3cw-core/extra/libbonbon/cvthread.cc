@@ -57,7 +57,7 @@ int bonbon::CVThread::Join()
     if (running)
     {    
         sem_post(&self_lock);
-        result=pthread_join(thread, NULL);
+        result=pthread_join(thread, 0);
     }
     else
         sem_post(&self_lock);
@@ -70,7 +70,7 @@ int bonbon::CVThread::Run()
     sem_wait(&self_lock);
     if (!running)
     {
-        result=pthread_create(&thread, NULL, &bonbon::ThreadExec, this);
+        result=pthread_create(&thread, 0, &bonbon::ThreadExec, this);
         if (result==0)
             running=true;
     }
@@ -93,13 +93,13 @@ int bonbon::CVThread::ThreadExecute()
 
 void *bonbon::ThreadExec(void *data)
 {
-    if (data!=NULL)
+    if (data!=0)
     {
         bonbon::CVThread *thread=(bonbon::CVThread *) data;
         thread->SetThreadId(syscall(SYS_gettid));
         thread->ThreadExecute();
     }
-    return NULL;
+    return 0;
 }
 
 pid_t bonbon::CVThread::GetID()

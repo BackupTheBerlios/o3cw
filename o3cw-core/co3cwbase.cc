@@ -3,8 +3,8 @@
 #include "ccommand.h"
 #include "cclient.h"
 
-o3cw::CConfig *o3cw::CO3CWBase::o3cw_main_config=NULL;
-o3cw::CO3CWBase *o3cw::CO3CWBase::server=NULL;
+o3cw::CConfig *o3cw::CO3CWBase::o3cw_main_config=0;
+o3cw::CO3CWBase *o3cw::CO3CWBase::server=0;
         
 o3cw::CO3CWBase::CO3CWBase(): o3cw::CInTimeObject::CInTimeObject()
 {

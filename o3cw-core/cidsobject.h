@@ -53,13 +53,13 @@ namespace o3cw
         int UnUse();
         int GetUseCount();
 	
-	/* Execute "open" command. If *element is NULL, that means that requested element does not
+	/* Execute "open" command. If *element is 0, that means that requested element does not
          * exists in store.
          * Open() can create new element (using "new" operator), initialize it
          * set *element pointer to created element and return 0,
          * OR
-         * return non-zero error code and keep *element as NULL.
-         * If *element is not NULL, that means that that requested element exists in store already,
+         * return non-zero error code and keep *element as 0.
+         * If *element is not 0, that means that that requested element exists in store already,
          * and Open() needs just to return zero if client can open it or error code otherwise.
          */
         virtual int Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject **element);

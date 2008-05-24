@@ -4,9 +4,9 @@
 o3cwapp::CO3CWServer::CO3CWServer(): o3cw::CO3CWBase::CO3CWBase(), users("user"), docs("doc")
 {
     CO3CWBase::server=this;
-    cmdexec=NULL;
-    mysql=NULL;
-    connections_handler=NULL;
+    cmdexec=0;
+    mysql=0;
+    connections_handler=0;
     threads_num=1;
     admin_name="admin";
     
@@ -18,13 +18,13 @@ o3cwapp::CO3CWServer::~CO3CWServer()
 
 int o3cwapp::CO3CWServer::Shutdown()
 {
-    if (connections_handler!=NULL)
+    if (connections_handler!=0)
         delete connections_handler;
     
-    if (cmdexec!=NULL)
+    if (cmdexec!=0)
         delete [] cmdexec;
     
-    if (mysql!=NULL)
+    if (mysql!=0)
         delete [] mysql;
     
     /* Shutdown MYSQL */
@@ -104,7 +104,7 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
 		std::string &c2=cmd.Pop();
                 if (c2=="exit")
                 {
-                    if (cmd.GetClient().GetUser()!=NULL)
+                    if (cmd.GetClient().GetUser()!=0)
                     {
                         std::string username;
                         cmd.GetClient().GetUser()->GetName(username);
@@ -117,7 +117,7 @@ int o3cwapp::CO3CWServer::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_o
                             for (int i=0; i<threads_num; i++)
                                 cmdexec->Kill();
                             o3cw::CNetwork::cmd_bus.Destroy();
-                            if (connections_handler!=NULL)
+                            if (connections_handler!=0)
                                 connections_handler->Kill();
                         }
                         else

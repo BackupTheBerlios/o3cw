@@ -51,14 +51,14 @@ int o3cw::CConfig::GetValue(float &buff, const char *param, const char *section)
 
 int o3cw::CConfig::SimpleParse(const char *text, const char *tag_start, const char *tag_end, std::string &value)
 {
-    if (text==NULL || tag_start==NULL || tag_end==NULL)
+    if (text==0 || tag_start==0 || tag_end==0)
         return -1;
     const char *ptr1=strstr(text, tag_start);
-    if (ptr1!=NULL)
+    if (ptr1!=0)
     {
         ptr1+=strlen(tag_start);
         const char *ptr2=strstr(ptr1, tag_end);
-        if (ptr2!=NULL)
+        if (ptr2!=0)
         {
             value.assign(ptr1, ptr2-ptr1);
         }

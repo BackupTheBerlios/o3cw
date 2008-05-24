@@ -4,7 +4,7 @@
 #include "error.h"
 
 bonbon::CMutex o3cw::CConnectionHandler::connections_lock;
-o3cw::CClient *o3cw::CConnectionHandler::listener=NULL;
+o3cw::CClient *o3cw::CConnectionHandler::listener=0;
 
 o3cw::CConnectionHandler::CConnectionHandler(): o3cw::CNetwork::CNetwork()
 {
@@ -32,10 +32,10 @@ int o3cw::CConnectionHandler::ThreadExecute()
    
     /* If listener doesnt' exist - create it. */
    
-    if (o3cw::CConnectionHandler::listener==NULL)
+    if (o3cw::CConnectionHandler::listener==0)
     {
         o3cw::CClient *socklistner=new o3cw::CClient();
-        if (socklistner==NULL)
+        if (socklistner==0)
             return O3CW_ERR_OUT_OF_MEM;
         printf(" * Turning on server at port %i on %s...", port, net_interface.c_str());
         if (socklistner->Bind(port,net_interface.c_str())+socklistner->Listen()==0)
@@ -82,7 +82,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
                 printf("push to delete..\n");
                 to_delete.push(client);
                 printf("erase from list..\n");
-                connections_store.erase(timeout_it);
+                timeout_it=--connections_store.erase(timeout_it);
                 printf("done!\n");
             }
         }
@@ -92,7 +92,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
             std::vector <o3cw::CClient *>::iterator active_sock_it=active_sock_list.front();
             active_sock_list.pop();
             o3cw::CClient *client=*active_sock_it;
-            if (client!=NULL)
+            if (client!=0)
             {
                 if (client==o3cw::CConnectionHandler::listener)
                 {
@@ -102,7 +102,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     if (t>-1)
                     {
                         o3cw::CClient *new_client=new o3cw::CClient(t);
-                        if (new_client==NULL)
+                        if (new_client==0)
                             return O3CW_ERR_OUT_OF_MEM;
                         connections_store.push_back(new_client);
                         o3cw::CClient::FdSetAdd(socket_set, max_fd, connections_store, *new_client);
@@ -121,20 +121,20 @@ int o3cw::CConnectionHandler::ThreadExecute()
                     if (r==1)
                     {
                         /* New, full mesage received */
-                        std::string *head=NULL;
-                        std::string *body=NULL;
-                        bool msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
+                        std::string *head=0;
+                        std::string *body=0;
+                        bool msg_left=((head=client->GetHead())!=0 && ((body=client->GetBody())!=0));
 
                         while (msg_left)
                         {
                             /* Parse head and body, push new command to queue */
                             o3cw::CCommand *ptr_to_cmd=new o3cw::CCommand(*client, head, body);
-                            if (ptr_to_cmd==NULL)
+                            if (ptr_to_cmd==0)
                                 return O3CW_ERR_OUT_OF_MEM;
                             
                             cmd_bus.PushJob(ptr_to_cmd);
                             
-			    msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
+			    msg_left=((head=client->GetHead())!=0 && ((body=client->GetBody())!=0));
                         }
                         
                         /* Push back to connections_store */
@@ -155,7 +155,7 @@ int o3cw::CConnectionHandler::ThreadExecute()
                         client->ForceDown();
                         //delete client;
                         to_delete.push(client);
-                        connections_store.erase(active_sock_it);
+                        active_sock_it=--connections_store.erase(active_sock_it);
                     }
                 }
             }

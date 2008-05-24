@@ -26,7 +26,7 @@ o3cw::CDoc::~CDoc()
     std::vector<o3cw::CDocPart *>::iterator it;
     for (it=m_parts.begin(); it<m_parts.end(); it++)
     {
-	if (*it!=NULL)
+	if (*it!=0)
 	    delete *it;
     }
 }
@@ -42,7 +42,7 @@ int o3cw::CDoc::OpenFile(const char *filename)
         int length=is.tellg();
         is.seekg (0, std::ios::beg);
         char *buffer = new char [length];
-        if (buffer!=NULL)
+        if (buffer!=0)
         {
             is.read (buffer,length);
             content.assign(buffer, length);
@@ -155,7 +155,7 @@ int o3cw::CDoc::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                             {
                                 o3cw::CDocPart *dpart=*search_it;
                                 std::string cur_key;
-                                if (dpart!=NULL && dpart->GetKey().GetBase64Value(cur_key)==c_id)
+                                if (dpart!=0 && dpart->GetKey().GetBase64Value(cur_key)==c_id)
                                 {
                                     std::string &c_do=cmd.Pop();
                                     if (c_do=="do")
@@ -192,7 +192,7 @@ int o3cw::CDoc::MultiCast(o3cw::CCommand &cmd) const
     mlock.Lock();
     std::vector<o3cw::CClient *>::const_iterator it=clients_connected.begin();
     it=clients_connected.begin();
-    while (it<clients_connected.end() && (*it)!=NULL)
+    while (it<clients_connected.end() && (*it)!=0)
     {
         (*it)->SendBody(buff);
         printf(" * Send data to %p\n", *it);
@@ -210,7 +210,7 @@ int o3cw::CDoc::RemoveClientFromMulticast(const o3cw::CClient &client)
     {
         if (*it==&client)
         {
-            clients_connected.erase(it);
+            it=--clients_connected.erase(it);
             printf(" * Client removed from multicast\n");
 	    
 	    /* Call Remove Client From Multicast from all parts */
@@ -238,7 +238,7 @@ int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject 
 {
     o3cw::CDoc *doc=dynamic_cast<o3cw::CDoc *>(*element);
     
-    assert(*element==NULL || doc!=NULL);
+    assert(*element==0 || doc!=0);
     
     int result=O3CW_ERR_DENIED;
     result=0;
@@ -265,7 +265,7 @@ int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject 
             	    {
                 	std::string username;
                         o3cw::CUser *user=cmd.GetClient().GetUser();
-	                if (user!=NULL)
+	                if (user!=0)
                         {
 	                    if (atol(sql_result[0].c_str())==user->GetUserId())
     	                    {
@@ -282,7 +282,7 @@ int o3cw::CDoc::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject 
                     }
 	            else
     	            {
-        	        if (doc==NULL)
+        	        if (doc==0)
             	        {
                 	    /* Doc doesnt exist in store */
                     	    doc=new o3cw::CDoc();
@@ -313,7 +313,7 @@ int o3cw::CDoc::StaticExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &out)
             o3cw::CSQL &sql=cmd.GetExecutor().SQL();
             long userid=-1;
             o3cw::CUser *user=cmd.GetClient().GetUser();
-            if (user!=NULL)
+            if (user!=0)
             {
                 userid=user->GetUserId();
                 std::string request("select doc_id from docs_perm where user_id='");

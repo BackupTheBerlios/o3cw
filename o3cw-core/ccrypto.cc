@@ -61,7 +61,7 @@ void o3cw::CCrypto::Base64Encode(const unsigned char* input,size_t l,std::string
 
 int o3cw::CCrypto::Base64Decode(const char *input, std::string &out)
 {
-    if (input==NULL)
+    if (input==0)
             return -1;
     out.erase();
     int result=0;

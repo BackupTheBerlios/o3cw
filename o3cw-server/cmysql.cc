@@ -8,7 +8,7 @@ o3cwapp::CMySQL::CMySQL(): o3cw::CSQL::CSQL()
 {
     mysql_init(&m_connection);
     m_recving_data=false;
-    m_quest_res=NULL;
+    m_quest_res=0;
     max_reconnect_attemps=5;
 }
 
@@ -22,8 +22,8 @@ o3cwapp::CMySQL::~CMySQL()
 int o3cwapp::CMySQL::Connect(std::string &host, std::string &db_name, std::string &user, std::string &password)
 {
     o3cw::CSQL::Connect(host, db_name, user, password);
-    MYSQL *tmp=mysql_real_connect(&m_connection, host.c_str(), user.c_str(), password.c_str(), db_name.c_str(), 0, NULL, 0);
-    if (tmp==NULL)
+    MYSQL *tmp=mysql_real_connect(&m_connection, host.c_str(), user.c_str(), password.c_str(), db_name.c_str(), 0, 0, 0);
+    if (tmp==0)
         return -1;
     return 0;
 }
@@ -124,7 +124,7 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
     if (false==m_recving_data)
     {
         m_quest_res=mysql_store_result(&m_connection);
-        if (m_quest_res!=NULL)
+        if (m_quest_res!=0)
             m_recving_data=true;
         else
             return -1;
@@ -134,7 +134,7 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
     unsigned long *lengths = mysql_fetch_lengths(m_quest_res);
 
     unsigned int num_fields=mysql_num_fields(m_quest_res);
-    if (m_row!=NULL)
+    if (m_row!=0)
     {
         for (unsigned int i=0; i<num_fields; i++)
         //for (it=buff.begin(); it!=buff.end() && i<num_fields; it++)
@@ -142,7 +142,7 @@ int o3cwapp::CMySQL::GetNextDataSet(std::vector<std::string> &buff)
             if (buff.size()<(i+1))
                 buff.push_back(std::string());
             
-            if (m_row[i]!=NULL)
+            if (m_row[i]!=0)
             {
                 buff[i].assign(m_row[i], lengths[i]);
             }
@@ -163,7 +163,7 @@ int o3cwapp::CMySQL::FinishRequest()
 {
     if (m_recving_data)
     {
-        if (m_quest_res!=NULL)
+        if (m_quest_res!=0)
             mysql_free_result(m_quest_res);
         m_recving_data=false;
     }

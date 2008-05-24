@@ -19,7 +19,7 @@ void o3cw::CNetwork::Cleanup()
     while (cmd_bus.GetJobsCount()>0)
     {
         o3cw::CCommand *cmd=cmd_bus.GetJob();
-        if (cmd!=NULL)
+        if (cmd!=0)
             delete cmd;
     }
 }

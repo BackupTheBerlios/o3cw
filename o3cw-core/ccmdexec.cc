@@ -43,7 +43,7 @@ int o3cw::CCmdExec::ThreadExecute()
         }
         
         o3cw::CCommand *ptr_to_cmd=cmd_bus.GetJob();
-	if (ptr_to_cmd!=NULL)
+	if (ptr_to_cmd!=0)
 	{
     	    o3cw::CCommand &cmd=*ptr_to_cmd;
 	    cmd.SetExecutor(*this);

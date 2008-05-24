@@ -104,7 +104,7 @@ int bonbon::CLock::ReleaseLock(pid_t transaction, bonbon::CLock *lock)
     it=std::find(locks_graph.begin(), locks_graph.end(), new_point);
 //  printf("ReleaseLock %p thread %i\n", lock, transaction);
     if (it!=locks_graph.end())
-        locks_graph.erase(it);
+        it=--locks_graph.erase(it);
     else
     {
 //      printf("NOT FOUND???\n");
@@ -148,7 +148,7 @@ int bonbon::CLock::CheckLockGraph()
                 }
                 if (not_req)
                 {
-                    edited_locks_graph.erase(it);
+                    it=--edited_locks_graph.erase(it);
                     some_erased=true;
                 }
             }

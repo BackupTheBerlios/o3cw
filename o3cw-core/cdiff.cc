@@ -78,7 +78,7 @@ bool o3cw::CDiff::CheckAccepted()
 	{
 	    if ((*user_it)==(*client_it)->GetUser())
 	    {
-		clients_connected.erase(client_it);
+		client_it=--clients_connected.erase(client_it);
 	    }
 	}
     }
@@ -154,7 +154,7 @@ int o3cw::CDiff::RejectBy(o3cw::CUser &user)
         if ((*it)==&user)
         {
             user.UnUse();
-            m_confirmed_by.erase(it);
+            it=--m_confirmed_by.erase(it);
             break;
         }
     }

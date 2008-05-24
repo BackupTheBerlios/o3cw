@@ -11,7 +11,7 @@ o3cw::CStorage::~CStorage()
 {
     for (std::map<o3cw::CHash, o3cw::CIdsObject *>::iterator it=store.begin() ; it!=store.end(); it++)
     {
-        if (it->second!=NULL)
+        if (it->second!=0)
             delete it->second;
     }
 }
@@ -80,7 +80,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 o3cw::CCrypto::Base64Encode((const unsigned char*)md5sum.c_str(), md5sum.length(),b64md5sum);
                 cmd_out.Push(b64md5sum.c_str(), b64md5sum.length());
 
-                o3cw::CIdsObject *element=NULL;
+                o3cw::CIdsObject *element=0;
 
                 mlock.Lock();
 
@@ -92,7 +92,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                     if ((create_new_element=objwrapp.Open(cmd, cmd_out, &element))==0)
                     {
                         printf(" * Opening new element, element adress=%p\n", element);
-                        if (element!=NULL)
+                        if (element!=0)
                         {
                             element->SetKey(key);
                             store.insert(std::pair<o3cw::CHash, o3cw::CIdsObject *>(key,element));
@@ -104,9 +104,9 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                     }
                     else
                     {
-                        if (element!=NULL)
+                        if (element!=0)
                         {
-                            printf("WARNING: Got and error while creating new element but result not NULL. Fix it!\nAutdelete it now...\n");
+                            printf("WARNING: Got and error while creating new element but result not 0. Fix it!\nAutdelete it now...\n");
                             delete element;
                         }
                         printf("Error %i while creating new element\n",create_new_element);
@@ -116,7 +116,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 }
 
                 /* Element opened already */
-                else if ((element=(dynamic_cast<o3cw::CIdsObject *>(it->second)))!=NULL)
+                else if ((element=(dynamic_cast<o3cw::CIdsObject *>(it->second)))!=0)
                 {
                     o3cw::CIdsObject *tmp=element;
                     create_new_element=objwrapp.Open(cmd, cmd_out, &tmp);
@@ -142,7 +142,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                     }
                 }
 
-                /* element is NULL - WTF? */
+                /* element is 0 - WTF? */
                 else
                 {
                     printf("error while dynamic_cast\n");
@@ -150,7 +150,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                 }
                 printf("mlock=%p\n", &mlock);
 
-                if (element!=NULL && result==0)
+                if (element!=0 && result==0)
                 {
                     element->ExecCommand(cmd, cmd_out);
                 }
@@ -200,7 +200,7 @@ int o3cw::CStorage::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
             {
                 /* Still used - just delete from unused list */
             }
-            del_list.erase(delete_unused_it);
+            delete_unused_it=--del_list.erase(delete_unused_it);
         }
         else
             printf("Element not found in list\n");

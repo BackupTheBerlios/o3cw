@@ -27,7 +27,7 @@ int o3cw::CDifferenced::AddDiff(const std::string &diff_content, const o3cw::CHa
         for (search_it=m_diffs.begin(); !already_exists && search_it<m_diffs.end(); search_it++)
         {
             o3cw::CDiff *diff=*search_it;
-            if (diff!=NULL && diff->GetKey()==diff_hash)
+            if (diff!=0 && diff->GetKey()==diff_hash)
                 already_exists=true;
         }
 
@@ -41,7 +41,7 @@ int o3cw::CDifferenced::AddDiff(const std::string &diff_content, const o3cw::CHa
             /* Add new diff */
             o3cw::CDiff *new_diff=new o3cw::CDiff(diff_content, diff_hash, *this);
 
-            if (new_diff!=NULL)
+            if (new_diff!=0)
                 m_diffs.push_back(new_diff);
             else
                 result=O3CW_ERR_OUT_OF_MEM;
@@ -55,13 +55,13 @@ int o3cw::CDifferenced::AddDiff(const std::string &diff_content, const o3cw::CHa
 
 o3cw::CDiff *o3cw::CDifferenced::FindDiff(const o3cw::CHash &diff_hash)
 {
-    o3cw::CDiff *result=NULL;
+    o3cw::CDiff *result=0;
     std::vector<o3cw::CDiff *>::iterator search_it;
 
-    for (search_it=m_diffs.begin(); result==NULL && search_it<m_diffs.end(); search_it++)
+    for (search_it=m_diffs.begin(); result==0 && search_it<m_diffs.end(); search_it++)
     {
         o3cw::CDiff *diff=*search_it;
-        if (diff!=NULL && diff->GetKey()==diff_hash)
+        if (diff!=0 && diff->GetKey()==diff_hash)
             result=diff;
     }
     return result;
@@ -72,8 +72,8 @@ int o3cw::CDifferenced::ConfirmDiff(o3cw::CHash &diff_hash, o3cw::CUser &user)
     int result=0;
     
     mlock.Lock();
-    o3cw::CDiff *diff=NULL;
-    if ((diff=FindDiff(diff_hash))!=NULL)
+    o3cw::CDiff *diff=0;
+    if ((diff=FindDiff(diff_hash))!=0)
         result=diff->ConfirmBy(user);
     else
         result=O3CW_ERR_NOT_FOUND;
@@ -87,8 +87,8 @@ int o3cw::CDifferenced::RejectDiff(o3cw::CHash &diff_hash, o3cw::CUser &user)
     int result=0;
     
     mlock.Lock();
-    o3cw::CDiff *diff=NULL;
-    if ((diff=FindDiff(diff_hash))!=NULL)
+    o3cw::CDiff *diff=0;
+    if ((diff=FindDiff(diff_hash))!=0)
         result=diff->RejectBy(user);
     else
         result=O3CW_ERR_NOT_FOUND;
@@ -102,8 +102,8 @@ int o3cw::CDifferenced::RecallDiff(o3cw::CHash &diff_hash, o3cw::CUser &user)
     int result=0;
     
     mlock.Lock();
-    o3cw::CDiff *diff=NULL;
-    if ((diff=FindDiff(diff_hash))!=NULL)
+    o3cw::CDiff *diff=0;
+    if ((diff=FindDiff(diff_hash))!=0)
         result=diff->RecallBy(user);
     else
         result=O3CW_ERR_NOT_FOUND;
@@ -116,8 +116,8 @@ int o3cw::CDifferenced::AcceptDiff(o3cw::CHash &diff_hash, o3cw::CUser &user)
     int result=0;
     
     mlock.Lock();
-    o3cw::CDiff *diff=NULL;
-    if ((diff=FindDiff(diff_hash))!=NULL)
+    o3cw::CDiff *diff=0;
+    if ((diff=FindDiff(diff_hash))!=0)
         result=diff->AcceptBy(user);
     else
         result=O3CW_ERR_NOT_FOUND;

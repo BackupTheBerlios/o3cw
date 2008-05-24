@@ -37,7 +37,7 @@ int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject
 {
     o3cw::CUser *user=dynamic_cast<o3cw::CUser *>(*element);
     
-    assert(*element==NULL || user!=NULL);
+    assert(*element==0 || user!=0);
     
     int result=O3CW_ERR_DENIED;
     if (cmd.CmdAviable())
@@ -63,7 +63,7 @@ int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject
                             result=0;
                             cmd.Back();
                             
-                            if (user==NULL)
+                            if (user==0)
                                 user=new o3cw::CUser();
                         }
                     }
@@ -88,7 +88,7 @@ int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject
                             {
                                 printf("Access granted\n");
                                 result=0;
-                                if (user==NULL)
+                                if (user==0)
                                     user=new o3cw::CUser(atol(sql_result[1].c_str()));
                             }
                             else
@@ -110,7 +110,7 @@ int o3cw::CUser::Open(o3cw::CCommand &cmd, o3cw::CCommand &out, o3cw::CIdsObject
                     {
                         printf("Access granted. Hello, admin. Your password is empty - change it, please.\n");
                         result=0;
-                        if (user==NULL)
+                        if (user==0)
                             user=new o3cw::CUser();
                     }
                 }
@@ -167,7 +167,7 @@ int o3cw::CUser::ClientUnRegister(o3cw::CClient &client)
     mlock.Lock();
     std::vector<o3cw::CClient *>::iterator it=std::find(m_clients.begin(), m_clients.end(), &client);
     if (it!=m_clients.end())
-        m_clients.erase(it);
+        it=--m_clients.erase(it);
     int result=m_clients.size();
     mlock.UnLock();
     UnUse();

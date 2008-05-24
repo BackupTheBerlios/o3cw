@@ -24,7 +24,7 @@ int o3cw::CDocPart::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
     
     o3cw::CUser *user=cmd.GetClient().GetUser();
     
-    if (user==NULL)
+    if (user==0)
         return O3CW_ERR_DENIED;
     
     if (cmd.CmdAviable())
@@ -45,7 +45,7 @@ int o3cw::CDocPart::ExecCommand(o3cw::CCommand &cmd, o3cw::CCommand &cmd_out)
                         {
                             o3cw::CDiff *diff=*search_it;
                             std::string cur_key;
-                            if (diff!=NULL && diff->GetKey().GetBase64Value(cur_key)==c_id)
+                            if (diff!=0 && diff->GetKey().GetBase64Value(cur_key)==c_id)
                             {
                                 std::string &c_do=cmd.Pop();
                                 if (c_do=="do")
