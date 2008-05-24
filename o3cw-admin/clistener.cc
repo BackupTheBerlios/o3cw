@@ -19,9 +19,9 @@ int adm::CListener::ThreadExecute()
         int t=client->Receive(0.1);
         if (0<t)
         {
-            std::string *head=NULL;
-            std::string *body=NULL;
-	    bool msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
+            std::string *head=0;
+            std::string *body=0;
+	    bool msg_left=((head=client->GetHead())!=0 && ((body=client->GetBody())!=0));
 
             while (msg_left)
             {
@@ -39,7 +39,7 @@ int adm::CListener::ThreadExecute()
 		std::cout << " * End of output" << std::endl << ">";
                 std::cout.flush();
 		cmd.FreeCryptedData();
-		msg_left=((head=client->GetHead())!=NULL && ((body=client->GetBody())!=NULL));
+		msg_left=((head=client->GetHead())!=0 && ((body=client->GetBody())!=0));
             }
         }
         else if (t<0)

@@ -39,7 +39,7 @@ CXXFLAGS=-Wall
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread ../o3cw-core/dist/Debug/GNU-Linux-x86/o3cwcore.a
+LDLIBSOPTIONS=-lpthread ../o3cw-core/dist/Debug/GNU-Linux-x86/o3cwcore.a -lcrypto
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS} dist/Debug/GNU-Linux-x86/o3cw-admin

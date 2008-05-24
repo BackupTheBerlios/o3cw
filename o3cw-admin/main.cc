@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     std::cout << "Type command and press enter" << std::endl;
     std::cout << "Press enter twice at and of input to execute command sequence." << std::endl;
 
-    o3cw::CCommand cmd();
+    o3cw::CCommand cmd;
     std::string buff;
     bool work=true;
     while (work)
